@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:grad_project/constants.dart';
 import 'package:grad_project/features/home/models/category_model.dart';
 
@@ -17,8 +18,8 @@ class CategoryContainer extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        height: 90, // ⬅️ أكبر شوية
-        width: 90,
+        height: 85, // ⬅️ أكبر شوية
+        width: 85,
         decoration: BoxDecoration(
           color: const Color(0xffE1F2F8),
           borderRadius: BorderRadius.circular(20),
@@ -35,12 +36,13 @@ class CategoryContainer extends StatelessWidget {
           children: [
             Padding(
               padding: const EdgeInsets.all(8),
-              child: Image.asset(
-                categoryModel.icon,
-                width: 35, // ⬅️ حجم ثابت للصورة
-                height: 35,
-                fit: BoxFit.contain,
-              ),
+              child:  Image.asset(
+              categoryModel.icon,
+              width: 35,
+              height: 35,
+              fit: BoxFit.contain,
+            ),
+              
             ),
             const SizedBox(height: 8),
             Padding(
@@ -52,7 +54,7 @@ class CategoryContainer extends StatelessWidget {
                   fontFamily: "Tajawal",
                   color: secColor,
                   fontWeight: FontWeight.bold,
-                  fontSize: 10,
+                  fontSize: 9,
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,

@@ -18,56 +18,46 @@ class Header extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 12.0),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          // الجزء الأيمن: الأيقونات
-          Row(
+          ThemeToggleApp(),
+          //const SizedBox(width: 5),
+          // الحل: استخدام Icon بدل SVG
+          IconButton(
+            onPressed: (){},
+            icon: Icon(
+              Icons.notifications_outlined,
+              size: iconSize,
+              color: Colors.grey,
+            ),
+          ),
+          const Spacer(),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
-              const ThemeToggleApp(),
-              const SizedBox(width: 8),
-              IconButton(
-                onPressed: () {},
-                icon: SvgPicture.asset(
-                  "assets/images/notifications-on.svg",
-                  width: iconSize,
-                  color: Theme.of(context).iconTheme.color, // استخدام لون السمة
+              Text(
+                "مرحبا",
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontFamily: "Poppins",
+                  fontWeight: FontWeight.w500,
+                  fontSize: fontSize
+                ),
+              ),
+              Text(
+                "ندي الشيمي",
+                style: TextStyle(
+                  color: kPrimaryColorC,
+                  fontFamily: "Poppins",
+                  fontWeight: FontWeight.w700,
+                  fontSize: fontSize
                 ),
               ),
             ],
           ),
-          
-          // الجزء الأيسر: الصورة والاسم
-          Row(
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Text(
-                    "مرحبا",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w500,
-                      fontSize: fontSize,
-                    ),
-                  ),
-                  Text(
-                    "ندي الشيمي",
-                    style: TextStyle(
-                      color: kPrimaryColorC,
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w700,
-                      fontSize: fontSize,
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(width: 8),
-              CircleAvatar(
-                radius: iconSize,
-                backgroundImage: const AssetImage("assets/images/sera.png"),
-              ),
-            ],
+          const SizedBox(width: 8),
+          CircleAvatar(
+            radius: iconSize,
+            backgroundImage: const AssetImage("assets/images/sera.png"),
           ),
         ],
       ),
