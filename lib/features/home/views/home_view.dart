@@ -14,27 +14,27 @@ class HomeView extends StatelessWidget {
    final List<CategoryModel> categories = [
     CategoryModel(
       name: "الطب الباطني",
-      icon: "assets/images/internalMedicin.png",
+      icon: "assets/images/InternalMedicin.png",
     ),
     CategoryModel(
       name: "العلاج الطبيعي",
-      icon: "assets/images/phesical.png",
+         icon: "assets/images/physical.png",
     ),
     CategoryModel(
       name: "العظام",
-      icon: "assets/images/bone1.png",
+       icon: "assets/images/bones.png",
     ),
     CategoryModel(
       name: "الجلدية",
-      icon: "assets/images/skin.png",
+       icon: "assets/images/skin.png",
     ),
     CategoryModel(
       name: "التمريض المنزلي",
-      icon: "assets/images/nursing.png",
+        icon: "assets/images/nursing.png",
     ),
     CategoryModel(
       name: "المزيد",
-      icon: "assets/images/Plus.png",
+        icon: "assets/images/Plus.png",
     ),
     // يمكن إضافة المزيد...
   ];
@@ -80,6 +80,7 @@ class HomeView extends StatelessWidget {
     double fontSize = width * 0.04;
 
     return Scaffold(
+      backgroundColor: Colors.white,
       body:  Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 24),
       child: CustomScrollView(
@@ -113,7 +114,7 @@ class HomeView extends StatelessWidget {
                 textAlign: TextAlign.end,
                 style: TextStyle(
                   fontFamily: "Poppins",
-                  fontSize: fontSize + 6,
+                  fontSize: fontSize + 10,
                   fontWeight: FontWeight.bold,
                   color: kPrimaryColorC,
                   shadows: [
@@ -128,28 +129,26 @@ class HomeView extends StatelessWidget {
             ),
           ),
 
-   SliverList.builder(
-            itemCount: doctorModelList.length,
-            itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  CustomDoctorCard(
-                    iconSize: iconSize,
-                    doctorModel: doctorModelList[index],
-                    fontSize: fontSize,
-                  ),
-
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 25.0,
-                      vertical: 10,
-                    ),
-                    child: Divider(height: 2, thickness: 1),
-                  ),
-                ],
-              );
-            },
+  SliverToBoxAdapter(
+  child: SizedBox(
+    height: 280, // ارتفاع ثابت للسكرول الأفقي
+    child: ListView.builder(
+      scrollDirection: Axis.horizontal, // ⬅️ هنا السكرول بالعرض
+      itemCount: doctorModelList.length,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.only(right: 10),
+          child: CustomDoctorCard(
+            iconSize: iconSize,
+            doctorModel: doctorModelList[index],
+            fontSize: fontSize,
           ),
+        );
+      },
+    ),
+  ),
+),
         ],
       ),
     ),
