@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grad_project/constants.dart';
 import 'package:grad_project/features/authentication/presentation/widgets/custom_botton.dart';
 import 'package:grad_project/features/authentication/presentation/widgets/custom_text_field1.dart';
-import 'package:grad_project/utils/app_router.dart';
+import 'package:grad_project/core/utils/app_router.dart';
 
 class LoginView extends StatelessWidget {
   const LoginView({super.key});
@@ -88,7 +88,7 @@ class LoginView extends StatelessWidget {
             
                   CustomButton(
                     onPressed: () {
-                      GoRouter.of(context).push(AppRouter.kBottomVavPage);
+                      GoRouter.of(context).push(AppRouter.kBottomNavPage);
                     },
                     text: 'تسجيل الدخول',
                   ),

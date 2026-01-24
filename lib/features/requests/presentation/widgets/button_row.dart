@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:grad_project/constants.dart';
-import 'package:grad_project/features/requests/widgets/custom_request_button.dart';
+import 'package:grad_project/features/requests/presentation/widgets/custom_request_button.dart';
 
 class ButtonsRow extends StatelessWidget {
   const ButtonsRow({super.key});
@@ -20,7 +20,7 @@ class ButtonsRow extends StatelessWidget {
           textColor: kPrimaryColorC,
         ),
 
-        Expanded(flex: 2, child: SizedBox()),
+        Expanded(flex: 3, child: SizedBox()),
         CustomRequestButton(
           text: "تعديل الطلب",
           icon: "assets/images/pin.svg",

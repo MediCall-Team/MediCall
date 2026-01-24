@@ -4,7 +4,7 @@ import 'package:grad_project/features/authentication/presentation/widgets/custom
 import 'package:grad_project/features/authentication/presentation/widgets/custom_text_field2.dart';
 import 'package:grad_project/features/authentication/presentation/widgets/steps.dart';
 import 'package:grad_project/features/authentication/presentation/widgets/upload_image.dart';
-import 'package:grad_project/utils/app_router.dart';
+import 'package:grad_project/core/utils/app_router.dart';
 
 class SignUpView extends StatelessWidget {
   SignUpView({super.key});

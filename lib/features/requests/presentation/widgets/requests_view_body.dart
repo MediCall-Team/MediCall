@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:grad_project/constants.dart';
-import 'package:grad_project/features/requests/model/request_model.dart';
-import 'package:grad_project/features/requests/widgets/button_row.dart';
-import 'package:grad_project/features/requests/widgets/time_request_section.dart';
+import 'package:grad_project/features/requests/data/model/request_model.dart';
+import 'package:grad_project/features/requests/presentation/widgets/button_row.dart';
+import 'package:grad_project/features/requests/presentation/widgets/time_request_section.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
 
@@ -103,7 +103,7 @@ class RequestItem extends StatelessWidget {
               const SizedBox(width: 16),
               Container(
                 decoration: BoxDecoration(
-                  color: const Color(0xff1F3E6C38),
+                  color: const Color.fromARGB(31, 6, 20, 4),
                   borderRadius: BorderRadius.circular(22),
                 ),
                 padding:
@@ -182,8 +182,7 @@ class RequestItem extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Padding(
-                      padding: const EdgeInsets.all(8.0), child: ButtonsRow()),
+                  ButtonsRow(),
                 ],
               ),
             ),

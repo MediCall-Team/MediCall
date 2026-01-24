@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/utils/app_router.dart';
 import 'package:grad_project/features/home/models/category_model.dart';
 import 'package:grad_project/features/home/models/doctor_model.dart';
 import 'package:grad_project/features/home/widgets/categories_grid.dart';
-import 'package:grad_project/features/home/widgets/category_container.dart';
 import 'package:grad_project/features/home/widgets/custom_doctor_card.dart';
 import 'package:grad_project/features/home/widgets/custom_header_card.dart';
 import 'package:grad_project/features/home/widgets/header.dart';
@@ -14,7 +15,7 @@ class HomeView extends StatelessWidget {
    final List<CategoryModel> categories = [
     CategoryModel(
       name: "الطب الباطني",
-      icon: "assets/images/InternalMedicin.png",
+      icon: "assets/images/internalMedicin.png",
     ),
     CategoryModel(
       name: "العلاج الطبيعي",
@@ -45,6 +46,7 @@ class HomeView extends StatelessWidget {
         specialty: "استشاري جراحة",
         rate: "4.9",
         price: "120",
+        isActive: true
       ),
       DoctorModel(
         image: "assets/images/tempphoto.png",
@@ -52,6 +54,7 @@ class HomeView extends StatelessWidget {
         specialty: "استشاري جراحة",
         rate: "4.9",
         price: "120",
+        isActive: true
       ),
       DoctorModel(
         image: "assets/images/tempphoto.png",
@@ -59,19 +62,11 @@ class HomeView extends StatelessWidget {
         specialty: "استشاري جراحة",
         rate: "4.9",
         price: "120",
+        isActive: true
       ),
     ];
-   void _onCategoryTap(int index) {
-    print("تم النقر على التصنيف: ${categories[index].name}");
-    
-    // يمكنك عمل navigation هنا
-    // Navigator.push(context, MaterialPageRoute(
-    //   builder: (context) => CategoryDetailsPage(category: categories[index])
-    // ));
-    
-    // أو عرض dialog
-    // showDialog(...);
-  }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -100,9 +95,21 @@ class HomeView extends StatelessWidget {
           SliverToBoxAdapter(
             child: CategoriesGrid(
               categories: categories,
-              onCategoryTap: _onCategoryTap,
+              onCategoryTap: (int index){
+                    print("تم النقر على التصنيف: ${categories[index].name}");
+    
+  GoRouter.of(context).push(AppRouter.kServiceProvider,extra:categories[index].name );
+    // يمكنك عمل navigation هنا
+    // Navigator.push(context, MaterialPageRoute(
+    //   builder: (context) => CategoryDetailsPage(category: categories[index])
+    // ));
+    
+    // أو عرض dialog
+    // showDialog(...);
+              },
             ),
           ),
+
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(
@@ -153,5 +160,10 @@ class HomeView extends StatelessWidget {
       ),
     ),
     );
+
+  
+
   }
+
+
 }

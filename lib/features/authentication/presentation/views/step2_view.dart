@@ -5,7 +5,7 @@ import 'package:grad_project/features/authentication/presentation/widgets/custom
 import 'package:grad_project/features/authentication/presentation/widgets/custom_text_field3.dart';
 import 'package:grad_project/features/authentication/presentation/widgets/custom_textfield4.dart';
 import 'package:grad_project/features/authentication/presentation/widgets/steps.dart';
-import 'package:grad_project/utils/app_router.dart';
+import 'package:grad_project/core/utils/app_router.dart';
 
 class Step2View extends StatelessWidget {
   Step2View({super.key});

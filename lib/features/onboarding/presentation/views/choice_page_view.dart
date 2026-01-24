@@ -4,7 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grad_project/constants.dart';
 import 'package:grad_project/features/authentication/presentation/widgets/custom_botton.dart';
 import 'package:grad_project/features/onboarding/presentation/widgets/custom_button_choice.dart';
-import 'package:grad_project/utils/app_router.dart';
+import 'package:grad_project/core/utils/app_router.dart';
 
 class ChoicePageView extends StatefulWidget {
   const ChoicePageView({super.key});

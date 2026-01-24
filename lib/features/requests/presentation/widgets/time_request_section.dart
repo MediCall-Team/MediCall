@@ -2,7 +2,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grad_project/constants.dart';
-import 'package:grad_project/features/requests/model/request_model.dart';
+import 'package:grad_project/features/requests/data/model/request_model.dart';
 import 'package:intl/intl.dart';
 
 class TimeRequestSection extends StatelessWidget {
