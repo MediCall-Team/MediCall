@@ -7,6 +7,7 @@ import 'package:grad_project/features/authentication/presentation/views/sign_up_
 import 'package:grad_project/features/authentication/presentation/views/step2_view.dart';
 import 'package:grad_project/features/authentication/presentation/views/step3_view.dart';
 import 'package:grad_project/features/bottom_nav/bottom_nav_view.dart';
+import 'package:grad_project/features/home/categories/view/service_provider_view.dart';
 import 'package:grad_project/features/onboarding/presentation/views/choice_page_view.dart';
 import 'package:grad_project/features/onboarding/presentation/views/onbarding_page_view.dart';
 import 'package:grad_project/features/onboarding/presentation/views/splash_view.dart';
@@ -24,12 +25,13 @@ abstract class AppRouter {
   static const String forgetpass = "/forget_password_page";
   static const String kPassCode = "/pass_code_page";
   static const String kResetPassword = "/reset_password_page";
+   static const String kServiceProvider = "/service_provider_page";
   
   static final router = GoRouter(
     routes: [
-     GoRoute(path: "/", builder: (context, state) => SplashView()),
+    // GoRoute(path: "/", builder: (context, state) => SplashView()),
       GoRoute(
-        path: kBottomNavPage,
+        path: "/",//kBottomNavPage,
         builder: (context, state) => BottomNavView(),
       ),
       GoRoute(path: kStartNow, builder: (context, state) => StartNowView()),
@@ -45,6 +47,13 @@ abstract class AppRouter {
       GoRoute(path: forgetpass, builder: (context, state) => ForgotPasswordScreen()),
       GoRoute(path: kPassCode, builder: (context, state) => VerificationCodeScreen()),
       GoRoute(path: kResetPassword, builder: (context, state) => ResetPasswordScreen()),
+GoRoute(
+  path: kServiceProvider,
+  builder: (context, state) {
+    final cName = state.extra as String;
+    return ServiceProviderView(cName:cName);
+  },
+),
 
     ],
   );

@@ -182,8 +182,7 @@ class RequestItem extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 10),
-                  Padding(
-                      padding: const EdgeInsets.all(8.0), child: ButtonsRow()),
+                  ButtonsRow(),
                 ],
               ),
             ),

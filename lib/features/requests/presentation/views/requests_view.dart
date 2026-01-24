@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/utils/styles.dart';
 import 'package:grad_project/features/requests/presentation/widgets/requests_view_body.dart';
 
 class RequestsView extends StatelessWidget {
@@ -11,7 +11,7 @@ class RequestsView extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: Scaffold(
         appBar: AppBar(
-          title: Text("الطلبات",style: TextStyle(color: kPrimaryColorC,fontSize: 20),),
+          title: Text("الطلبات",style: Styles.textStyle25),
         ),
         body: SafeArea(child: RequestsViewBody())),
     );

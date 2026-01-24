@@ -41,7 +41,7 @@ class SignUpView extends StatelessWidget {
                     Steps(num: 1),
                     SizedBox(height: 24),
                 
-                    UploadImageButton(onTap: () {}),
+                    UploadImageButton(),
                     SizedBox(height: 30),
                 
                     CustomTextField2(

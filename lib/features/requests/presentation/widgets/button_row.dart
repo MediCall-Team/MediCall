@@ -20,7 +20,7 @@ class ButtonsRow extends StatelessWidget {
           textColor: kPrimaryColorC,
         ),
 
-        Expanded(flex: 2, child: SizedBox()),
+        Expanded(flex: 3, child: SizedBox()),
         CustomRequestButton(
           text: "تعديل الطلب",
           icon: "assets/images/pin.svg",
