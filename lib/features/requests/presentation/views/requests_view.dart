@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/constants.dart';
-import 'package:grad_project/features/requests/widgets/requests_view_body.dart';
+import 'package:grad_project/features/requests/presentation/widgets/requests_view_body.dart';
 
 class RequestsView extends StatelessWidget {
   const RequestsView({super.key});

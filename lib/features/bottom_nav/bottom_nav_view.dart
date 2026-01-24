@@ -5,7 +5,7 @@ import 'package:grad_project/features/chats/views/chats_view.dart';
 import 'package:grad_project/features/home/views/home_view.dart';
 import 'package:grad_project/features/notification/views/notification_view.dart';
 import 'package:grad_project/features/profile/views/profile_view.dart';
-import 'package:grad_project/features/requests/views/requests_view.dart';
+import 'package:grad_project/features/requests/presentation/views/requests_view.dart';
 
 class BottomNavView extends StatefulWidget {
   const BottomNavView({super.key});

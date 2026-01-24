@@ -2,7 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:grad_project/constants.dart';
-import 'package:grad_project/features/requests/widgets/custom_request_button.dart';
+import 'package:grad_project/features/requests/presentation/widgets/custom_request_button.dart';
 
 class ButtonsRow extends StatelessWidget {
   const ButtonsRow({super.key});

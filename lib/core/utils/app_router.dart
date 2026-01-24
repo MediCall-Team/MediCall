@@ -16,7 +16,7 @@ abstract class AppRouter {
   static const String kStartNow = "/start_now";
   static const String kOnboardingPages = "/onboarding_pages";
   static const String kChoicePage = "/choice_page";
-  static const String kBottomVavPage ="/bottom_nav_pag";
+  static const String kBottomNavPage ="/bottom_nav_pag";
   static const String kLoginPage = "/login_page";
   static const String kSignUp = "/sign_up_page";
   static const String kSign2Up = "/sign_up_steptwo_page";
@@ -27,9 +27,9 @@ abstract class AppRouter {
   
   static final router = GoRouter(
     routes: [
-   //  GoRoute(path: "/", builder: (context, state) => SplashView()),
+     GoRoute(path: "/", builder: (context, state) => SplashView()),
       GoRoute(
-        path: "/",
+        path: kBottomNavPage,
         builder: (context, state) => BottomNavView(),
       ),
       GoRoute(path: kStartNow, builder: (context, state) => StartNowView()),

@@ -9,7 +9,7 @@ import 'package:grad_project/features/onboarding/presentation/views/five_pgae_vi
 import 'package:grad_project/features/onboarding/presentation/views/four_page_view.dart';
 import 'package:grad_project/features/onboarding/presentation/views/second_page_view.dart';
 import 'package:grad_project/features/onboarding/presentation/views/third_page_view.dart';
-import 'package:grad_project/utils/app_router.dart';
+import 'package:grad_project/core/utils/app_router.dart';
 
 class OnboardingPageView extends StatefulWidget {
   const OnboardingPageView({super.key});

@@ -2,8 +2,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/utils/app_router.dart';
 import 'package:grad_project/features/authentication/presentation/widgets/custom_botton.dart';
-import 'package:grad_project/utils/app_router.dart';
+
 
 class StartNowView extends StatelessWidget {
   const StartNowView({super.key});
