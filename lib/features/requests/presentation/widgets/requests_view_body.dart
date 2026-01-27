@@ -50,9 +50,10 @@ class RequestItem extends StatelessWidget {
   final RequestModel requestmodel;
   final timeFormat = DateFormat('hh:mm a', 'ar');
   final dateFormat = DateFormat('dd / MM / yyyy', 'ar');
-
+  
   @override
   Widget build(BuildContext context) {
+     final double screenWidth=MediaQuery.of(context).size.width;
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
@@ -77,7 +78,7 @@ class RequestItem extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               CircleAvatar(
-                radius: 35,
+                radius: (screenWidth*0.05).clamp(30, 60),
                 backgroundColor: kPrimaryColorB.withValues(alpha: 0.20),
                 child: Padding(
                   padding: const EdgeInsets.all(6.0),
@@ -91,10 +92,10 @@ class RequestItem extends StatelessWidget {
               Flexible(
                 child: Text(
                   requestmodel.dcName,
-                  style: const TextStyle(
+                  style:  TextStyle(
                     color: kPrimaryColorC,
                     fontWeight: FontWeight.bold,
-                    fontSize: 16,
+                    fontSize: (screenWidth*0.03).clamp(12, 24),
                     fontFamily: "Tajawal",
                   ),
                   overflow: TextOverflow.ellipsis,
@@ -110,10 +111,10 @@ class RequestItem extends StatelessWidget {
                     const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                 child: Text(
                   requestmodel.status,
-                  style: const TextStyle(
+                  style:  TextStyle(
                     color: kPrimaryColorC,
                     fontWeight: FontWeight.w600,
-                    fontSize: 12,
+                    fontSize: (screenWidth*0.03).clamp(12, 24),
                     fontFamily: "Tajawal",
                   ),
                 ),
@@ -130,34 +131,35 @@ class RequestItem extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(
                     "وصف الحاله :",
-                    style: const TextStyle(
+                    style:  TextStyle(
                       color: kPrimaryColorC,
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: (screenWidth*0.03).clamp(12, 24),
                       fontFamily: "Tajawal",
                     ),
                   ),
                   const SizedBox(height: 5),
                   Text(
                     requestmodel.description,
-                    style: const TextStyle(
+                    style:  TextStyle(
                       color: kPrimaryColorC,
-                      fontSize: 14,
+                      fontSize: (screenWidth*0.03).clamp(12, 24),
                       fontFamily: "Tajawal",
                     ),
                   ),
                   const SizedBox(height: 10),
                   Text(
                     "الوقت المناسب للكشف:",
-                    style: const TextStyle(
+                    style:  TextStyle(
                       color: kPrimaryColorC,
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: (screenWidth*0.03).clamp(12, 24),
                       fontFamily: "Tajawal",
                     ),
                   ),
                   const SizedBox(height: 10),
                   TimeRequestSection(
+                    screenWidth: screenWidth,
                     timeFormat: timeFormat,
                     requestmodel: requestmodel,
                     dateFormat: dateFormat,
@@ -165,10 +167,10 @@ class RequestItem extends StatelessWidget {
                   const SizedBox(height: 10),
                   Text(
                     "الموقع:",
-                    style: const TextStyle(
+                    style:  TextStyle(
                       color: kPrimaryColorC,
                       fontWeight: FontWeight.bold,
-                      fontSize: 16,
+                      fontSize: (screenWidth*0.03).clamp(12, 24),
                       fontFamily: "Tajawal",
                     ),
                   ),
@@ -177,12 +179,12 @@ class RequestItem extends StatelessWidget {
                     child: Center(
                       child: Lottie.asset(
                         "assets/animation/Location Pin.json",
-                        width: 50,
+                        width: (screenWidth*0.075).clamp(50, 90),
                       ),
                     ),
                   ),
                   const SizedBox(height: 10),
-                  ButtonsRow(),
+                  ButtonsRow(screenWidth: screenWidth,),
                 ],
               ),
             ),

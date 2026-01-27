@@ -5,15 +5,17 @@ import 'package:grad_project/constants.dart';
 import 'package:grad_project/features/requests/presentation/widgets/custom_request_button.dart';
 
 class ButtonsRow extends StatelessWidget {
-  const ButtonsRow({super.key});
-
+  const ButtonsRow({super.key, required this.screenWidth});
+  final double screenWidth;
   @override
   Widget build(BuildContext context) {
+
     return Row(
       children: [
         Expanded(flex: 1, child: SizedBox()),
 
         CustomRequestButton(
+          screenWidth: screenWidth,
           text: "الغاء الطلب",
           icon: "assets/images/trash.svg",
           color: Colors.white,
@@ -22,6 +24,7 @@ class ButtonsRow extends StatelessWidget {
 
         Expanded(flex: 3, child: SizedBox()),
         CustomRequestButton(
+          screenWidth: screenWidth,
           text: "تعديل الطلب",
           icon: "assets/images/pin.svg",
           color: kPrimaryColorB,
