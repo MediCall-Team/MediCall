@@ -10,19 +10,24 @@ class TimeRequestSection extends StatelessWidget {
     super.key,
     required this.timeFormat,
     required this.requestmodel,
-    required this.dateFormat,
+    required this.dateFormat, required this.screenWidth,
   });
 
   final DateFormat timeFormat;
   final RequestModel requestmodel;
   final DateFormat dateFormat;
+  final double screenWidth;
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         Expanded(child: SizedBox()),
-        SvgPicture.asset("assets/images/clock.svg"),
+
+        SvgPicture.asset("assets/images/clock.svg",
+        width: (screenWidth*0.03),
+        ),
+
         SizedBox(width: 5),
         Container(
           decoration: BoxDecoration(
@@ -37,6 +42,8 @@ class TimeRequestSection extends StatelessWidget {
               style: TextStyle(
                 color: kPrimaryColorC,
                 fontWeight: FontWeight.w600,
+              ).copyWith(
+                fontSize: (screenWidth*0.03).clamp(12, 24)
               ),
             ),
           ),
@@ -44,7 +51,9 @@ class TimeRequestSection extends StatelessWidget {
 
         Expanded(child: SizedBox()),
 
-        SvgPicture.asset("assets/images/calendar.svg"),
+        SvgPicture.asset("assets/images/calendar.svg",
+        width: (screenWidth*0.03),
+        ),
         SizedBox(width: 5),
         Container(
           decoration: BoxDecoration(
@@ -58,7 +67,7 @@ class TimeRequestSection extends StatelessWidget {
               style: TextStyle(
                 color: kPrimaryColorC,
                 fontWeight: FontWeight.w600,
-              ),
+              ).copyWith(fontSize: (screenWidth*0.03).clamp(12, 24)),
             ),
           ),
         ),
