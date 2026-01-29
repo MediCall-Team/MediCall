@@ -33,8 +33,8 @@ class _Step3ViewState extends State<Step3View> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-               const SizedBox(height: 30),
-          
+                const SizedBox(height: 30),
+
                 Container(
                   height: 40,
                   alignment: Alignment.center,
@@ -43,10 +43,10 @@ class _Step3ViewState extends State<Step3View> {
                     fit: BoxFit.contain,
                   ),
                 ),
-          
+
                 SizedBox(height: 25),
                 Steps(num: 3),
-          
+
                 Text(
                   "رفع الشهادات",
                   style: TextStyle(
@@ -56,7 +56,7 @@ class _Step3ViewState extends State<Step3View> {
                     fontFamily: "Inter",
                   ),
                 ),
-          
+
                 SizedBox(height: 25),
                 UploadPhotoesBotton(
                   onPressed: () async {
@@ -67,22 +67,26 @@ class _Step3ViewState extends State<Step3View> {
                   },
                   text: "رفع الصور",
                 ),
-          
+
                 SizedBox(height: 30),
-          
-                Expanded(
-                  child: PhotosGridViewer(images: photos),
-                ),
+
+                Expanded(child: PhotosGridViewer(images: photos)),
                 SizedBox(height: 60),
                 Row(
                   children: [
-                    CustomButton2(onPressed: () {
-                      GoRouter.of(context).pop();
-                    }, text: 'رجوع'),
+                    CustomButton2(
+                      onPressed: () {
+                        GoRouter.of(context).pop();
+                      },
+                      text: 'رجوع',
+                    ),
                     Spacer(),
-                    CustomButton2(onPressed: () {
-                      //
-                    }, text: 'أنشاء حساب'),
+                    CustomButton2(
+                      onPressed: () {
+                        //
+                      },
+                      text: 'أنشاء حساب',
+                    ),
                   ],
                 ),
                 SizedBox(height: 30),
