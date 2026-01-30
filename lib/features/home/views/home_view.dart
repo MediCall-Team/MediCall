@@ -15,7 +15,7 @@ class HomeView extends StatelessWidget {
    final List<CategoryModel> categories = [
     CategoryModel(
       name: "الطب الباطني",
-      icon: "assets/images/internalMedicin.png",
+      icon: "assets/images/InternalMedicin.png",
     ),
     CategoryModel(
       name: "العلاج الطبيعي",
@@ -124,13 +124,7 @@ class HomeView extends StatelessWidget {
                   fontSize: fontSize + 10,
                   fontWeight: FontWeight.bold,
                   color: kPrimaryColorC,
-                  shadows: [
-                    BoxShadow(
-                      color: kPrimaryColorC.withValues(alpha: 100),
-                      blurRadius: 6,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
+                 
                 ),
               ),
             ),
@@ -138,7 +132,7 @@ class HomeView extends StatelessWidget {
 
   SliverToBoxAdapter(
   child: SizedBox(
-    height: 280, // ارتفاع ثابت للسكرول الأفقي
+    height: 300, // ارتفاع ثابت للسكرول الأفقي
     child: ListView.builder(
       scrollDirection: Axis.horizontal, // ⬅️ هنا السكرول بالعرض
       itemCount: doctorModelList.length,

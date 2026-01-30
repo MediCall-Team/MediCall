@@ -6,7 +6,7 @@ import 'package:grad_project/generated/l10n.dart';
 import 'package:grad_project/core/utils/app_router.dart';
 
 void main() {
-  runApp(DevicePreview(builder: (context) => const MediApp(), enabled: true));
+  runApp(DevicePreview(builder: (context) => const MediApp(), enabled:false));
 }
 
 class MediApp extends StatelessWidget {
@@ -31,17 +31,5 @@ class MediApp extends StatelessWidget {
       ],
       supportedLocales: S.delegate.supportedLocales,
     );
-    //   return MaterialApp.router(
-    //     debugShowCheckedModeBanner: false,
-    //       locale: Locale("ar"),
-    // routerConfig: AppRouter.router,
-    //       localizationsDelegates: const [
-    //               S.delegate,
-    //               GlobalMaterialLocalizations.delegate,
-    //               GlobalWidgetsLocalizations.delegate,
-    //               GlobalCupertinoLocalizations.delegate,
-    //             ],
-    //             supportedLocales: S.delegate.supportedLocales,
-    //   );
   }
 }
