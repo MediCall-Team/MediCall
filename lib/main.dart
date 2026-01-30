@@ -29,17 +29,6 @@ class MediApp extends StatelessWidget {
               ],
               supportedLocales: S.delegate.supportedLocales,
     );
-  //   return MaterialApp.router(
-  //     debugShowCheckedModeBanner: false,
-  //       locale: Locale("ar"),
-  // routerConfig: AppRouter.router,
-  //       localizationsDelegates: const [
-  //               S.delegate,
-  //               GlobalMaterialLocalizations.delegate,
-  //               GlobalWidgetsLocalizations.delegate,
-  //               GlobalCupertinoLocalizations.delegate,
-  //             ],
-  //             supportedLocales: S.delegate.supportedLocales,
-  //   );
+
   }
 }
