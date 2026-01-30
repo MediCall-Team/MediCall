@@ -21,7 +21,8 @@ class RequestsViewBody extends StatelessWidget {
       createdAt: DateTime.now(),
       date: DateTime.now(),
     ),
-    RequestModel(
+
+   RequestModel(
       id: "2",
       description:
           "يعاني المريض من صداع مستمر منذ 3 أيام مع دوخة خفيفة وإرهاق عام، ولا يوجد تاريخ مرضي مزمن.",
@@ -31,6 +32,19 @@ class RequestsViewBody extends StatelessWidget {
       createdAt: DateTime.now(),
       date: DateTime.now(),
     ),
+
+       RequestModel(
+      id: "3",
+      description:
+          "يعاني المريض من صداع مستمر منذ 3 أيام مع دوخة خفيفة وإرهاق عام، ولا يوجد تاريخ مرضي مزمن.",
+      status: "قيد المراجعه",
+      dcName: "حمزه طارق",
+      location: Location(lng: 26.479011610738215, lat: 31.802292782744328),
+      createdAt: DateTime.now(),
+      date: DateTime.now(),
+    ),
+
+
   ];
 
   @override
@@ -70,7 +84,7 @@ class RequestItem extends StatelessWidget {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(16),
         child: ExpansionTile(
-          tilePadding: const EdgeInsets.symmetric(horizontal: 12),
+          tilePadding: const EdgeInsets.symmetric(horizontal: 16),
           childrenPadding: const EdgeInsets.only(bottom: 12),
 
     
@@ -95,7 +109,7 @@ class RequestItem extends StatelessWidget {
                   style:  TextStyle(
                     color: kPrimaryColorC,
                     fontWeight: FontWeight.bold,
-                    fontSize: (screenWidth*0.03).clamp(12, 24),
+                    fontSize: (screenWidth*0.035).clamp(12, 25),
                     fontFamily: "Tajawal",
                   ),
                   overflow: TextOverflow.ellipsis,

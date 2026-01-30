@@ -23,7 +23,7 @@ class SpecialtyRow extends StatelessWidget {
             "التخصصات",
             style: TextStyle(
               fontFamily: "Poppins",
-              fontSize: fontSize + 10,
+              fontSize: (fontSize + 10).clamp(12, 25),
               fontWeight: FontWeight.bold,
               color: kPrimaryColorC,
 

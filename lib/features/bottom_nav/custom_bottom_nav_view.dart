@@ -4,6 +4,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:grad_project/constants.dart';
 import 'package:grad_project/features/chats/views/chats_view.dart';
 import 'package:grad_project/features/home/views/home_view.dart';
+
 import 'package:grad_project/features/profile/views/profile_view.dart';
 import 'package:grad_project/features/requests/presentation/views/requests_view.dart';
 
@@ -51,6 +52,24 @@ class _CustomBottomNavViewState extends State<CustomBottomNavView> {
       );
     }
 
+//     Widget buildIcon(String path,
+//     {bool isSvg = false, bool isActive = false}) {
+//   return Center(
+//     child: isSvg
+//         ? SvgPicture.asset(
+//             path,
+//             width: iconSize,
+//             color: isActive ? kPrimaryColorB : Colors.grey,
+//           )
+//         : Image.asset(
+//             path,
+//             width: iconSize,
+//             color: isActive ? kPrimaryColorB : Colors.grey,
+//           ),
+//   );
+// }
+
+
     return Scaffold(
   extendBody: true,
   body: Directionality(
@@ -66,7 +85,7 @@ class _CustomBottomNavViewState extends State<CustomBottomNavView> {
     child: SafeArea(
       top: false,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8,vertical: 2),
         child: GNav(
           gap: 8,
           
@@ -77,7 +96,7 @@ class _CustomBottomNavViewState extends State<CustomBottomNavView> {
             color: kPrimaryColorB
           ),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          backgroundColor: Colors.white,
+          backgroundColor: Colors.white, //<--
           color: Colors.grey,
           activeColor: kPrimaryColorB,
           tabBackgroundColor: kPrimaryColorB.withOpacity(0.1),

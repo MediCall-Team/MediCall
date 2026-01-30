@@ -1,12 +1,16 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-
 import 'package:grad_project/generated/l10n.dart';
 import 'package:grad_project/core/utils/app_router.dart';
 
 void main() {
-  runApp(DevicePreview(builder: (context) => const MediApp(), enabled:false));
+  runApp(
+    DevicePreview(
+      enabled: false,
+      builder: (context) => const MediApp(),
+    ),
+  );
 }
 
 class MediApp extends StatelessWidget {
@@ -15,14 +19,23 @@ class MediApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
-      theme: ThemeData(
-        scaffoldBackgroundColor: Colors.white,
-        appBarTheme: AppBarTheme(backgroundColor: Colors.white),
-      ),
       debugShowCheckedModeBanner: false,
 
-      locale: Locale("ar"),
+      // 🔴 إلغاء overscroll glow (اللون الوردي)
+      scrollBehavior: const NoGlowScrollBehavior(),
+
+      locale: const Locale("ar"),
       routerConfig: AppRouter.router,
+
+      theme: ThemeData(
+        scaffoldBackgroundColor: Colors.white,
+        appBarTheme: const AppBarTheme(
+          backgroundColor: Colors.white,
+          elevation: 0,
+          surfaceTintColor: Colors.transparent, // مهم لأندرويد 12+
+        ),
+      ),
+
       localizationsDelegates: const [
         S.delegate,
         GlobalMaterialLocalizations.delegate,
@@ -31,5 +44,19 @@ class MediApp extends StatelessWidget {
       ],
       supportedLocales: S.delegate.supportedLocales,
     );
+  }
+}
+
+/// 🔹 Custom ScrollBehavior لمنع اللون الوردي وقت السحب
+class NoGlowScrollBehavior extends MaterialScrollBehavior {
+  const NoGlowScrollBehavior();
+
+  @override
+  Widget buildOverscrollIndicator(
+    BuildContext context,
+    Widget child,
+    ScrollableDetails details,
+  ) {
+    return child;
   }
 }

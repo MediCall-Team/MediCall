@@ -23,7 +23,7 @@ class ChatsView extends StatelessWidget {
                   'المحادثات',
                   style: const TextStyle(
                     color: Color(0xFFF1F3D6B),
-                    fontSize: 32,
+                    fontSize: 25,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
