@@ -2,11 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:grad_project/constants.dart';
 
 class CustomButton extends StatelessWidget {
-  const CustomButton({
-    super.key,
-    required this.onPressed,
-    required this.text,
-  });
+  const CustomButton({super.key, required this.onPressed, required this.text});
 
   final Function()? onPressed;
   final String text;
@@ -15,7 +11,7 @@ class CustomButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: 200,
-       child: ElevatedButton(
+      child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
           backgroundColor: priColor,

@@ -2,13 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grad_project/constants.dart';
 import 'package:grad_project/features/home/widgets/theme_toggle.dart';
+import 'package:grad_project/features/notification/views/notification_view.dart';
 
 class Header extends StatelessWidget {
-  const Header({
-    super.key,
-    required this.fontSize,
-    required this.iconSize,
-  });
+  const Header({super.key, required this.fontSize, required this.iconSize});
 
   final double fontSize;
   final double iconSize;
@@ -23,13 +20,21 @@ class Header extends StatelessWidget {
           //const SizedBox(width: 5),
           // الحل: استخدام Icon بدل SVG
           IconButton(
-            onPressed: (){},
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const NotificationView(),
+                ),
+              );
+            },
             icon: Icon(
               Icons.notifications_outlined,
               size: iconSize,
               color: Colors.grey,
             ),
           ),
+
           const Spacer(),
           Column(
             crossAxisAlignment: CrossAxisAlignment.end,
@@ -40,7 +45,7 @@ class Header extends StatelessWidget {
                   color: Colors.grey,
                   fontFamily: "Poppins",
                   fontWeight: FontWeight.w500,
-                  fontSize: fontSize
+                  fontSize: fontSize,
                 ),
               ),
               Text(
@@ -49,7 +54,7 @@ class Header extends StatelessWidget {
                   color: kPrimaryColorC,
                   fontFamily: "Poppins",
                   fontWeight: FontWeight.w700,
-                  fontSize: fontSize
+                  fontSize: fontSize,
                 ),
               ),
             ],
