@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/features/chats/views/widget/ChatItem.dart';
 
 class ChatsView extends StatelessWidget {
   const ChatsView({super.key});
@@ -32,12 +33,10 @@ class ChatsView extends StatelessWidget {
             ),
 
             const SizedBox(height: 12),
-
-            // 🔍 Search Box (تم تصغير الحجم وزيادة البوردر ريديس)
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 12),
               child: SizedBox(
-                height: 40, // ✅ صغرنا حجم البوكس
+                height: 40,
                 child: Directionality(
                   textDirection: TextDirection.rtl,
                   child: TextFormField(
@@ -60,15 +59,11 @@ class ChatsView extends StatelessWidget {
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey.shade400),
-                        borderRadius: BorderRadius.circular(
-                          16,
-                        ), // ✅ زودنا البوردر ريديس
+                        borderRadius: BorderRadius.circular(16),
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: priColor, width: 1.5),
-                        borderRadius: BorderRadius.circular(
-                          16,
-                        ), // ✅ نفس التعديل هنا
+                        borderRadius: BorderRadius.circular(16),
                       ),
                       filled: true,
                       fillColor: Colors.white,
@@ -95,61 +90,6 @@ class ChatsView extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-// 🧩 Chat Item Widget
-class ChatItem extends StatelessWidget {
-  const ChatItem({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-      child: Row(
-        children: [
-          // Avatar
-          const CircleAvatar(
-            radius: 20,
-            backgroundImage: AssetImage('assets/images/tempphoto.png'),
-          ),
-
-          const SizedBox(width: 12),
-
-          // Name + last message
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
-                  'دكتور حمزة طارق',
-                  style: TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFFF1F3D6B),
-                  ),
-                ),
-                SizedBox(height: 4),
-                Text(
-                  'اهلا',
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          // Time
-          const Text(
-            '7:29pm',
-            style: TextStyle(color: Colors.grey, fontSize: 8),
-          ),
-        ],
       ),
     );
   }
