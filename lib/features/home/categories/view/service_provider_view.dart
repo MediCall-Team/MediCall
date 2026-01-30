@@ -3,7 +3,7 @@ import 'package:grad_project/core/utils/styles.dart';
 import 'package:grad_project/features/home/categories/widgets/service_provider_view_body.dart';
 
 class ServiceProviderView extends StatelessWidget {
-  const ServiceProviderView({required this.cName});
+  const ServiceProviderView({super.key, required this.cName});
   final String cName;
   @override
   Widget build(BuildContext context) {

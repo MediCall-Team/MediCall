@@ -1,7 +1,7 @@
-
-
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/utils/app_router.dart';
 import 'package:grad_project/core/utils/styles.dart';
 import 'package:grad_project/features/home/models/doctor_model.dart';
 import 'package:grad_project/features/home/categories/widgets/custom_book_button.dart';
@@ -11,20 +11,19 @@ class ServiceProviderItem extends StatelessWidget {
   const ServiceProviderItem({
     super.key,
     required this.doctorModel,
-    required this.screenWidth, required this.screenHeight,
+    required this.screenWidth,
+    required this.screenHeight,
   });
   final DoctorModel doctorModel;
   final double screenWidth;
-   final double screenHeight;
+  final double screenHeight;
   @override
   Widget build(BuildContext context) {
     double rate = double.parse(doctorModel.rate);
-    
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-
         //photo
         Flexible(
           child: SizedBox(
@@ -38,7 +37,6 @@ class ServiceProviderItem extends StatelessWidget {
             ),
           ),
         ),
- 
 
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),
@@ -46,17 +44,20 @@ class ServiceProviderItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //name
-              Text(doctorModel.name, style: Styles.textStyle15F.copyWith(
-                fontSize: screenWidth*0.03
-              )),
+              Text(
+                doctorModel.name,
+                style: Styles.textStyle15F.copyWith(
+                  fontSize: screenWidth * 0.03,
+                ),
+              ),
 
-//rate
+              //rate
               Row(
                 children: [
                   Text(
                     doctorModel.rate,
                     style: TextStyle(
-                      fontSize:screenWidth*0.03,
+                      fontSize: screenWidth * 0.03,
                       fontWeight: FontWeight.w500,
                       color: kPrimaryColorC,
                     ),
@@ -67,15 +68,17 @@ class ServiceProviderItem extends StatelessWidget {
                 ],
               ),
 
-//price
+              //price
               Row(
                 children: [
                   SizedBox(
-                    width: screenWidth*0.035,
-                    child: Image.asset("assets/images/money.png")),
+                    width: screenWidth * 0.035,
+                    child: Image.asset("assets/images/money.png"),
+                  ),
                   SizedBox(width: 10),
-                  Text("سعر الكشف : ${doctorModel.price} جنيه",
-                  style: TextStyle(fontSize: screenWidth*0.03),
+                  Text(
+                    "سعر الكشف : ${doctorModel.price} جنيه",
+                    style: TextStyle(fontSize: screenWidth * 0.03),
                   ),
                 ],
               ),
@@ -83,10 +86,18 @@ class ServiceProviderItem extends StatelessWidget {
           ),
         ),
 
-        Expanded(child: CustomBookButton(screenWidth: screenWidth,
-        isActive:doctorModel.isActive)),
+        Expanded(
+          child: GestureDetector(
+            onTap: () {
+              GoRouter.of(context).push(AppRouter.kServiceProviderProfile);
+            },
+            child: CustomBookButton(
+              screenWidth: screenWidth,
+              isActive: doctorModel.isActive,
+            ),
+          ),
+        ),
       ],
     );
   }
 }
-

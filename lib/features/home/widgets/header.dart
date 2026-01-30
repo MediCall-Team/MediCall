@@ -5,10 +5,11 @@ import 'package:grad_project/features/home/widgets/theme_toggle.dart';
 import 'package:grad_project/features/notification/views/notification_view.dart';
 
 class Header extends StatelessWidget {
-  const Header({super.key, required this.fontSize, required this.iconSize});
+  const Header({super.key, required this.fontSize, required this.iconSize, required this.screenWidth});
 
   final double fontSize;
   final double iconSize;
+  final double screenWidth;
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class Header extends StatelessWidget {
           ThemeToggleApp(),
           //const SizedBox(width: 5),
           // الحل: استخدام Icon بدل SVG
-          IconButton(
+        screenWidth<500?  IconButton(
             onPressed: () {
               Navigator.push(
                 context,
@@ -33,7 +34,7 @@ class Header extends StatelessWidget {
               size: iconSize,
               color: Colors.grey,
             ),
-          ),
+          ):SizedBox(),
 
           const Spacer(),
           Column(
@@ -45,7 +46,7 @@ class Header extends StatelessWidget {
                   color: Colors.grey,
                   fontFamily: "Poppins",
                   fontWeight: FontWeight.w500,
-                  fontSize: fontSize,
+                  fontSize: fontSize.clamp(12, 25),
                 ),
               ),
               Text(
@@ -54,14 +55,14 @@ class Header extends StatelessWidget {
                   color: kPrimaryColorC,
                   fontFamily: "Poppins",
                   fontWeight: FontWeight.w700,
-                  fontSize: fontSize,
+                  fontSize: fontSize.clamp(12, 20),
                 ),
               ),
             ],
           ),
           const SizedBox(width: 8),
           CircleAvatar(
-            radius: iconSize,
+            radius: iconSize.clamp(20, 40),
             backgroundImage: const AssetImage("assets/images/sera.png"),
           ),
         ],

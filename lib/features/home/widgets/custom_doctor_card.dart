@@ -1,142 +1,133 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/constants.dart';
 import 'package:grad_project/features/home/models/doctor_model.dart';
-
 class CustomDoctorCard extends StatelessWidget {
   const CustomDoctorCard({
     super.key,
     required this.iconSize,
     required this.doctorModel,
     required this.fontSize,
+    required this.cardWidth, // أضفنا هذا المتغير
   });
 
   final double iconSize;
   final DoctorModel doctorModel;
   final double fontSize;
+  final double cardWidth; // العرض النسبي
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return IntrinsicHeight(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
-            child: GestureDetector(
-              onTap: () {},
-              child: Container(
-                width: constraints.maxWidth < 250 ? constraints.maxWidth : 220,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(color: Colors.grey.shade200, width: 1.4),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.07),
-                      blurRadius: 12,
-                      offset: const Offset(0, 6),
-                    ),
-                  ],
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      /// الصورة
-                      Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Container(
-                            width: (iconSize + 18) * 2,
-                            height: (iconSize + 18) * 2,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: const Color(0xffE8F7FC).withOpacity(0.5),
-                            ),
-                          ),
-                          CircleAvatar(
-                            radius: iconSize + 8,
-                            backgroundImage:
-                                AssetImage(doctorModel.image),
-                            backgroundColor: Colors.transparent,
-                          ),
-                        ],
-                      ),
+    return Container(
+      width: cardWidth, // العرض الآن مرن
+      margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20), // يمكن جعلها نسبية أيضاً
+        border: Border.all(color: Colors.grey.shade100, width: 1.5),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: LayoutBuilder(builder: (context, constraints) {
+        // نستخدم أبعاد الكارت نفسه لتنسيق المحتوى داخله
+        double h = constraints.maxHeight;
+        
+        return Column(
+          children: [
+            SizedBox(height: h * 0.08), // مسافة علوية نسبية
 
-                      const SizedBox(height: 14),
-
-                      /// الاسم (Expanded عشان يوحد الطول)
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 12),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                doctorModel.name,
-                                textAlign: TextAlign.center,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontFamily: "Tajawal",
-                                  fontSize: fontSize + 6,
-                                  fontWeight: FontWeight.bold,
-                                  color: secColor,
-                                ),
-                              ),
-                              const SizedBox(height: 6),
-                              Text(
-                                doctorModel.specialty,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontFamily: "Tajawal",
-                                  fontSize: fontSize - 2,
-                                  color: Colors.grey[600],
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(height: 10),
-
-                      /// التقييم
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 16,
-                          vertical: 6,
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            const Icon(
-                              Icons.star,
-                              color: Color(0xffFFD33C),
-                              size: 26,
-                            ),
-                            const SizedBox(width: 5),
-                            Text(
-                              doctorModel.rate,
-                              style: TextStyle(
-                                fontSize: fontSize - 1,
-                                color: kPrimaryColorC,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
+            /// قسم الصورة - يعتمد على ارتفاع الكارت
+            Stack(
+              alignment: Alignment.center,
+              children: [
+                Container(
+                  width: h * 0.35, // الدائرة 35% من ارتفاع الكارت
+                  height: h * 0.35,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                 //   color: Color(0xffE8F7FC),
                   ),
                 ),
+                CircleAvatar(
+                  radius: h * 0.15, // الصورة داخل الدائرة بنسبة متناسقة
+                  backgroundImage: AssetImage(doctorModel.image),
+                  backgroundColor: Colors.transparent,
+                ),
+              ],
+            ),
+
+            SizedBox(height: h * 0.05),
+
+            /// النصوص
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: Column(
+                children: [
+                  Text(
+                    doctorModel.name,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontFamily: "Tajawal",
+                      fontSize: (h * 0.07).clamp(14, 22), // الخط يكبر مع الكارت
+                      fontWeight: FontWeight.bold,
+                      color: const Color(0xff2D3142),
+                    ),
+                  ),
+                  SizedBox(height: h * 0.02),
+                  Text(
+                    doctorModel.specialty,
+                    textAlign: TextAlign.center,
+                    maxLines: 1,
+                    style: TextStyle(
+                      fontFamily: "Tajawal",
+                      fontSize: (h * 0.05).clamp(11, 16),
+                      color: Colors.grey[500],
+                    ),
+                  ),
+                ],
               ),
             ),
-          ),
+
+            const Spacer(flex: 2,),
+
+            /// التقييم
+            Container(
+              margin: EdgeInsets.only(bottom: h * 0.08),
+              padding: EdgeInsets.symmetric(
+                horizontal: cardWidth * 0.1, 
+                vertical: h * 0.02,
+              ),
+              decoration: BoxDecoration(
+               // color: const Color(0xffFFF9E5),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(Icons.star, color: const Color(0xffFFD33C), size: h * 0.08),
+                  const SizedBox(width: 4),
+                  Text(
+                    doctorModel.rate,
+                    style: TextStyle(
+                      fontSize: (h * 0.06).clamp(12, 18),
+                      fontWeight: FontWeight.bold,
+                     // color: Colors.orange[800],
+                    ),
+                  ),
+                ],
+              ),
+
+            ),
+             const Spacer(flex: 1,),
+          ],
         );
-      },
+      }),
     );
   }
 }
