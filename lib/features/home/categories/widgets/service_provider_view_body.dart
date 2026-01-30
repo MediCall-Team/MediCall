@@ -2,10 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/features/home/categories/widgets/filter_item.dart';
+import 'package:grad_project/features/home/categories/widgets/filter_section.dart';
+import 'package:grad_project/features/home/categories/widgets/service_provider_list_section.dart';
 
 import 'package:grad_project/features/home/models/doctor_model.dart';
 
-import 'package:grad_project/features/home/categories/widgets/service_provider_item.dart';
+
 
 class ServiceProviderViewBody extends StatelessWidget {
   const ServiceProviderViewBody({super.key});
@@ -17,7 +20,7 @@ class ServiceProviderViewBody extends StatelessWidget {
       specialty: "استشاري جراحة",
       rate: "4",
       price: "120",
-      isActive: true
+      isActive: true,
     ),
     DoctorModel(
       image: "assets/images/tempphoto.png",
@@ -25,7 +28,7 @@ class ServiceProviderViewBody extends StatelessWidget {
       specialty: "استشاري جراحة",
       rate: "4",
       price: "120",
-      isActive: false
+      isActive: false,
     ),
     DoctorModel(
       image: "assets/images/tempphoto.png",
@@ -33,13 +36,15 @@ class ServiceProviderViewBody extends StatelessWidget {
       specialty: "استشاري جراحة",
       rate: "4",
       price: "120",
-      isActive: true
+      isActive: true,
     ),
   ];
 
+  
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
+    var screenHeight = MediaQuery.of(context).size.height;
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 15),
@@ -53,7 +58,10 @@ class ServiceProviderViewBody extends StatelessWidget {
                   child: TextField(
                     decoration: InputDecoration(
                       hintText: "ابحث",
-                      hintStyle: TextStyle(fontFamily: "Tajawal"),
+                      hintStyle: TextStyle(
+                        fontFamily: "Tajawal",
+                        fontSize: (screenWidth * 0.03).clamp(16, 22),
+                      ),
                       contentPadding: EdgeInsets.all(0),
                       prefixIcon: Icon(Icons.search),
                       border: buildBorder(),
@@ -64,37 +72,26 @@ class ServiceProviderViewBody extends StatelessWidget {
 
                 SizedBox(width: 15),
 
-
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
 
                   },
-                  
-                  child: SvgPicture.asset("assets/images/align-left.svg")),
 
-
+                  child: SvgPicture.asset("assets/images/align-left.svg"),
+                ),
               ],
             ),
           ),
 
-         Expanded(
-           child: ListView.builder(
-            itemCount: doctorModelList.length,
-            itemBuilder: (context,index){
-             return Column(
-               children: [
-                 Padding(
-                   padding: const EdgeInsets.symmetric(vertical:8.0,horizontal: 5),
-                   child: ServiceProviderItem(doctorModel: doctorModelList[index], screenWidth: screenWidth),
-                 ),
-                 Padding(
-                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
-                   child:index+1<doctorModelList.length? Divider():SizedBox(),
-                 )
-               ],
-             );
-           }),
-         )
+          // filter
+          FilterSection(screenHeight: screenHeight,
+          filterList: ["انثي","جرجا"],
+          ),
+       
+
+          ServiceProviderListSection(doctorModelList: doctorModelList,
+           screenWidth: screenWidth,
+            screenHeight: screenHeight),
         ],
       ),
     );

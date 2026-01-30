@@ -10,7 +10,7 @@ class CustomBookButton extends StatelessWidget {
 
   final double screenWidth;
   final bool isActive;
-
+  
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,7 +31,7 @@ class CustomBookButton extends StatelessWidget {
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: "Tajawal",
-            fontSize: 10,
+            fontSize: screenWidth*0.03,
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),
@@ -42,7 +42,7 @@ class CustomBookButton extends StatelessWidget {
           textAlign: TextAlign.center,
           style: TextStyle(
             fontFamily: "Tajawal",
-            fontSize: 10,
+            fontSize: screenWidth*0.03,
             fontWeight: FontWeight.bold,
             color: Colors.white,
           ),

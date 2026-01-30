@@ -9,12 +9,13 @@ class CustomRequestButton extends StatelessWidget {
     required this.icon,
     required this.text,
     required this.color,
-    required this.textColor,
+    required this.textColor, required this.screenWidth,
   });
   final String icon;
   final String text;
   final Color color;
   final Color textColor;
+  final double screenWidth;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -33,14 +34,14 @@ class CustomRequestButton extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 8, horizontal: 14),
       child: Row(
         children: [
-          SvgPicture.asset(icon),
+          SvgPicture.asset(icon,width: screenWidth*0.03,),
           SizedBox(width: 5),
           Text(
             text,
             style: TextStyle(
               color: textColor,
               fontWeight: FontWeight.w600,
-              // fontSize: 16,
+               fontSize: (screenWidth*0.03).clamp(12, 24),
               fontFamily: "Tajawal",
             ),
           ),

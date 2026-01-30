@@ -124,13 +124,7 @@ class HomeView extends StatelessWidget {
                   fontSize: fontSize + 10,
                   fontWeight: FontWeight.bold,
                   color: kPrimaryColorC,
-                  shadows: [
-                    BoxShadow(
-                      color: kPrimaryColorC.withValues(alpha: 100),
-                      blurRadius: 6,
-                      offset: Offset(0, 2),
-                    ),
-                  ],
+                 
                 ),
               ),
             ),

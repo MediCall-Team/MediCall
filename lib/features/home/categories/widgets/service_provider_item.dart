@@ -11,14 +11,15 @@ class ServiceProviderItem extends StatelessWidget {
   const ServiceProviderItem({
     super.key,
     required this.doctorModel,
-    required this.screenWidth,
+    required this.screenWidth, required this.screenHeight,
   });
   final DoctorModel doctorModel;
   final double screenWidth;
-
+   final double screenHeight;
   @override
   Widget build(BuildContext context) {
     double rate = double.parse(doctorModel.rate);
+    
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -45,7 +46,9 @@ class ServiceProviderItem extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               //name
-              Text(doctorModel.name, style: Styles.textStyle15F),
+              Text(doctorModel.name, style: Styles.textStyle15F.copyWith(
+                fontSize: screenWidth*0.03
+              )),
 
 //rate
               Row(
@@ -53,7 +56,7 @@ class ServiceProviderItem extends StatelessWidget {
                   Text(
                     doctorModel.rate,
                     style: TextStyle(
-                      fontSize:14,
+                      fontSize:screenWidth*0.03,
                       fontWeight: FontWeight.w500,
                       color: kPrimaryColorC,
                     ),
@@ -68,11 +71,11 @@ class ServiceProviderItem extends StatelessWidget {
               Row(
                 children: [
                   SizedBox(
-                    width: 20,
+                    width: screenWidth*0.035,
                     child: Image.asset("assets/images/money.png")),
                   SizedBox(width: 10),
                   Text("سعر الكشف : ${doctorModel.price} جنيه",
-                  style: TextStyle(fontSize: 12),
+                  style: TextStyle(fontSize: screenWidth*0.03),
                   ),
                 ],
               ),
@@ -80,7 +83,8 @@ class ServiceProviderItem extends StatelessWidget {
           ),
         ),
 
-        Expanded(child: CustomBookButton(screenWidth: screenWidth,isActive:doctorModel.isActive)),
+        Expanded(child: CustomBookButton(screenWidth: screenWidth,
+        isActive:doctorModel.isActive)),
       ],
     );
   }

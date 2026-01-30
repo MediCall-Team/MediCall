@@ -62,7 +62,6 @@ class ProfileView extends StatelessWidget {
                       UserInfo(
                         icon: Icons.assignment_outlined,
                         title: 'السجل المرضي',
-                        trailing: Icons.edit_outlined,
                         onTap: () {
                           // edit name
                         },
