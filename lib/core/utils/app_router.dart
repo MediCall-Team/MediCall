@@ -8,6 +8,7 @@ import 'package:grad_project/features/authentication/presentation/views/step2_vi
 import 'package:grad_project/features/authentication/presentation/views/step3_view.dart';
 import 'package:grad_project/features/bottom_nav/bottom_nav_view.dart';
 import 'package:grad_project/features/bottom_nav/custom_bottom_nav_view.dart';
+import 'package:grad_project/features/home/categories/view/service_provider_profile_view.dart';
 import 'package:grad_project/features/home/categories/view/service_provider_view.dart';
 import 'package:grad_project/features/onboarding/presentation/views/choice_page_view.dart';
 import 'package:grad_project/features/onboarding/presentation/views/onbarding_page_view.dart';
@@ -27,8 +28,9 @@ abstract class AppRouter {
   static const String forgetpass = "/forget_password_page";
   static const String kPassCode = "/pass_code_page";
   static const String kResetPassword = "/reset_password_page";
-   static const String kServiceProvider = "/service_provider_page";
-  
+  static const String kServiceProvider = "/service_provider_page";
+  static const String kServiceProviderProfile = "/service_provider_profile_page";
+
   static final router = GoRouter(
     routes: [
     // GoRoute(path: "/", builder: (context, state) => SplashView()),
@@ -63,6 +65,8 @@ GoRoute(
     return ServiceProviderView(cName:cName);
   },
 ),
+
+GoRoute(path: kServiceProviderProfile,builder: (context,state)=>ServiceProviderProfileView())
 
     ],
   );
