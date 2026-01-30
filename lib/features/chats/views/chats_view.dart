@@ -15,8 +15,6 @@ class ChatsView extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: 25),
-
-            // 🟦 عنوان الصفحة
             Padding(
               padding: const EdgeInsets.only(right: 16),
               child: Align(

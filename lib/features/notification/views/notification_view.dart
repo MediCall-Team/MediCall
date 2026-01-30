@@ -17,14 +17,12 @@ class NotificationView extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const SizedBox(height: 25),
-
-                /// 🔙 back + title
                 Row(
                   children: [
                     const Text(
                       'الإشعارات',
                       style: TextStyle(
-                        fontSize: 32, // ← الحجم أصغر
+                        fontSize: 32,
                         fontWeight: FontWeight.bold,
                         color: Color(0xff1F3E6C),
                       ),

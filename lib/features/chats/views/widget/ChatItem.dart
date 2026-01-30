@@ -9,7 +9,6 @@ class ChatItem extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       child: Row(
         children: [
-          // Avatar
           const CircleAvatar(
             radius: 20,
             backgroundImage: AssetImage('assets/images/tempphoto.png'),
@@ -17,7 +16,6 @@ class ChatItem extends StatelessWidget {
 
           const SizedBox(width: 12),
 
-          // Name + last message
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -43,7 +41,6 @@ class ChatItem extends StatelessWidget {
             ),
           ),
 
-          // Time
           const Text(
             '7:29pm',
             style: TextStyle(color: Colors.grey, fontSize: 8),
