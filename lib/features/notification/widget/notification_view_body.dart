@@ -6,11 +6,9 @@ class NotificationViewBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // جلب أبعاد الشاشة
     final double width = MediaQuery.of(context).size.width;
     final bool isTablet = width > 500;
 
-    // تعريف قياسات مرنة
     double titleFontSize = (width * 0.06).clamp(20, 30);
     double sectionFontSize = (width * 0.05).clamp(18, 24);
 
@@ -20,7 +18,6 @@ class NotificationViewBody extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: width * 0.04), // Padding مرن
         child: CustomScrollView(
           slivers: [
-            // 1. العنوان العلوي وزر الرجوع
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.only(top: 25, bottom: 10),

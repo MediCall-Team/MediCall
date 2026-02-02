@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/constants.dart';
 import 'package:grad_project/core/utils/styles.dart';
+import 'package:grad_project/features/profile/views/sick%20record.dart';
 import 'package:grad_project/features/profile/widgets/user_image_profile.dart';
 import 'package:grad_project/features/profile/widgets/user_info.dart';
 
@@ -58,15 +59,20 @@ class ProfileView extends StatelessWidget {
                         },
                       ),
                       divider(),
-                     
                       UserInfo(
                         icon: Icons.assignment_outlined,
                         title: 'السجل المرضي',
                         onTap: () {
-                          // edit name
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MedicalRecordView(),
+                            ),
+                          );
                         },
                       ),
-                       divider(),
+
+                      divider(),
                       UserInfo(
                         icon: Icons.info_outline,
                         title: 'عن التطبيق',

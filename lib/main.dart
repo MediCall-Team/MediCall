@@ -5,12 +5,16 @@ import 'package:grad_project/generated/l10n.dart';
 import 'package:grad_project/core/utils/app_router.dart';
 
 void main() {
+<<<<<<< HEAD
   runApp(
     DevicePreview(
       enabled: true,
       builder: (context) => const MediApp(),
     ),
   );
+=======
+  runApp(DevicePreview(enabled: true, builder: (context) => const MediApp()));
+>>>>>>> b50129ecba9a33f63bb584d8836a01b35c953407
 }
 
 class MediApp extends StatelessWidget {
