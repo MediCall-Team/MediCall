@@ -7,7 +7,7 @@ import 'package:grad_project/core/utils/app_router.dart';
 void main() {
   runApp(
     DevicePreview(
-      enabled: false,
+      enabled: true,
       builder: (context) => const MediApp(),
     ),
   );

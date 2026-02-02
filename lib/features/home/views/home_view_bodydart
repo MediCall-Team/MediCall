@@ -76,7 +76,7 @@ class HomeViewBody extends StatelessWidget {
 
     return 
         Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0,vertical: 0),
+      padding: const EdgeInsets.symmetric(horizontal: 12.0,vertical: 0),
       child: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(child: SizedBox(height: 12)),
@@ -95,9 +95,16 @@ class HomeViewBody extends StatelessWidget {
             child: CategoriesGrid(
               categories: categories,
               onCategoryTap: (int index){
-                    print("تم النقر على التصنيف: ${categories[index].name}");
+                  //  print("تم النقر على التصنيف: ${categories[index].name}");
+                    if(index==5)
+                    {
+                      GoRouter.of(context).push(AppRouter.kmoreCategories);
+                    }
     
-  GoRouter.of(context).push(AppRouter.kServiceProvider,extra:categories[index].name );
+else
+{
+    GoRouter.of(context).push(AppRouter.kServiceProvider,extra:categories[index].name );
+}
     // يمكنك عمل navigation هنا
     // Navigator.push(context, MaterialPageRoute(
     //   builder: (context) => CategoryDetailsPage(category: categories[index])
@@ -144,7 +151,7 @@ class HomeViewBody extends StatelessWidget {
           doctorModel: doctorModelList[index],
           fontSize: fontSize,
           // نمرر عرض الكارت ليكون متناسباً
-          cardWidth: (width * 0.4).clamp(160, 240), 
+          cardWidth: (width * 0.50).clamp(160, 240), 
         );
       },
     ),

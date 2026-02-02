@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/features/home/models/category_model.dart';
-import 'category_container.dart'; // ⬅️ استيراد الـ CategoryContainer
+import 'category_container.dart';
 
 class CategoriesGrid extends StatelessWidget {
   final List<CategoryModel> categories;
-  final Function(int index) onCategoryTap; // ⬅️ دالة تعيد الـ index
-  
+  final Function(int index) onCategoryTap;
+
   const CategoriesGrid({
     super.key,
     required this.categories,
@@ -14,35 +14,26 @@ class CategoriesGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // نأخذ أول 6 عناصر فقط
+    // نعرض أول 6 تصنيفات فقط
     final displayedCategories = categories.take(6).toList();
-    
-    return Column(
-      children: [
-        // الصف الأول (3 عناصر)
-        _buildRow(displayedCategories, 0, 3),
-        const SizedBox(height: 20),
-        // الصف الثاني (3 عناصر)
-        _buildRow(displayedCategories, 3, 6),
-      ],
-    );
-  }
-  
-  Widget _buildRow(List<CategoryModel> categories, int start, int end) {
-    final rowCategories = categories.sublist(
-      start, 
-      end <= categories.length ? end : categories.length
-    );
-    
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: rowCategories.map((category) {
-        final index = categories.indexOf(category);
+
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(), // عشان داخل ScrollView
+      padding: const EdgeInsets.symmetric(horizontal: 8),
+      itemCount: displayedCategories.length,
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 3,       // 3 في الصف
+        mainAxisSpacing: 20,     // مسافة رأسية
+        crossAxisSpacing: 20,    // مسافة أفقية
+        childAspectRatio: 1,   // عدليها لو الكارت طويل/قصير
+      ),
+      itemBuilder: (context, index) {
         return CategoryContainer(
-          categoryModel: category,
-          onTap: () => onCategoryTap(start + index), // ⬅️ إرسال الـ index الصحيح
+          categoryModel: displayedCategories[index],
+          onTap: () => onCategoryTap(index), // 🔥 index مظبوط 100%
         );
-      }).toList(),
+      },
     );
   }
 }
