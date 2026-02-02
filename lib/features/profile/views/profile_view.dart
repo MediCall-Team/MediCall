@@ -34,7 +34,7 @@ class ProfileView extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 28),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.blue.shade50,
+                    color: Color(0xffEDF7FB),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Column(
@@ -120,5 +120,5 @@ class ProfileView extends StatelessWidget {
 // Divider reusable
 Widget divider() => Padding(
   padding: const EdgeInsets.symmetric(horizontal: 32.0),
-  child: Divider(height: .3, color: Colors.blue.shade100),
+  child: Divider(height: .3, color: Color(0xffCFEAF5)),
 );
