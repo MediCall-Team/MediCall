@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grad_project/features/home/views/home_view_bodydart';
+import 'package:grad_project/features/home/views/home_view_body.dart';
 import 'package:grad_project/features/notification/views/notification_view.dart';
 
 
