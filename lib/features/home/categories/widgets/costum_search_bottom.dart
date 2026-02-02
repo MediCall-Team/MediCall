@@ -3,25 +3,29 @@ import 'package:flutter/widgets.dart';
 import 'package:grad_project/constants.dart';
 
 class CostumSearchBottom extends StatelessWidget {
-  const CostumSearchBottom({super.key});
+  final ValueChanged<String> onChanged;
+
+  const CostumSearchBottom({
+    super.key,
+    required this.onChanged,
+  });
 
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
-    return Expanded(
-      child: TextField(
-        decoration: InputDecoration(
-          hintText: "ابحث عن تخصص",
-          hintStyle: TextStyle(
-            fontFamily: "Tajawal",
-            fontSize: (screenWidth * 0.03).clamp(16, 22),
-          ),
-          contentPadding: EdgeInsets.all(0),
-          prefixIcon: Icon(Icons.search),
-          border: buildBorder(),
-          enabledBorder: buildBorder(),
-          focusedBorder: buildBorder()
+
+    return TextField(
+      onChanged: onChanged, // 👈 هنا المهم
+      decoration: InputDecoration(
+        hintText: "ابحث عن تخصص",
+        hintStyle: TextStyle(
+          fontFamily: "Tajawal",
+          fontSize: (screenWidth * 0.03).clamp(16, 22),
         ),
+        prefixIcon: const Icon(Icons.search),
+        border: buildBorder(),
+        enabledBorder: buildBorder(),
+        focusedBorder: buildBorder(),
       ),
     );
   }
