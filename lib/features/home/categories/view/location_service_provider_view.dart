@@ -46,7 +46,7 @@ class LocationServiceProviderView extends StatelessWidget {
             child: Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: const Color.fromARGB(96, 225, 242, 248),
+              //  color: const Color.fromARGB(96, 225, 242, 248),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Wrap(
