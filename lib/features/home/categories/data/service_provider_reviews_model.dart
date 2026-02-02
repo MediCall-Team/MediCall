@@ -1,6 +1,6 @@
 class ServiceProviderReviewsModel {
-  final double rate,
-      numPepoleRate,
+    final double rate,
+    numPepoleRate,
       rateFive,
       rateFour,
       rateThree,

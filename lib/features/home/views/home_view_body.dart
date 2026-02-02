@@ -54,7 +54,7 @@ class HomeViewBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
-    double iconSize = width * 0.065;
+    double iconSize = width * 0.06;
     double fontSize = width * 0.04;
 
     return Padding(

@@ -74,7 +74,7 @@ class CustomHeaderCard extends StatelessWidget {
                           child: Text(
                             "ابدأ الآن",
                             style: TextStyle(
-                              fontSize: (fontSize - 2).clamp(10, 18),
+                              fontSize: (fontSize - 2).clamp(8, 18),
                               fontWeight: FontWeight.bold,
                               color: kPrimaryColorC, // تأكدي من تعريف secColor
                             ),

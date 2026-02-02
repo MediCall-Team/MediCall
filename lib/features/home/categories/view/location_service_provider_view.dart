@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_project/constants.dart';
-import 'package:grad_project/features/home/categories/view_model.dart/location_cubit/location_cubit_cubit.dart';
+import 'package:grad_project/features/home/categories/view_model/location_cubit/location_cubit_cubit.dart';
 
 import 'package:grad_project/features/home/categories/widgets/location_chip.dart';
 import 'package:grad_project/features/home/categories/widgets/location_map_view.dart';
 import 'package:lottie/lottie.dart';
 
 class LocationServiceProviderView extends StatelessWidget {
-  const LocationServiceProviderView({super.key});
+  const LocationServiceProviderView({super.key, required this.places});
 
-  static const List<String> places = [
-    "أخميم",
-    "جرجا",
-    "المراغه",
-    "طهطا",
-    "المنشأة",
-    "ساقلته"
-  ];
+  final List<String>places;
+  // static const List<String> places = [
+  //   "أخميم",
+  //   "جرجا",
+  //   "المراغه",
+  //   "طهطا",
+  //   "المنشأة",
+  //   "ساقلته"
+  // ];
 
   @override
   Widget build(BuildContext context) {
