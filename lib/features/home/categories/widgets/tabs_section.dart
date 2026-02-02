@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grad_project/features/home/categories/data/service_provider_profile_model.dart';
 import 'package:grad_project/features/home/categories/view/about_service_provider_view.dart';
 import 'package:grad_project/features/home/categories/view/location_service_provider_view.dart';
 import 'package:grad_project/features/home/categories/view/reviews_service_provider_view.dart';
@@ -9,10 +10,12 @@ class TabsSection extends StatefulWidget {
     super.key,
     required this.screenWidth,
     required this.screenHeight,
+    required this.spModel,
   });
 
   final double screenWidth;
   final double screenHeight;
+  final ServiceProviderProfileModel spModel;
 
   @override
   State<TabsSection> createState() => _TabsSectionState();
@@ -21,14 +24,14 @@ class TabsSection extends StatefulWidget {
 class _TabsSectionState extends State<TabsSection> {
   int selectedIndex = 0;
 
-  final List<Widget> pages = const [
-    AboutServiceProviderView(),
-    LocationServiceProviderView(),
-    ReviewsServiceProviderView(),
-  ];
-
   @override
   Widget build(BuildContext context) {
+    List<Widget> pages = [
+      AboutServiceProviderView(bio: widget.spModel.bio),
+      LocationServiceProviderView(places: widget.spModel.places),
+      ReviewsServiceProviderView(spReviews: widget.spModel.spReviews),
+    ];
+
     // double width = MediaQuery.of(context).size.width;
 
     return Column(

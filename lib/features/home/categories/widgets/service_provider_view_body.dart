@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-
 import 'package:grad_project/constants.dart';
-import 'package:grad_project/features/home/categories/widgets/filter_item.dart';
 import 'package:grad_project/features/home/categories/widgets/filter_section.dart';
 import 'package:grad_project/features/home/categories/widgets/service_provider_list_section.dart';
-
 import 'package:grad_project/features/home/models/doctor_model.dart';
-
-
 
 class ServiceProviderViewBody extends StatelessWidget {
   const ServiceProviderViewBody({super.key});
@@ -74,7 +69,7 @@ class ServiceProviderViewBody extends StatelessWidget {
 
                 GestureDetector(
                   onTap: () {
-
+                        
                   },
 
                   child: SvgPicture.asset("assets/images/align-left.svg"),

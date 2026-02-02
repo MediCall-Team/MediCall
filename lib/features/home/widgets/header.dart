@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:grad_project/constants.dart';
 import 'package:grad_project/features/home/widgets/theme_toggle.dart';
 import 'package:grad_project/features/notification/views/notification_view.dart';
@@ -20,7 +19,7 @@ class Header extends StatelessWidget {
           ThemeToggleApp(),
           //const SizedBox(width: 5),
           // الحل: استخدام Icon بدل SVG
-        screenWidth<500?  IconButton(
+        screenWidth<550?  IconButton(
             onPressed: () {
               Navigator.push(
                 context,
@@ -62,7 +61,7 @@ class Header extends StatelessWidget {
           ),
           const SizedBox(width: 8),
           CircleAvatar(
-            radius: iconSize.clamp(20, 40),
+            radius: iconSize.clamp(10, 40),
             backgroundImage: const AssetImage("assets/images/sera.png"),
           ),
         ],
