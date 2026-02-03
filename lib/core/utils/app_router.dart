@@ -45,7 +45,7 @@ abstract class AppRouter {
       //   path: "/",//kBottomNavPage,
       //   builder: (context, state) => BottomNavView(),
       // ),
- 
+  
  // patient 
         GoRoute(
         path: "/",// kCustomBottomNavPage
