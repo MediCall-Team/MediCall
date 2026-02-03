@@ -1,20 +1,21 @@
 import 'package:go_router/go_router.dart';
-import 'package:grad_project/features/authentication/presentation/views/forget_password/screens/ResetPasswordScreen.dart';
-import 'package:grad_project/features/authentication/presentation/views/forget_password/screens/forgot_pass_screen.dart';
-import 'package:grad_project/features/authentication/presentation/views/forget_password/screens/pass_code.dart';
-import 'package:grad_project/features/authentication/presentation/views/login_view.dart';
-import 'package:grad_project/features/authentication/presentation/views/sign_up_view.dart';
-import 'package:grad_project/features/authentication/presentation/views/step2_view.dart';
-import 'package:grad_project/features/authentication/presentation/views/step3_view.dart';
-import 'package:grad_project/features/bottom_nav/bottom_nav_view.dart';
-import 'package:grad_project/features/bottom_nav/custom_bottom_nav_view.dart';
-import 'package:grad_project/features/home/categories/view/more_categories_view.dart';
-import 'package:grad_project/features/home/categories/view/service_provider_profile_view.dart';
-import 'package:grad_project/features/home/categories/view/service_provider_view.dart';
-import 'package:grad_project/features/onboarding/presentation/views/choice_page_view.dart';
-import 'package:grad_project/features/onboarding/presentation/views/onbarding_page_view.dart';
-import 'package:grad_project/features/onboarding/presentation/views/splash_view.dart';
-import 'package:grad_project/features/onboarding/presentation/views/start_now_view.dart';
+import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/screens/ResetPasswordScreen.dart';
+import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/screens/forgot_pass_screen.dart';
+import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/screens/pass_code.dart';
+import 'package:grad_project/patient/features/authentication/presentation/views/login_view.dart';
+import 'package:grad_project/patient/features/authentication/presentation/views/sign_up_view.dart';
+import 'package:grad_project/patient/features/authentication/presentation/views/step2_view.dart';
+import 'package:grad_project/patient/features/authentication/presentation/views/step3_view.dart';
+import 'package:grad_project/patient/features/bottom_nav/bottom_nav_view.dart';
+import 'package:grad_project/patient/features/bottom_nav/custom_bottom_nav_view.dart';
+import 'package:grad_project/patient/features/home/categories/view/more_categories_view.dart';
+import 'package:grad_project/patient/features/home/categories/view/service_provider_profile_view.dart';
+import 'package:grad_project/patient/features/home/categories/view/service_provider_view.dart';
+import 'package:grad_project/common/onboarding/presentation/views/choice_page_view.dart';
+import 'package:grad_project/common/onboarding/presentation/views/onbarding_page_view.dart';
+import 'package:grad_project/common/onboarding/presentation/views/splash_view.dart';
+import 'package:grad_project/common/onboarding/presentation/views/start_now_view.dart';
+import 'package:grad_project/service_provider/features/bottom_nav/presentation/views/s_custom_bottom_nav.dart';
 
 abstract class AppRouter {
   static const String kStartNow = "/start_now";
@@ -32,20 +33,31 @@ abstract class AppRouter {
   static const String kServiceProvider = "/service_provider_page";
   static const String kServiceProviderProfile = "/service_provider_profile_page";
   static const String kmoreCategories="/more_categories_page";
+  static const String kSCustomBottomNavPage ="/s_custom_bottom_nav_pag";
 
   static final router = GoRouter(
     routes: [
+      //splash
+
     // GoRoute(path: "/", builder: (context, state) => SplashView()),
 
       // GoRoute(
       //   path: "/",//kBottomNavPage,
       //   builder: (context, state) => BottomNavView(),
       // ),
-
+ 
+ // patient 
         GoRoute(
         path: "/",// kCustomBottomNavPage
         builder: (context, state) => CustomBottomNavView(),
       ),
+
+  // service provider
+        GoRoute(
+        path: "/",// kCustomBottomNavPage
+        builder: (context, state) => SCustomBottomNav(),
+      ),
+
 
       GoRoute(path: kStartNow, builder: (context, state) => StartNowView()),
       GoRoute(
