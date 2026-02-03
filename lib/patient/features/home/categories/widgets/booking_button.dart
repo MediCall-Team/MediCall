@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:grad_project/patient/features/home/categories/widgets/booking_bottom_sheet.dart';
 
 class BookingButton extends StatelessWidget {
   const BookingButton({super.key, required this.screenWidth});
@@ -11,7 +12,13 @@ class BookingButton extends StatelessWidget {
       child: SizedBox(
         width: double.infinity,
         child: ElevatedButton(
-          onPressed: () {},
+          onPressed: () {
+          showModalBottomSheet(context: context,
+          backgroundColor: Colors.transparent,
+          isScrollControlled: true,
+           builder:(context)=> BookingBottomSheet(screenWidth: screenWidth));
+
+          },
           style: ElevatedButton.styleFrom(
             backgroundColor: const Color(0xff40B1D8),
             shape: RoundedRectangleBorder(
