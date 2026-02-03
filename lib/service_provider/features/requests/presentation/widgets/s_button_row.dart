@@ -7,6 +7,7 @@ import 'package:grad_project/service_provider/features/requests/presentation/wid
 class SButtonRow extends StatelessWidget {
   const SButtonRow({super.key, required this.screenWidth});
   final double screenWidth;
+  
   @override
   Widget build(BuildContext context) {
 
@@ -15,6 +16,9 @@ class SButtonRow extends StatelessWidget {
         Expanded(flex: 1, child: SizedBox()),
 
         SCustomRequestButton(
+          onTap: (){
+
+          },
           screenWidth: screenWidth,
           text: "الغاء الطلب",
           icon: Icons.cancel_outlined,
@@ -23,7 +27,11 @@ class SButtonRow extends StatelessWidget {
         ),
 
         Expanded(flex: 3, child: SizedBox()),
+        
         SCustomRequestButton(
+          onTap: (){
+            
+          },
           screenWidth: screenWidth,
           text: "تأكيد الطلب",
           icon: Icons.done,
