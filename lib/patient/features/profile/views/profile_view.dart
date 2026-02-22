@@ -21,7 +21,7 @@ class ProfileView extends StatelessWidget {
               const SizedBox(height: 16),
 
               // صورة البروفايل
-              UserImageProfile(),
+              UserImageProfile(canEdit: true,),
               const SizedBox(height: 10),
               Text(
                 'Hamza1@gmail.com',

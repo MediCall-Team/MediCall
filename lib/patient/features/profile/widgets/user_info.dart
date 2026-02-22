@@ -47,7 +47,7 @@ class UserInfo extends StatelessWidget {
                   child: Text(
                     title,
                     style: const TextStyle(
-                      color: Colors.black87,
+                      color: Colors.grey,
                       fontSize: 16,
                     ),
                   ),

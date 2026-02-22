@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:grad_project/core/utils/app_router.dart';
 import 'package:grad_project/core/utils/styles.dart';
 import 'package:grad_project/patient/features/home/categories/data/service_provider_profile_model.dart';
 import 'package:grad_project/patient/features/home/categories/data/service_provider_reviews_model.dart';
@@ -58,9 +60,7 @@ class SPProfileSettings extends StatelessWidget {
      actions: [
             IconButton(
               icon: const Icon(Icons.settings),
-              onPressed: () {
-                /// go to settings
-              },
+              onPressed: (){ GoRouter.of(context).push(AppRouter.kSPProfile);},
             ),
           ],
         ),
