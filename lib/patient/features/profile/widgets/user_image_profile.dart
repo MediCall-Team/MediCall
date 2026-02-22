@@ -5,7 +5,12 @@ import 'package:grad_project/constants.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserImageProfile extends StatefulWidget {
-  UserImageProfile({super.key});
+  final bool canEdit; // للتحكم في ظهور زر التعديل
+
+  const UserImageProfile({
+    super.key,
+    this.canEdit = false, // الافتراضي عرض فقط
+  });
 
   @override
   State<UserImageProfile> createState() => _UserImageProfileState();
@@ -38,31 +43,30 @@ class _UserImageProfileState extends State<UserImageProfile> {
             backgroundImage: selectedImage != null
                 ? FileImage(selectedImage!)
                 : const AssetImage('assets/images/tempphoto.png')
-                      as ImageProvider,
+                    as ImageProvider,
           ),
 
-          // زر تعديل الصورة
-          GestureDetector(
-            onTap: () {
-              pickImage();
-              // TODO: change image
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black26,
-                    blurRadius: 6,
-                    offset: Offset(0, 3),
-                  ),
-                ],
+          // زر تعديل الصورة (يظهر فقط لو canEdit = true)
+          if (widget.canEdit)
+            GestureDetector(
+              onTap: pickImage,
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 6,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                padding: const EdgeInsets.all(6),
+                child: Icon(Icons.edit_outlined,
+                    color: secColor, size: 22),
               ),
-              padding: const EdgeInsets.all(6),
-              child: Icon(Icons.edit_outlined, color: secColor, size: 22),
             ),
-          ),
         ],
       ),
     );

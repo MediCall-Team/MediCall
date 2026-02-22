@@ -18,6 +18,7 @@ import 'package:grad_project/common/onboarding/presentation/views/splash_view.da
 import 'package:grad_project/common/onboarding/presentation/views/start_now_view.dart';
 import 'package:grad_project/service_provider/features/bottom_nav/presentation/views/s_custom_bottom_nav.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/views/edit_s_p_view.dart';
+import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/views/s_p_profile.dart';
 
 abstract class AppRouter {
   static const String kStartNow = "/start_now";
@@ -38,6 +39,7 @@ abstract class AppRouter {
   static const String kSCustomBottomNavPage ="/s_custom_bottom_nav_pag";
  static const String kServiceProviderEditView ="/service_provider_editView";
  static const String kAChat='/a_chat_view';
+ static const String kSPProfile='/s_p_profile_view';
   static final router = GoRouter(
     routes: [
       //splash
@@ -86,8 +88,8 @@ GoRoute(
   },
 ),
 
-GoRoute(path: kServiceProviderProfile,builder: (context,state)=>ServiceProviderProfileView())
-
+GoRoute(path: kServiceProviderProfile,builder: (context,state)=>ServiceProviderProfileView()),
+GoRoute(path: kSPProfile,builder: (context,state)=>SPProfile()),
     ],
   );
 }

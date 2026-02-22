@@ -173,8 +173,8 @@ class _EditSPViewState extends State<EditSPView> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 12),
                       child: Transform.scale(
-                        scaleX: 1.2,
-                        scaleY: 0.6,
+                        scaleX: 1.1,
+                        scaleY: 0.7,
                         child: Switch(
                           value: isAvailable,
                           onChanged: (value) {
