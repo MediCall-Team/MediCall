@@ -8,6 +8,7 @@ import 'package:grad_project/patient/features/authentication/presentation/views/
 import 'package:grad_project/patient/features/authentication/presentation/views/step3_view.dart';
 import 'package:grad_project/patient/features/bottom_nav/bottom_nav_view.dart';
 import 'package:grad_project/patient/features/bottom_nav/custom_bottom_nav_view.dart';
+import 'package:grad_project/patient/features/chats/a_chat/views/a_chat_view.dart';
 import 'package:grad_project/patient/features/home/categories/view/more_categories_view.dart';
 import 'package:grad_project/patient/features/home/categories/view/service_provider_profile_view.dart';
 import 'package:grad_project/patient/features/home/categories/view/service_provider_view.dart';
@@ -17,6 +18,7 @@ import 'package:grad_project/common/onboarding/presentation/views/splash_view.da
 import 'package:grad_project/common/onboarding/presentation/views/start_now_view.dart';
 import 'package:grad_project/service_provider/features/bottom_nav/presentation/views/s_custom_bottom_nav.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/views/edit_s_p_view.dart';
+import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/views/s_p_profile.dart';
 
 abstract class AppRouter {
   static const String kStartNow = "/start_now";
@@ -36,6 +38,8 @@ abstract class AppRouter {
   static const String kmoreCategories="/more_categories_page";
   static const String kSCustomBottomNavPage ="/s_custom_bottom_nav_pag";
  static const String kServiceProviderEditView ="/service_provider_editView";
+ static const String kAChat='/a_chat_view';
+ static const String kSPProfile='/s_p_profile_view';
   static final router = GoRouter(
     routes: [
       //splash
@@ -74,7 +78,8 @@ abstract class AppRouter {
       GoRoute(path: kPassCode, builder: (context, state) => VerificationCodeScreen()),
       GoRoute(path: kResetPassword, builder: (context, state) => ResetPasswordScreen()),
       GoRoute(path: kmoreCategories, builder: (context, state) => MoreCategoriesView()),
-        GoRoute(path:kServiceProviderEditView , builder: (context, state) => EditSPView()),
+      GoRoute(path:kServiceProviderEditView , builder: (context, state) => EditSPView()),
+      GoRoute(path:kAChat , builder: (context, state) => AChatView()),
 GoRoute(
   path: kServiceProvider,
   builder: (context, state) {
@@ -83,8 +88,8 @@ GoRoute(
   },
 ),
 
-GoRoute(path: kServiceProviderProfile,builder: (context,state)=>ServiceProviderProfileView())
-
+GoRoute(path: kServiceProviderProfile,builder: (context,state)=>ServiceProviderProfileView()),
+GoRoute(path: kSPProfile,builder: (context,state)=>SPProfile()),
     ],
   );
 }

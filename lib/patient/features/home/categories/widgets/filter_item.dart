@@ -2,21 +2,30 @@
 import 'package:flutter/material.dart';
 
 class FilterItem extends StatelessWidget {
-  const FilterItem({super.key, required this.text});
+  const FilterItem({super.key, required this.text, required this.onRemove});
   final String text;
+  final VoidCallback onRemove;
+
   @override
   Widget build(BuildContext context) {
-
     return FittedBox(
       fit: BoxFit.contain,
       child: Container(
-        padding: EdgeInsets.symmetric(vertical: 8,horizontal: 14),
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 14),
         decoration: BoxDecoration(
-          color: const Color.fromARGB(143, 115, 123, 128),
+          color: const Color(0xffE1F2F8),
           borderRadius: BorderRadius.circular(22),
         ),
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [Icon(Icons.close),SizedBox(width: 10,), Text(text)]),
+        child: Row(
+          children: [
+            GestureDetector(
+              onTap: onRemove,
+              child: const Icon(Icons.close, size: 18),
+            ),
+            const SizedBox(width: 10),
+            Text(text, style: const TextStyle(fontFamily: "Tajawal")),
+          ],
+        ),
       ),
     );
   }
