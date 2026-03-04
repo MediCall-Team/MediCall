@@ -3,7 +3,7 @@ import 'package:grad_project/service_provider/features/profile_settings/presenta
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/widget/custom_phone_field.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/widget/custom_text_field.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/widget/number_input_field.dart';
-import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/widget/section_title.dart'; // تأكد من وجود هذا السطر
+import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/widget/section_title.dart';
 
 class EditSPView extends StatefulWidget {
   const EditSPView({super.key});
@@ -39,8 +39,6 @@ class _EditSPViewState extends State<EditSPView> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             const SizedBox(height: 10),
-
-            /// صورة الطبيب
             Stack(
               children: [
                 const CircleAvatar(
@@ -62,10 +60,7 @@ class _EditSPViewState extends State<EditSPView> {
                 ),
               ],
             ),
-
             const SizedBox(height: 12),
-
-            /// الاسم
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: const [
@@ -81,10 +76,7 @@ class _EditSPViewState extends State<EditSPView> {
                 Icon(Icons.edit_outlined, size: 15, color: Color(0xFF1F3E6C)),
               ],
             ),
-
             const SizedBox(height: 30),
-
-            /// البيانات الأساسية
             const SectionTitle(title: 'البيانات الأساسية'),
             const SizedBox(height: 12),
             const CustomPhoneField(
@@ -96,7 +88,6 @@ class _EditSPViewState extends State<EditSPView> {
               hint: 'موقع',
               icon: Icons.location_on_outlined,
             ),
-
             const SizedBox(height: 20),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -114,8 +105,6 @@ class _EditSPViewState extends State<EditSPView> {
               ],
             ),
             const SizedBox(height: 12),
-
-            /// حقول سعر الكشف وسنوات الخبرة - (تم حذف const من هنا)
             Row(
               children: const [
                 Expanded(
@@ -133,9 +122,7 @@ class _EditSPViewState extends State<EditSPView> {
                 ),
               ],
             ),
-
             const SizedBox(height: 20),
-
             ElevatedButton(
               onPressed: () {
                 Navigator.push(
@@ -149,10 +136,7 @@ class _EditSPViewState extends State<EditSPView> {
                 style: TextStyle(fontSize: 16, color: Colors.white),
               ),
             ),
-
             const SizedBox(height: 24),
-
-            /// حالة التوفر
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -205,9 +189,7 @@ class _EditSPViewState extends State<EditSPView> {
                 ),
               ],
             ),
-
             const SizedBox(height: 20),
-
             const SectionTitle(title: 'نبذة عن الطبيب'),
             const SizedBox(height: 8),
             TextField(
@@ -231,9 +213,7 @@ class _EditSPViewState extends State<EditSPView> {
                 ),
               ),
             ),
-
             const SizedBox(height: 30),
-
             ElevatedButton(
               onPressed: () {},
               style: _buttonStyle(),
