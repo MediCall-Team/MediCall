@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:grad_project/patient/features/home/views/mobile_home_view.dart';
-import 'package:grad_project/patient/features/home/views/tablet_home_view.dart';
+import 'package:grad_project/patient/features/home/presentation/views/mobile_home_view.dart';
+import 'package:grad_project/patient/features/home/presentation/views/tablet_home_view.dart';
 
 class HomeView extends StatelessWidget {
   const HomeView({super.key});

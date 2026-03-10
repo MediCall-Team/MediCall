@@ -44,18 +44,18 @@ abstract class AppRouter {
     routes: [
       //splash
 
-    // GoRoute(path: "/", builder: (context, state) => SplashView()),
+    GoRoute(path: "/", builder: (context, state) => SplashView()),
 
-      // GoRoute(
-      //   path: "/",//kBottomNavPage,
-      //   builder: (context, state) => BottomNavView(),
-      // ),
+      GoRoute(
+        path: "/",//kBottomNavPage,
+        builder: (context, state) => BottomNavView(),
+      ),
   
  // patient 
-      //   GoRoute(
-      //   path: "/",// kCustomBottomNavPage
-      //   builder: (context, state) => CustomBottomNavView(),
-      // ),
+        GoRoute(
+        path: "/",// kCustomBottomNavPage
+        builder: (context, state) => CustomBottomNavView(),
+      ),
 
   // service provider
         GoRoute(

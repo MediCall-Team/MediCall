@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 
 class CustomBookButton extends StatelessWidget {
   const CustomBookButton({
@@ -18,7 +19,7 @@ class CustomBookButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         color:
         isActive?
-         kPrimaryColorB
+           AppTheme.primary(context)
          : const Color.fromARGB(143, 115, 123, 128)
          ,
       ),

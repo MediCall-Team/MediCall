@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/service_provider_item.dart';
-import 'package:grad_project/patient/features/home/models/doctor_model.dart';
+import 'package:grad_project/patient/features/home/data/models/doctor_model.dart';
 
 class ServiceProviderListSection extends StatelessWidget {
   const ServiceProviderListSection({

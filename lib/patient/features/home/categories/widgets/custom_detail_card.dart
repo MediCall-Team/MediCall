@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/styles.dart';
 
 class CustomDetialCard extends StatelessWidget {
@@ -12,7 +13,7 @@ class CustomDetialCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color: Color(0xffF8F8F8),
+        color:  AppTheme.background(context),
         boxShadow: const[
           BoxShadow(
              color: Colors.black26, // لون الشادو
@@ -27,10 +28,12 @@ class CustomDetialCard extends StatelessWidget {
         child: Column(
           children: [
              Text(number,style: Styles.textStyle20.copyWith(
-              fontSize: (screenWidth*0.045).clamp(16, 40)
+              fontSize: (screenWidth*0.045).clamp(16, 40),
+              color:   AppTheme.secondary(context)
              ),),
-              Text(text , style: TextStyle(color: kPrimaryColorE,
-              fontSize: (screenWidth*0.035).clamp(12, 40)
+              Text(text , style: TextStyle(color:   AppTheme.textSecondary(context),
+              fontSize: (screenWidth*0.035).clamp(12, 40),
+
               ),),
           ],
         ),
