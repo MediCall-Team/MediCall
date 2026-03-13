@@ -3,15 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
+import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/generated/l10n.dart';
 import 'package:grad_project/core/utils/app_router.dart';
 import 'package:grad_project/patient/features/home/presentation/view_models.dart/cubit/app_theme_cubit.dart';
 
 
 void main() {
+   setupServiceLocator();
+   
   runApp(
     DevicePreview(
-      enabled: true,
+      enabled: false,
       builder: (context) => BlocProvider(
         create: (_) => AppThemeCubit(),
         child: const MediApp(),
