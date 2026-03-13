@@ -1,5 +1,5 @@
 import 'package:grad_project/patient/features/home/categories/data/service_provider_reviews_model.dart';
-import 'package:grad_project/patient/features/home/models/doctor_model.dart';
+import 'package:grad_project/patient/features/home/data/models/doctor_model.dart';
 
 class ServiceProviderProfileModel {
   final DoctorModel doctorModel;

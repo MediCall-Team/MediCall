@@ -3,6 +3,7 @@ import 'package:grad_project/patient/features/authentication/presentation/views/
 import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/screens/forgot_pass_screen.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/screens/pass_code.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/login_view.dart';
+import 'package:grad_project/patient/features/authentication/presentation/widgets/login_view_body.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/sign_up_view.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/step2_view.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/step3_view.dart';
@@ -44,18 +45,18 @@ abstract class AppRouter {
     routes: [
       //splash
 
-    // GoRoute(path: "/", builder: (context, state) => SplashView()),
+    GoRoute(path: "/", builder: (context, state) => SplashView()),
 
-      // GoRoute(
-      //   path: "/",//kBottomNavPage,
-      //   builder: (context, state) => BottomNavView(),
-      // ),
+      GoRoute(
+        path: "/",//kBottomNavPage,
+        builder: (context, state) => BottomNavView(),
+      ),
   
  // patient 
-      //   GoRoute(
-      //   path: "/",// kCustomBottomNavPage
-      //   builder: (context, state) => CustomBottomNavView(),
-      // ),
+        GoRoute(
+        path: kBottomNavPage,// kCustomBottomNavPage
+        builder: (context, state) => CustomBottomNavView(),
+      ),
 
   // service provider
         GoRoute(

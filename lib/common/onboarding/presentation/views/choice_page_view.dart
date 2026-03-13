@@ -102,6 +102,9 @@ class _ChoicePageViewState extends State<ChoicePageView> {
                if(type=="DN"){
                 GoRouter.of(context).push(AppRouter.kSignUp);
                }
+               else if(type=="P"){
+                
+               }
                 }else{
                 snackBarMethod(context, "you must choice one");
                 }
