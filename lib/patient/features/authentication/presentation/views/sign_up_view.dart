@@ -69,12 +69,14 @@ class SignUpView extends StatelessWidget {
                       hintText: 'رقم الهاتف',
                       prefixIcon: Icons.phone_outlined,
                     ),
-                    SizedBox(height: 10),
-                    CustomTextField2(
-                      hintText: 'الموقع',
-                      prefixIcon: Icons.location_on,
-                    ),
-                    SizedBox(height: 100),
+                    // SizedBox(height: 10),
+
+                    // CustomTextField2(
+                    //   hintText: 'الموقع',
+                    //   prefixIcon: Icons.location_on,
+                    // ),
+
+                    SizedBox(height: 80),
                     CustomButton(onPressed: () {
                      if(formKey.currentState!.validate()){
                       GoRouter.of(context).push(AppRouter.kSign2Up);
