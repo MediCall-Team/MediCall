@@ -78,11 +78,11 @@ class PatienAuthRepoImp implements PatienAuthRepo {
   }) async {
     try {
       var response = await api.post(
-        "api/Authentication/ForgotPassword",
+        "api/Authentication/ForgetPassword",
         data: {"Email": email},
       );
 
-      return right(response);
+      return right(response["message"]);
     } on Failure catch (e) {
       return left(e);
     } catch (e) {

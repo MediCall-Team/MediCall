@@ -39,8 +39,7 @@ abstract class AppRouter {
   static const String kResetPassword = "/reset_password_page";
   static const String kHomeView = "/khome_view";
   static const String kServiceProvider = "/service_provider_page";
-  static const String kServiceProviderProfile =
-      "/service_provider_profile_page";
+  static const String kServiceProviderProfile ="/service_provider_profile_page";
   static const String kmoreCategories = "/more_categories_page";
   static const String kSCustomBottomNavPage = "/s_custom_bottom_nav_pag";
   static const String kServiceProviderEditView = "/service_provider_editView";
@@ -52,20 +51,20 @@ abstract class AppRouter {
       //splash
       GoRoute(path: "/", builder: (context, state) => SplashView()),
 
-      GoRoute(
-        path: "/", //kBottomNavPage,
-        builder: (context, state) => BottomNavView(),
-      ),
+      // GoRoute(
+      //   path: "/", //kBottomNavPage,
+      //   builder: (context, state) => BottomNavView(),
+      // ),
 
       // patient
       GoRoute(
-        path: kBottomNavPage, // kCustomBottomNavPage
+        path:  kCustomBottomNavPage,
         builder: (context, state) => CustomBottomNavView(),
       ),
 
       // service provider
       GoRoute(
-        path: "/", // kCustomBottomNavPage
+        path: kSCustomBottomNavPage, // kCustomBottomNavPage
         builder: (context, state) => SCustomBottomNav(),
       ),
 
