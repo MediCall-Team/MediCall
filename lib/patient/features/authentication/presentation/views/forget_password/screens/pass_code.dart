@@ -15,8 +15,8 @@ class VerificationCodeScreen extends StatelessWidget {
         body: SafeArea(
           child: Column(
             children: [
-              /// ------------------- LOGO -------------------
               const SizedBox(height: 30),
+
               Align(
                 alignment: Alignment.topCenter,
                 child: SizedBox(
@@ -30,7 +30,6 @@ class VerificationCodeScreen extends StatelessWidget {
 
               const SizedBox(height: 50),
 
-              /// ------------------- TITLE -------------------
               Expanded(
                 child: Column(
                   children: [
@@ -47,10 +46,9 @@ class VerificationCodeScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 12, color: Color(0xFF35AAD5)),
                       textAlign: TextAlign.center,
                     ),
-                
+
                     const SizedBox(height: 40),
-                
-                    /// ------------------- CODE INPUT BOXES -------------------
+
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: Row(
@@ -96,17 +94,12 @@ class VerificationCodeScreen extends StatelessWidget {
                         }),
                       ),
                     ),
-                
+
                     const SizedBox(height: 130),
                   ],
                 ),
               ),
 
-              const SizedBox(height: 8),
-
-              /// ------------------- SUBTITLE -------------------
-
-              /// ------------------- CONFIRM BUTTON -------------------
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: CustomButton(
@@ -124,7 +117,6 @@ class VerificationCodeScreen extends StatelessWidget {
 
               const SizedBox(height: 20),
 
-              /// ------------------- RESEND TEXT -------------------
               const Text(
                 'لم يصلك الرمز؟ أعد الإرسال (55)',
                 style: TextStyle(fontSize: 12, color: Color(0xFF1F3E6C)),

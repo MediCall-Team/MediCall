@@ -33,11 +33,11 @@ abstract class AppRouter {
   static const String kSignUp = "/sign_up_page";
   static const String kSign2Up = "/sign_up_steptwo_page";
   static const String kSign3Up = "/sign_up_stepthree_page";
-   static const String kPatientSignUpView = "/kPatient_sign_up_view";
+  static const String kPatientSignUpView = "/kPatient_sign_up_view";
   static const String forgetpass = "/forget_password_page";
   static const String kPassCode = "/pass_code_page";
   static const String kResetPassword = "/reset_password_page";
-    static const String kHomeView = "/khome_view";
+  static const String kHomeView = "/khome_view";
   static const String kServiceProvider = "/service_provider_page";
   static const String kServiceProviderProfile =
       "/service_provider_profile_page";
@@ -45,44 +45,30 @@ abstract class AppRouter {
   static const String kSCustomBottomNavPage = "/s_custom_bottom_nav_pag";
   static const String kServiceProviderEditView = "/service_provider_editView";
   static const String kAChat = '/a_chat_view';
+  static const String kVerifyCodeView = "/verifyCode";
   static const String kSPProfile = '/s_p_profile_view';
   static final router = GoRouter(
     routes: [
       //splash
-
-<<<<<<< HEAD
-      // GoRoute(path: "/", builder: (context, state) => SplashView()),
-
-      // GoRoute(
-      //   path: "/",//kBottomNavPage,
-      //   builder: (context, state) => BottomNavView(),
-      // ),
-=======
-    GoRoute(path: "/", builder: (context, state) => SplashView()),
+      GoRoute(path: "/", builder: (context, state) => SplashView()),
 
       GoRoute(
-        path: "/",//kBottomNavPage,
+        path: "/", //kBottomNavPage,
         builder: (context, state) => BottomNavView(),
       ),
-  
- // patient 
-        GoRoute(
-        path: kBottomNavPage,// kCustomBottomNavPage
-        builder: (context, state) => CustomBottomNavView(),
-      ),
->>>>>>> 1891a05905daae7efaeb4b4f97d09417acaddbdd
 
       // patient
       GoRoute(
-        path: "/", // kCustomBottomNavPage
+        path: kBottomNavPage, // kCustomBottomNavPage
         builder: (context, state) => CustomBottomNavView(),
       ),
 
       // service provider
-      //   GoRoute(
-      //   path: "/",// kCustomBottomNavPage
-      //   builder: (context, state) => SCustomBottomNav(),
-      // ),
+      GoRoute(
+        path: "/", // kCustomBottomNavPage
+        builder: (context, state) => SCustomBottomNav(),
+      ),
+
       GoRoute(path: kStartNow, builder: (context, state) => StartNowView()),
       GoRoute(
         path: kOnboardingPages,
@@ -93,7 +79,10 @@ abstract class AppRouter {
       GoRoute(path: kSignUp, builder: (context, state) => SignUpView()),
       GoRoute(path: kSign2Up, builder: (context, state) => Step2View()),
       GoRoute(path: kSign3Up, builder: (context, state) => Step3View()),
-<<<<<<< HEAD
+      GoRoute(
+        path: kPatientSignUpView,
+        builder: (context, state) => PatientSignUpView(),
+      ),
       GoRoute(
         path: forgetpass,
         builder: (context, state) => ForgotPasswordScreen(),
@@ -106,6 +95,7 @@ abstract class AppRouter {
         path: kResetPassword,
         builder: (context, state) => ResetPasswordScreen(),
       ),
+      GoRoute(path: kHomeView, builder: (context, state) => HomeView()),
       GoRoute(
         path: kmoreCategories,
         builder: (context, state) => MoreCategoriesView(),
@@ -122,23 +112,6 @@ abstract class AppRouter {
           return ServiceProviderView(cName: cName);
         },
       ),
-=======
-      GoRoute(path: kPatientSignUpView, builder: (context, state) => PatientSignUpView()),
-      GoRoute(path: forgetpass, builder: (context, state) => ForgotPasswordScreen()),
-      GoRoute(path: kPassCode, builder: (context, state) => VerificationCodeScreen()),
-      GoRoute(path: kResetPassword, builder: (context, state) => ResetPasswordScreen()),
-      GoRoute(path: kHomeView, builder: (context, state) => HomeView()),
-      GoRoute(path: kmoreCategories, builder: (context, state) => MoreCategoriesView()),
-      GoRoute(path:kServiceProviderEditView , builder: (context, state) => EditSPView()),
-      GoRoute(path:kAChat , builder: (context, state) => AChatView()),
-GoRoute(
-  path: kServiceProvider,
-  builder: (context, state) {
-    final cName = state.extra as String;
-    return ServiceProviderView(cName:cName);
-  },
-),
->>>>>>> 1891a05905daae7efaeb4b4f97d09417acaddbdd
 
       GoRoute(
         path: kServiceProviderProfile,

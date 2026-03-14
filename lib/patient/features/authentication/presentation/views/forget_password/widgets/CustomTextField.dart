@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/constants.dart';
 
-// تأكدي أن priColor موجود هنا
-
 class CustomTextField2 extends StatefulWidget {
   final String hintText;
   final IconData prefixIcon;
   final bool isPassword;
+  final TextEditingController? controller; // 👈 أضفنا controller
 
   const CustomTextField2({
     super.key,
     required this.hintText,
     required this.prefixIcon,
     this.isPassword = false,
+    this.controller, // 👈 أضفناه هنا
   });
 
   @override
@@ -33,25 +33,28 @@ class _CustomTextField2State extends State<CustomTextField2> {
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: TextFormField(
+          controller: widget.controller, // 👈 هنا نربط controller
           textAlign: TextAlign.right,
           obscureText: widget.isPassword ? obscure : false,
           style: const TextStyle(color: Colors.grey),
+
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return "هذا الحقل مطلوب";
+            }
+            return null;
+          },
+
           decoration: InputDecoration(
             labelText: widget.hintText,
             labelStyle: const TextStyle(fontSize: 15, color: Colors.grey),
 
-            // الأيقونة على اليمين مع انعكاس أفقي
             prefixIcon: Transform(
               alignment: Alignment.center,
               transform: Matrix4.rotationY(3.14159),
-              child: Icon(
-                widget.prefixIcon,
-                color: Colors.grey,
-                size: 24,
-              ),
+              child: Icon(widget.prefixIcon, color: Colors.grey, size: 24),
             ),
 
-            // أيقونة إظهار/إخفاء كلمة المرور
             suffixIcon: widget.isPassword
                 ? IconButton(
                     icon: Icon(

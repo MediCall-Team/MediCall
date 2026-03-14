@@ -8,7 +8,7 @@ class ResetPasswordScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Directionality(
-      textDirection: TextDirection.rtl,
+      textDirection: TextDirection.rtl, // لضبط اتجاه النصوص للعربية
       child: Scaffold(
         backgroundColor: Colors.white,
         resizeToAvoidBottomInset: true,
@@ -46,6 +46,8 @@ class ResetPasswordScreen extends StatelessWidget {
                       ),
                     ),
                     const SizedBox(height: 40),
+
+                    /// ------------------- PASSWORD INPUT -------------------
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: CustomTextField2(
@@ -54,7 +56,6 @@ class ResetPasswordScreen extends StatelessWidget {
                         isPassword: true,
                       ),
                     ),
-
                     const SizedBox(height: 20),
 
                     /// ------------------- CONFIRM PASSWORD INPUT -------------------
@@ -66,7 +67,6 @@ class ResetPasswordScreen extends StatelessWidget {
                         isPassword: true,
                       ),
                     ),
-
                     const SizedBox(height: 130),
                   ],
                 ),
@@ -74,14 +74,11 @@ class ResetPasswordScreen extends StatelessWidget {
 
               const SizedBox(height: 40),
 
-              /// ------------------- PASSWORD INPUT -------------------
-
               /// ------------------- CHANGE BUTTON -------------------
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
                 child: CustomButton(text: "تغيير", onPressed: () {}),
               ),
-
               const SizedBox(height: 30),
             ],
           ),
