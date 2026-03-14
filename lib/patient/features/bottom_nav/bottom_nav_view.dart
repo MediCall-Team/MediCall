@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grad_project/constants.dart';
 import 'package:grad_project/patient/features/chats/views/chats_view.dart';
-import 'package:grad_project/patient/features/home/views/home_view.dart';
+import 'package:grad_project/patient/features/home/presentation/views/home_view.dart';
 
 
 import 'package:grad_project/patient/features/profile/views/profile_view.dart';

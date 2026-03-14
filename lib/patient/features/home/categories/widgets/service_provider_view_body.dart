@@ -5,7 +5,7 @@ import 'package:grad_project/constants.dart';
 import 'package:grad_project/patient/features/home/categories/view_model/filter_cubit/filter_cubit.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/filter_section.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/service_provider_list_section.dart';
-import 'package:grad_project/patient/features/home/models/doctor_model.dart';
+import 'package:grad_project/patient/features/home/data/models/doctor_model.dart';
 
 class ServiceProviderViewBody extends StatelessWidget {
   const ServiceProviderViewBody({super.key});

@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 
 class SpecialtyRow extends StatelessWidget {
   const SpecialtyRow({
@@ -25,7 +26,7 @@ class SpecialtyRow extends StatelessWidget {
               fontFamily: "Poppins",
               fontSize: (fontSize + 10).clamp(12, 25),
               fontWeight: FontWeight.bold,
-              color: kPrimaryColorC,
+              color: AppTheme.secondary(context),
 
             ),
           ),

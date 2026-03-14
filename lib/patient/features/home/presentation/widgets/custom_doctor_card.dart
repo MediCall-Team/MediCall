@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/constants.dart';
-import 'package:grad_project/patient/features/home/models/doctor_model.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
+import 'package:grad_project/patient/features/home/data/models/doctor_model.dart';
 class CustomDoctorCard extends StatelessWidget {
   const CustomDoctorCard({
     super.key,
@@ -21,7 +22,7 @@ class CustomDoctorCard extends StatelessWidget {
       width: cardWidth, // العرض الآن مرن
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color: AppTheme.background(context),
         borderRadius: BorderRadius.circular(20), // يمكن جعلها نسبية أيضاً
         border: Border.all(color: Colors.grey.shade100, width: 1.5),
         boxShadow: [
@@ -76,7 +77,7 @@ class CustomDoctorCard extends StatelessWidget {
                       fontFamily: "Tajawal",
                       fontSize: (h * 0.07).clamp(14, 22), // الخط يكبر مع الكارت
                       fontWeight: FontWeight.bold,
-                      color: const Color(0xff2D3142),
+                      color: AppTheme.textSecondaryTwo(context),//const Color(0xff2D3142),
                     ),
                   ),
                   SizedBox(height: h * 0.02),

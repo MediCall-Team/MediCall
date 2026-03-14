@@ -53,6 +53,11 @@ dependencies:
   google_maps_flutter: ^2.14.0
   flutter_bloc: ^9.1.1
   dio: ^5.9.1
+  dartz: ^0.10.1
+  jwt_decoder: ^2.0.1
+  get_it: ^9.2.1
+  geolocator: ^14.0.2
+  location: ^8.0.1
 
 dev_dependencies:
   flutter_test:
@@ -80,6 +85,8 @@ flutter:
   assets:
     - assets/animation/
     - assets/images/
+    - assets/animation/loading/Cosmos.json
+    
   #  - assets/images/image6.png
   #   - images/a_dot_ham.jpeg
   # An image asset can refer to one or more resolution-specific "variants", see

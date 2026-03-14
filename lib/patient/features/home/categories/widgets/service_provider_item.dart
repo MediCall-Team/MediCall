@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grad_project/constants.dart';
 import 'package:grad_project/core/utils/app_router.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/styles.dart';
-import 'package:grad_project/patient/features/home/models/doctor_model.dart';
+import 'package:grad_project/patient/features/home/data/models/doctor_model.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/custom_book_button.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/handle_stars_rate.dart';
 
@@ -48,6 +49,7 @@ class ServiceProviderItem extends StatelessWidget {
                 doctorModel.name,
                 style: Styles.textStyle15F.copyWith(
                   fontSize: screenWidth * 0.03,
+                  color: AppTheme.secondary(context)
                 ),
               ),
 
@@ -59,7 +61,7 @@ class ServiceProviderItem extends StatelessWidget {
                     style: TextStyle(
                       fontSize: screenWidth * 0.03,
                       fontWeight: FontWeight.w500,
-                      color: kPrimaryColorC,
+                      color: AppTheme.secondary(context),
                     ),
                   ),
                   const SizedBox(width: 6),

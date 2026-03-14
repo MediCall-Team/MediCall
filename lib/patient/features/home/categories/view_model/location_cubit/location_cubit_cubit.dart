@@ -1,6 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:grad_project/core/utils/map_services.dart';
+import 'package:grad_project/core/utils/map/map_services.dart';
 import 'package:meta/meta.dart';
 
 part 'location_cubit_state.dart';

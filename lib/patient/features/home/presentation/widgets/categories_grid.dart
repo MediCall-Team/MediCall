@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grad_project/patient/features/home/models/category_model.dart';
+import 'package:grad_project/patient/features/home/data/models/category_model.dart';
 import 'category_container.dart';
 
 class CategoriesGrid extends StatelessWidget {

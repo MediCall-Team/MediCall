@@ -39,6 +39,14 @@ class _CustomTextFieldState extends State<CustomTextField2>
       return "أدخل بريد إلكتروني example@gmail.com";
     }
 
+    RegExp passwordRegex = RegExp(
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-]).+$',
+    );
+
+    if (widget.hintText.contains("كلمة المرور") && !passwordRegex.hasMatch(value)) {
+      return "كلمة المرور يجب أن تحتوي على حرف كبير وصغير ورقم ورمز";
+    }
+
     if (widget.hintText.contains("كلمة المرور") && value.length < 6) {
       return "كلمة المرور يجب أن تكون 6 أحرف على الأقل";
     }
@@ -64,44 +72,45 @@ class _CustomTextFieldState extends State<CustomTextField2>
         child: Directionality(
           textDirection: TextDirection.rtl,
           child: TextFormField(
-  controller: _controller,
-  autovalidateMode: AutovalidateMode.onUserInteraction,
-  validator: (value) => validate(value),
-  onChanged: (_) {
-    // هنا مش محتاج setState للخطأ
-  },
-  cursorColor: kPrimaryColorB,
-  textAlign: TextAlign.right,
-  obscureText: widget.isPassword ? obscure : false,
-  style: const TextStyle(color: Colors.grey),
-  decoration: InputDecoration(
-    labelText: widget.hintText,
-    labelStyle: const TextStyle(fontSize: 15, color: Colors.grey),
-    prefixIcon: Transform(
-      alignment: Alignment.center,
-      transform: Matrix4.rotationY(3.14159),
-      child: Icon(widget.prefixIcon, color: Colors.grey, size: 24),
-    ),
-    suffixIcon: widget.isPassword
-        ? IconButton(
-            icon: Icon(
-              obscure ? Icons.visibility_off : Icons.visibility,
-              color: Colors.grey,
-              size: 24,
+            controller: _controller,
+            autovalidateMode: AutovalidateMode.onUserInteraction,
+            validator: (value) => validate(value),
+            onChanged: (_) {
+              // هنا مش محتاج setState للخطأ
+            },
+            cursorColor: kPrimaryColorB,
+            textAlign: TextAlign.right,
+            obscureText: widget.isPassword ? obscure : false,
+            style: const TextStyle(color: Colors.grey),
+            decoration: InputDecoration(
+              labelText: widget.hintText,
+              labelStyle: const TextStyle(fontSize: 15, color: Colors.grey),
+              prefixIcon: Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.rotationY(3.14159),
+                child: Icon(widget.prefixIcon, color: Colors.grey, size: 24),
+              ),
+              suffixIcon: widget.isPassword
+                  ? IconButton(
+                      icon: Icon(
+                        obscure ? Icons.visibility_off : Icons.visibility,
+                        color: Colors.grey,
+                        size: 24,
+                      ),
+                      onPressed: () => setState(() => obscure = !obscure),
+                    )
+                  : null,
+              enabledBorder: buildBorder(),
+              focusedBorder: buildBorder(),
+              border: buildBorder(),
+              errorBorder: buildBorderError(),
+              focusedErrorBorder: buildBorderError(),
+              contentPadding: const EdgeInsets.symmetric(
+                vertical: 0,
+                horizontal: 12,
+              ),
             ),
-            onPressed: () => setState(() => obscure = !obscure),
-          )
-        : null,
-    enabledBorder: buildBorder(),
-    focusedBorder: buildBorder(),
-    border: buildBorder(),
-    errorBorder: buildBorderError(),
-    focusedErrorBorder: buildBorderError(),
-    contentPadding:
-        const EdgeInsets.symmetric(vertical: 0, horizontal: 12),
-  ),
-)
-
+          ),
         ),
       ),
     );

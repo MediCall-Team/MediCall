@@ -4,7 +4,7 @@ import 'package:grad_project/core/utils/app_router.dart';
 import 'package:grad_project/core/utils/styles.dart';
 import 'package:grad_project/patient/features/home/categories/data/service_provider_profile_model.dart';
 import 'package:grad_project/patient/features/home/categories/data/service_provider_reviews_model.dart';
-import 'package:grad_project/patient/features/home/models/doctor_model.dart';
+import 'package:grad_project/patient/features/home/data/models/doctor_model.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/widgets/s_p_profile_settings_view_body.dart';
 
 class SPProfileSettings extends StatelessWidget {

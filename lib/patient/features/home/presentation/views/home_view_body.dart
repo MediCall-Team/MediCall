@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grad_project/constants.dart';
 import 'package:grad_project/core/utils/app_router.dart';
-import 'package:grad_project/patient/features/home/models/category_model.dart';
-import 'package:grad_project/patient/features/home/models/doctor_model.dart';
-import 'package:grad_project/patient/features/home/widgets/categories_grid.dart';
-import 'package:grad_project/patient/features/home/widgets/custom_doctor_card.dart';
-import 'package:grad_project/patient/features/home/widgets/custom_header_card.dart';
-import 'package:grad_project/patient/features/home/widgets/header.dart';
-import 'package:grad_project/patient/features/home/widgets/specialty_row.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
+import 'package:grad_project/patient/features/home/data/models/category_model.dart';
+import 'package:grad_project/patient/features/home/data/models/doctor_model.dart';
+import 'package:grad_project/patient/features/home/presentation/widgets/categories_grid.dart';
+import 'package:grad_project/patient/features/home/presentation/widgets/custom_doctor_card.dart';
+import 'package:grad_project/patient/features/home/presentation/widgets/custom_header_card.dart';
+import 'package:grad_project/patient/features/home/presentation/widgets/header.dart';
+import 'package:grad_project/patient/features/home/presentation/widgets/specialty_row.dart';
 
 class HomeViewBody extends StatelessWidget {
   HomeViewBody({super.key});
@@ -116,7 +117,7 @@ class HomeViewBody extends StatelessWidget {
                   fontFamily: "Poppins",
                   fontSize: (fontSize + 10).clamp(12, 25),
                   fontWeight: FontWeight.bold,
-                  color: kPrimaryColorC,
+                  color: AppTheme.secondary(context),//kPrimaryColorC,
                 ),
               ),
             ),
