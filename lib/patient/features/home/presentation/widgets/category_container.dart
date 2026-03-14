@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grad_project/constants.dart';
-import 'package:grad_project/patient/features/home/models/category_model.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
+import 'package:grad_project/patient/features/home/data/models/category_model.dart';
 
 class CategoryContainer extends StatelessWidget {
   const CategoryContainer({
@@ -21,7 +22,7 @@ class CategoryContainer extends StatelessWidget {
         height: 85, // ⬅️ أكبر شوية
         width: 85,
         decoration: BoxDecoration(
-          color: const Color(0xffE1F2F8),
+          color: AppTheme.card(context) ,//const Color(0xffE1F2F8),
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
@@ -41,6 +42,7 @@ class CategoryContainer extends StatelessWidget {
               width: 35,
               height: 35,
               fit: BoxFit.contain,
+              color: AppTheme.secondary(context),
             ),
               
             ),
@@ -52,7 +54,7 @@ class CategoryContainer extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: "Tajawal",
-                  color: secColor,
+                  color: AppTheme.secondary(context),
                   fontWeight: FontWeight.bold,
                   fontSize: 9,
                 ),

@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/chats/views/chats_view.dart';
-import 'package:grad_project/patient/features/home/views/home_view.dart';
+import 'package:grad_project/patient/features/home/presentation/views/home_view.dart';
 
 import 'package:grad_project/patient/features/profile/views/profile_view.dart';
 import 'package:grad_project/patient/features/requests/presentation/views/requests_view.dart';
@@ -93,13 +94,13 @@ class _CustomBottomNavViewState extends State<CustomBottomNavView> {
             fontSize: width * 0.033,
             fontWeight: FontWeight.w500,
             fontFamily: "Tajawal",
-            color: kPrimaryColorB
+            color: AppTheme.primary(context)
           ),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          backgroundColor: Colors.white, //<--
+          backgroundColor: AppTheme.background(context), //<--
           color: Colors.grey,
-          activeColor: kPrimaryColorB,
-          tabBackgroundColor: kPrimaryColorB.withOpacity(0.1),
+          activeColor: AppTheme.primary(context),
+          tabBackgroundColor: AppTheme.primary(context).withOpacity(0.1),
           onTabChange: (index) {
             setState(() {
               currentIndex = index;

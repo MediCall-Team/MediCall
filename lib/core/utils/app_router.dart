@@ -3,6 +3,8 @@ import 'package:grad_project/patient/features/authentication/presentation/views/
 import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/screens/forgot_pass_screen.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/screens/pass_code.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/login_view.dart';
+import 'package:grad_project/patient/features/authentication/presentation/views/patient_sign_up_view.dart';
+import 'package:grad_project/patient/features/authentication/presentation/widgets/login_view_body.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/sign_up_view.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/step2_view.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/step3_view.dart';
@@ -16,6 +18,7 @@ import 'package:grad_project/common/onboarding/presentation/views/choice_page_vi
 import 'package:grad_project/common/onboarding/presentation/views/onbarding_page_view.dart';
 import 'package:grad_project/common/onboarding/presentation/views/splash_view.dart';
 import 'package:grad_project/common/onboarding/presentation/views/start_now_view.dart';
+import 'package:grad_project/patient/features/home/presentation/views/home_view.dart';
 import 'package:grad_project/service_provider/features/bottom_nav/presentation/views/s_custom_bottom_nav.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/views/edit_s_p_view.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/views/s_p_profile.dart';
@@ -30,9 +33,11 @@ abstract class AppRouter {
   static const String kSignUp = "/sign_up_page";
   static const String kSign2Up = "/sign_up_steptwo_page";
   static const String kSign3Up = "/sign_up_stepthree_page";
+   static const String kPatientSignUpView = "/kPatient_sign_up_view";
   static const String forgetpass = "/forget_password_page";
   static const String kPassCode = "/pass_code_page";
   static const String kResetPassword = "/reset_password_page";
+    static const String kHomeView = "/khome_view";
   static const String kServiceProvider = "/service_provider_page";
   static const String kServiceProviderProfile = "/service_provider_profile_page";
   static const String kmoreCategories="/more_categories_page";
@@ -44,18 +49,18 @@ abstract class AppRouter {
     routes: [
       //splash
 
-    // GoRoute(path: "/", builder: (context, state) => SplashView()),
+    GoRoute(path: "/", builder: (context, state) => SplashView()),
 
-      // GoRoute(
-      //   path: "/",//kBottomNavPage,
-      //   builder: (context, state) => BottomNavView(),
-      // ),
+      GoRoute(
+        path: "/",//kBottomNavPage,
+        builder: (context, state) => BottomNavView(),
+      ),
   
  // patient 
-      //   GoRoute(
-      //   path: "/",// kCustomBottomNavPage
-      //   builder: (context, state) => CustomBottomNavView(),
-      // ),
+        GoRoute(
+        path: kBottomNavPage,// kCustomBottomNavPage
+        builder: (context, state) => CustomBottomNavView(),
+      ),
 
   // service provider
         GoRoute(
@@ -74,9 +79,11 @@ abstract class AppRouter {
       GoRoute(path: kSignUp, builder: (context, state) => SignUpView()),
       GoRoute(path: kSign2Up, builder: (context, state) => Step2View()),
       GoRoute(path: kSign3Up, builder: (context, state) => Step3View()),
+      GoRoute(path: kPatientSignUpView, builder: (context, state) => PatientSignUpView()),
       GoRoute(path: forgetpass, builder: (context, state) => ForgotPasswordScreen()),
       GoRoute(path: kPassCode, builder: (context, state) => VerificationCodeScreen()),
       GoRoute(path: kResetPassword, builder: (context, state) => ResetPasswordScreen()),
+      GoRoute(path: kHomeView, builder: (context, state) => HomeView()),
       GoRoute(path: kmoreCategories, builder: (context, state) => MoreCategoriesView()),
       GoRoute(path:kServiceProviderEditView , builder: (context, state) => EditSPView()),
       GoRoute(path:kAChat , builder: (context, state) => AChatView()),

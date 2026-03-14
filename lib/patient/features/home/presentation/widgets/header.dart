@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/constants.dart';
-import 'package:grad_project/patient/features/home/widgets/theme_toggle.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
+import 'package:grad_project/patient/features/home/presentation/widgets/theme_toggle.dart';
 import 'package:grad_project/patient/features/notification/views/notification_view.dart';
 
 class Header extends StatelessWidget {
@@ -42,7 +43,7 @@ class Header extends StatelessWidget {
               Text(
                 "مرحبا",
                 style: TextStyle(
-                  color: Colors.grey,
+                  color: AppTheme.textSecondary(context),
                   fontFamily: "Poppins",
                   fontWeight: FontWeight.w500,
                   fontSize: fontSize.clamp(12, 25),
@@ -51,7 +52,7 @@ class Header extends StatelessWidget {
               Text(
                 "ندي الشيمي",
                 style: TextStyle(
-                  color: kPrimaryColorC,
+                  color: AppTheme.secondary(context),
                   fontFamily: "Poppins",
                   fontWeight: FontWeight.w700,
                   fontSize: fontSize.clamp(12, 20),

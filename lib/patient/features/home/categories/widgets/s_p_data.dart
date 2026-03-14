@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/styles.dart';
 import 'package:grad_project/patient/features/home/categories/data/service_provider_profile_model.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/custom_detail_card.dart';
@@ -25,14 +26,16 @@ class SPData extends StatelessWidget {
             spModel.doctorModel.name,
             style: Styles.textStyle25.copyWith(
               fontSize: (screenWidth * 0.07).clamp(20, 40),
+              color:   AppTheme.secondary(context)
             ),
           ),
         ),
         Text(
           spModel.doctorModel.specialty,
           style: Styles.textStyle18w400.copyWith(
-            color: kPrimaryColorE,
+            color:   AppTheme.textSecondary(context),
             fontSize: (screenWidth * 0.045).clamp(16, 40),
+            
           ),
         ),
 

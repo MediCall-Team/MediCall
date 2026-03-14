@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/styles.dart';
 import 'package:grad_project/patient/features/home/categories/data/service_provider_profile_model.dart';
 import 'package:grad_project/patient/features/home/categories/data/service_provider_reviews_model.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/servire_provider_profile_view_body.dart';
-import 'package:grad_project/patient/features/home/models/doctor_model.dart';
+import 'package:grad_project/patient/features/home/data/models/doctor_model.dart';
 
 class ServiceProviderProfileView extends StatelessWidget {
   ServiceProviderProfileView({super.key});
@@ -52,7 +53,9 @@ class ServiceProviderProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("بيانات الدكتور", style: Styles.textStyle25)),
+      appBar: AppBar(title: Text("بيانات الدكتور", style: Styles.textStyle25.copyWith(
+        color: AppTheme.secondary(context)
+      ))),
       body: SafeArea(
         child: ServireProviderProfileViewBody(
           spModel: serviceProviderProfileModel,

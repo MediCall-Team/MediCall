@@ -3,7 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grad_project/core/utils/app_router.dart';
 import 'package:grad_project/core/utils/styles.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/costum_search_bottom.dart';
-import 'package:grad_project/patient/features/home/models/category_model.dart';
+import 'package:grad_project/patient/features/home/data/models/category_model.dart';
 
 class MoreCategoriesBody extends StatefulWidget {
   const MoreCategoriesBody({super.key});
