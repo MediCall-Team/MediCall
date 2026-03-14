@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:grad_project/patient/features/authentication/repo/auth_repo.dart';
 import 'package:meta/meta.dart';
+
 part 'register_patient_state.dart';
 
 class RegisterPatientCubit extends Cubit<RegisterPatientState> {
@@ -27,6 +28,7 @@ class RegisterPatientCubit extends Cubit<RegisterPatientState> {
       phoneNumber: phoneNumber,
       image: image,
     );
+
     data.fold(
       (failure) {
         emit(RegisterPatientFailure(errorMsg: failure.errorMsg));

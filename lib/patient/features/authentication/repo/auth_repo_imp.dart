@@ -21,11 +21,9 @@ class PatienAuthRepoImp implements PatienAuthRepo {
         "api/Authentication/Login",
         data: {"Email": email, "Password": password},
       );
-       final user = PatientUserModel.fromJson(
-  response as Map<String, dynamic>,
-);
+      final user = PatientUserModel.fromJson(response as Map<String, dynamic>);
 
-    return right(user);
+      return right(user);
     } on Failure catch (e) {
       return left(e);
     } catch (e) {
@@ -61,10 +59,30 @@ class PatienAuthRepoImp implements PatienAuthRepo {
         "Image": imageProfile,
       });
 
-      var response = await api.post("api/Authentication/RegisterPatient", data: formData);
+      var response = await api.post(
+        "api/Authentication/RegisterPatient",
+        data: formData,
+      );
 
       return right(response);
-      
+    } on Failure catch (e) {
+      return left(e);
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> forgetPassword({
+    required String email,
+  }) async {
+    try {
+      var response = await api.post(
+        "api/Authentication/ForgotPassword",
+        data: {"Email": email},
+      );
+
+      return right(response);
     } on Failure catch (e) {
       return left(e);
     } catch (e) {
