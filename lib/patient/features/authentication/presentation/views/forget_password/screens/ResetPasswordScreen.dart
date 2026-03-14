@@ -77,7 +77,9 @@ class ResetPasswordScreen extends StatelessWidget {
               /// ------------------- CHANGE BUTTON -------------------
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 5),
-                child: CustomButton(text: "تغيير", onPressed: () {}),
+                child: CustomButton(text: "تغيير", onPressed: () {
+                  
+                }),
               ),
               const SizedBox(height: 30),
             ],
