@@ -3,9 +3,9 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
-import 'package:grad_project/service_provider/auth/data/s_p_regester_model.dart';
-import 'package:grad_project/service_provider/auth/repo/sp_regester_repo.dart';
-import 'package:grad_project/service_provider/auth/repo/spregister_repo_imp.dart';
+import 'package:grad_project/service_provider/features/auth/data/s_p_regester_model.dart';
+import 'package:grad_project/service_provider/features/auth/repo/sp_regester_repo.dart';
+import 'package:grad_project/service_provider/features/auth/repo/spregister_repo_imp.dart';
 import 'package:meta/meta.dart';
 
 part 'sp_register_state.dart';

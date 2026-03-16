@@ -20,10 +20,25 @@ class ForgetPassScreenViewBody extends StatelessWidget {
             context,
           ).showSnackBar(SnackBar(content: Text(state.msg)));
 
+          // نمرر البريد الإلكتروني للشاشة التالية
+          // Navigator.push(
+          //   context,
+          //   MaterialPageRoute(
+          //     builder: (_) =>
+          //         VerificationCodeScreen(email: emailController.text.trim()),
+          //   ),
+          // );
+
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const VerificationCodeScreen(),
+              builder: (_) => BlocProvider.value(
+                value: context
+                    .read<ForgetPasswordCubit>(), // نستخدم نفس الكيوبت
+                child: VerificationCodeScreen(
+                  email: emailController.text.trim(),
+                ),
+              ),
             ),
           );
         }
@@ -37,10 +52,14 @@ class ForgetPassScreenViewBody extends StatelessWidget {
       builder: (context, state) {
         return Directionality(
           textDirection: TextDirection.rtl,
-          child:  Column(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: Column(
               children: [
                 const SizedBox(height: 30),
-            
+
                 Align(
                   alignment: Alignment.topCenter,
                   child: SizedBox(
@@ -51,46 +70,37 @@ class ForgetPassScreenViewBody extends StatelessWidget {
                     ),
                   ),
                 ),
-            
+
                 const SizedBox(height: 70),
-            
-                Expanded(
-                  child: Column(
-                    children: [
-                      const Text(
-                        'هل نسيت كلمة المرور؟',
-                        style: TextStyle(
-                          fontSize: 30,
-                          fontWeight: FontWeight.bold,
-                          color: Color(0xFF1F3E6C),
-                        ),
-                      ),
-                      const Text(
-                        'أدخل بريدك الإلكتروني لتغيير كلمة المرور',
-                        style: TextStyle(
-                          fontSize: 12,
-                          color: Color(0xFF8ABACC),
-                        ),
-                        textAlign: TextAlign.left,
-                      ),
-            
-                      const SizedBox(height: 40),
-            
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: CustomTextField2(
-                          controller: emailController,
-                          hintText: 'أدخل بريدك الإلكتروني',
-                          prefixIcon: Icons.email_outlined,
-                          isPassword: false,
-                        ),
-                      ),
-            
-                      const SizedBox(height: 130),
-                    ],
+
+                const Text(
+                  'هل نسيت كلمة المرور؟',
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF1F3E6C),
                   ),
                 ),
-            
+
+                const Text(
+                  'أدخل بريدك الإلكتروني لتغيير كلمة المرور',
+                  style: TextStyle(fontSize: 12, color: Color(0xFF8ABACC)),
+                ),
+
+                const SizedBox(height: 40),
+
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 24),
+                  child: CustomTextField2(
+                    controller: emailController,
+                    hintText: 'أدخل بريدك الإلكتروني',
+                    prefixIcon: Icons.email_outlined,
+                    isPassword: false,
+                  ),
+                ),
+
+                const SizedBox(height: 40),
+
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: state is ForgetPasswordLoading
@@ -98,20 +108,18 @@ class ForgetPassScreenViewBody extends StatelessWidget {
                       : CustomButton(
                           text: "التالي",
                           onPressed: () {
-                            context
-                                .read<ForgetPasswordCubit>()
-                                .forgetPassword(
-                                  email: emailController.text.trim(),
-                                );
+                            context.read<ForgetPasswordCubit>().forgetPassword(
+                              email: emailController.text.trim(),
+                            );
                           },
                         ),
                 ),
-            
+
                 const SizedBox(height: 30),
               ],
             ),
-          );
-        
+          ),
+        );
       },
     );
   }

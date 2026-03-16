@@ -7,11 +7,11 @@ import 'package:grad_project/core/helper/snakbar.dart';
 import 'package:grad_project/core/utils/app_router.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/widgets/CustomTextField.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/widgets/custom_button.dart';
-import 'package:grad_project/patient/features/authentication/presentation/views/step2_view.dart';
-import 'package:grad_project/patient/features/authentication/presentation/widgets/step2_view_body.dart';
+import 'package:grad_project/service_provider/features/auth/presentation/views/step2_view.dart';
+import 'package:grad_project/service_provider/features/auth/presentation/widgets/step2_view_body.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/steps.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/upload_image.dart';
-import 'package:grad_project/service_provider/auth/presentation/view_model/sp_register_cubit/sp_register_cubit.dart';
+import 'package:grad_project/service_provider/features/auth/presentation/view_model/sp_register_cubit/sp_register_cubit.dart';
 
 class SignUpViewBody extends StatefulWidget {
   const SignUpViewBody({super.key});

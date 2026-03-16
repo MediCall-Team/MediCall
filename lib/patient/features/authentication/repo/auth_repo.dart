@@ -1,5 +1,4 @@
 import 'dart:io';
-
 import 'package:dartz/dartz.dart';
 import 'package:grad_project/core/error/failure.dart';
 import 'package:grad_project/patient/features/authentication/data/patient_user_model.dart';
@@ -20,4 +19,15 @@ abstract class PatienAuthRepo {
   });
 
   Future<Either<Failure, String>> forgetPassword({required String email});
+
+  Future<Either<Failure, String>> verifyCode({
+    required String email,
+    required String code,
+  });
+
+  Future<Either<Failure, String>> resetPassword({
+    required String email,
+    required String newPassword,
+    required String code,
+  });
 }

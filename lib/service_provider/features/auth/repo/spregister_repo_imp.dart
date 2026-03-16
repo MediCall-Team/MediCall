@@ -2,8 +2,8 @@ import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:grad_project/core/error/failure.dart';
 import 'package:grad_project/core/utils/api/api_consumer.dart';
-import 'package:grad_project/service_provider/auth/data/s_p_regester_model.dart';
-import 'package:grad_project/service_provider/auth/repo/sp_regester_repo.dart';
+import 'package:grad_project/service_provider/features/auth/data/s_p_regester_model.dart';
+import 'package:grad_project/service_provider/features/auth/repo/sp_regester_repo.dart';
 
 class SpregisterRepoImp extends SpRegesterRepo {
   final ApiConsumer api;

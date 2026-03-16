@@ -11,7 +11,7 @@ import 'package:grad_project/patient/features/authentication/presentation/widget
 import 'package:grad_project/patient/features/authentication/presentation/widgets/photoes.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/steps.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/upload_photoes_botton.dart';
-import 'package:grad_project/service_provider/auth/presentation/view_model/sp_register_cubit/sp_register_cubit.dart';
+import 'package:grad_project/service_provider/features/auth/presentation/view_model/sp_register_cubit/sp_register_cubit.dart';
 import 'package:image_picker/image_picker.dart';
 
 class Step3ViewBody extends StatefulWidget {

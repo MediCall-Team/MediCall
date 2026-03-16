@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_project/core/utils/get_it.dart';
-import 'package:grad_project/patient/features/authentication/presentation/widgets/sign_up_view_body.dart';
-import 'package:grad_project/service_provider/auth/presentation/view_model/sp_register_cubit/sp_register_cubit.dart';
-import 'package:grad_project/service_provider/auth/repo/sp_regester_repo.dart';
+import 'package:grad_project/service_provider/features/auth/presentation/widgets/sign_up_view_body.dart';
+import 'package:grad_project/service_provider/features/auth/presentation/view_model/sp_register_cubit/sp_register_cubit.dart';
+import 'package:grad_project/service_provider/features/auth/repo/sp_regester_repo.dart';
 
 class SignUpView extends StatelessWidget {
   const SignUpView({super.key});

@@ -3,15 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grad_project/core/helper/reusable_dialog.dart';
 import 'package:grad_project/core/utils/map/location_services.dart';
-import 'package:grad_project/patient/features/authentication/presentation/views/step3_view.dart';
+import 'package:grad_project/service_provider/features/auth/presentation/views/step3_view.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/custom_bottom_sheet.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/custom_botton2.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/custom_text_field3.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/custom_textfield4.dart';
-import 'package:grad_project/patient/features/authentication/presentation/widgets/step3_view_body.dart';
+import 'package:grad_project/service_provider/features/auth/presentation/widgets/step3_view_body.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/steps.dart';
-import 'package:grad_project/service_provider/auth/data/s_p_regester_model.dart';
-import 'package:grad_project/service_provider/auth/presentation/view_model/sp_register_cubit/sp_register_cubit.dart';
+import 'package:grad_project/service_provider/features/auth/data/s_p_regester_model.dart';
+import 'package:grad_project/service_provider/features/auth/presentation/view_model/sp_register_cubit/sp_register_cubit.dart';
 
 class Step2ViewBody extends StatefulWidget {
   const Step2ViewBody({super.key});

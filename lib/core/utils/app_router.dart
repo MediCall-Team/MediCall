@@ -5,9 +5,9 @@ import 'package:grad_project/patient/features/authentication/presentation/views/
 import 'package:grad_project/patient/features/authentication/presentation/views/login_view.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/patient_sign_up_view.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/login_view_body.dart';
-import 'package:grad_project/patient/features/authentication/presentation/views/sign_up_view.dart';
-import 'package:grad_project/patient/features/authentication/presentation/views/step2_view.dart';
-import 'package:grad_project/patient/features/authentication/presentation/views/step3_view.dart';
+import 'package:grad_project/service_provider/features/auth/presentation/views/sign_up_view.dart';
+import 'package:grad_project/service_provider/features/auth/presentation/views/step2_view.dart';
+import 'package:grad_project/service_provider/features/auth/presentation/views/step3_view.dart';
 import 'package:grad_project/patient/features/bottom_nav/bottom_nav_view.dart';
 import 'package:grad_project/patient/features/bottom_nav/custom_bottom_nav_view.dart';
 import 'package:grad_project/patient/features/chats/a_chat/views/a_chat_view.dart';
@@ -39,7 +39,8 @@ abstract class AppRouter {
   static const String kResetPassword = "/reset_password_page";
   static const String kHomeView = "/khome_view";
   static const String kServiceProvider = "/service_provider_page";
-  static const String kServiceProviderProfile ="/service_provider_profile_page";
+  static const String kServiceProviderProfile =
+      "/service_provider_profile_page";
   static const String kmoreCategories = "/more_categories_page";
   static const String kSCustomBottomNavPage = "/s_custom_bottom_nav_pag";
   static const String kServiceProviderEditView = "/service_provider_editView";
@@ -58,7 +59,7 @@ abstract class AppRouter {
 
       // patient
       GoRoute(
-        path:  kCustomBottomNavPage,
+        path: kBottomNavPage, // kCustomBottomNavPage
         builder: (context, state) => CustomBottomNavView(),
       ),
 
@@ -90,14 +91,23 @@ abstract class AppRouter {
         path: forgetpass,
         builder: (context, state) => ForgotPasswordScreen(),
       ),
-      GoRoute(
-        path: kPassCode,
-        builder: (context, state) => VerificationCodeScreen(),
-      ),
+
+      // GoRoute(
+      //   path: kPassCode,
+      //   builder: (context, state) {
+      //     final email = state.extra as String; // بنستقبل الإيميل من extra
+      //     return VerificationCodeScreen(email: email);
+      //   },
+      // ),
+
       GoRoute(
         path: kResetPassword,
-        builder: (context, state) => ResetPasswordScreen(),
+        builder: (context, state) {
+          final email = state.extra as String;
+          return ResetPasswordScreen(email: email, code: "");
+        },
       ),
+
       GoRoute(path: kHomeView, builder: (context, state) => HomeView()),
       GoRoute(
         path: kmoreCategories,
