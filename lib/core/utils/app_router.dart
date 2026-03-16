@@ -5,9 +5,9 @@ import 'package:grad_project/patient/features/authentication/presentation/views/
 import 'package:grad_project/patient/features/authentication/presentation/views/login_view.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/patient_sign_up_view.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/login_view_body.dart';
-import 'package:grad_project/patient/features/authentication/presentation/views/sign_up_view.dart';
-import 'package:grad_project/patient/features/authentication/presentation/views/step2_view.dart';
-import 'package:grad_project/patient/features/authentication/presentation/views/step3_view.dart';
+import 'package:grad_project/service_provider/features/auth/presentation/views/sign_up_view.dart';
+import 'package:grad_project/service_provider/features/auth/presentation/views/step2_view.dart';
+import 'package:grad_project/service_provider/features/auth/presentation/views/step3_view.dart';
 import 'package:grad_project/patient/features/bottom_nav/bottom_nav_view.dart';
 import 'package:grad_project/patient/features/bottom_nav/custom_bottom_nav_view.dart';
 import 'package:grad_project/patient/features/chats/a_chat/views/a_chat_view.dart';
@@ -65,7 +65,7 @@ abstract class AppRouter {
 
       // service provider
       GoRoute(
-        path: "/", // kCustomBottomNavPage
+        path: kSCustomBottomNavPage, // kCustomBottomNavPage
         builder: (context, state) => SCustomBottomNav(),
       ),
 
@@ -76,9 +76,13 @@ abstract class AppRouter {
       ),
       GoRoute(path: kChoicePage, builder: (context, state) => ChoicePageView()),
       GoRoute(path: kLoginPage, builder: (context, state) => LoginView()),
+      
       GoRoute(path: kSignUp, builder: (context, state) => SignUpView()),
-      GoRoute(path: kSign2Up, builder: (context, state) => Step2View()),
-      GoRoute(path: kSign3Up, builder: (context, state) => Step3View()),
+    
+    //  GoRoute(path: kSign2Up, builder: (context, state) => Step2View()),
+
+    //  GoRoute(path: kSign3Up, builder: (context, state) => Step3View()),
+
       GoRoute(
         path: kPatientSignUpView,
         builder: (context, state) => PatientSignUpView(),
@@ -95,6 +99,7 @@ abstract class AppRouter {
       //     return VerificationCodeScreen(email: email);
       //   },
       // ),
+
       GoRoute(
         path: kResetPassword,
         builder: (context, state) {

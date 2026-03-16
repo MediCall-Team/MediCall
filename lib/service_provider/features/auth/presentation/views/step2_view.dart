@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grad_project/patient/features/authentication/presentation/widgets/step2_view_body.dart';
+import 'package:grad_project/service_provider/features/auth/presentation/widgets/step2_view_body.dart';
 
 class Step2View extends StatelessWidget {
   const Step2View({super.key});
