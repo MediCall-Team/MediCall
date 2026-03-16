@@ -22,7 +22,6 @@ class PatienAuthRepoImp implements PatienAuthRepo {
         data: {"Email": email, "Password": password},
       );
       final user = PatientUserModel.fromJson(response as Map<String, dynamic>);
-
       return right(user);
     } on Failure catch (e) {
       return left(e);
@@ -42,7 +41,6 @@ class PatienAuthRepoImp implements PatienAuthRepo {
   }) async {
     try {
       dynamic imageProfile;
-
       if (image != null) {
         imageProfile = await MultipartFile.fromFile(
           image.path,
@@ -81,7 +79,48 @@ class PatienAuthRepoImp implements PatienAuthRepo {
         "api/Authentication/ForgetPassword",
         data: {"Email": email},
       );
+      return right(response["message"]);
+    } on Failure catch (e) {
+      return left(e);
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
+    }
+  }
 
+  @override
+  Future<Either<Failure, String>> verifyCode({
+    required String email,
+    required String code,
+  }) async {
+    try {
+      var response = await api.post(
+        "api/Authentication/VerifyOtp",
+        data: {"Email": email, "Code": code},
+      );
+      return right(response["message"]);
+    } on Failure catch (e) {
+      return left(e);
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
+    }
+  }
+
+  // في تنفيذ الـ Repository
+  @override
+  Future<Either<Failure, String>> resetPassword({
+    required String email,
+    required String code, // أضف هذا
+    required String newPassword,
+  }) async {
+    try {
+      var response = await api.post(
+        "api/Authentication/ResetPassword",
+        data: {
+          "Email": email,
+          "Code": code, // أضفه هنا في الـ Body
+          "NewPassword": newPassword,
+        },
+      );
       return right(response["message"]);
     } on Failure catch (e) {
       return left(e);
