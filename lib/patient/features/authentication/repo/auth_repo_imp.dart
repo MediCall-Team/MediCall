@@ -62,7 +62,7 @@ class PatienAuthRepoImp implements PatienAuthRepo {
         data: formData,
       );
 
-      return right(response);
+      return right(response["message"]);
     } on Failure catch (e) {
       return left(e);
     } catch (e) {
