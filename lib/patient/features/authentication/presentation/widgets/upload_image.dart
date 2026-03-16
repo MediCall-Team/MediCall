@@ -4,7 +4,9 @@ import 'package:grad_project/constants.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UploadImageButton extends StatefulWidget {
-  const UploadImageButton({super.key});
+  final Function(File) onImageSelected;
+
+  const UploadImageButton({super.key, required this.onImageSelected});
 
   @override
   State<UploadImageButton> createState() => _UploadImageButtonState();
@@ -24,6 +26,8 @@ class _UploadImageButtonState extends State<UploadImageButton> {
       setState(() {
         selectedImage = File(image.path);
       });
+
+      widget.onImageSelected(selectedImage!);
     }
   }
 

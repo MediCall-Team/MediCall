@@ -75,9 +75,13 @@ abstract class AppRouter {
       ),
       GoRoute(path: kChoicePage, builder: (context, state) => ChoicePageView()),
       GoRoute(path: kLoginPage, builder: (context, state) => LoginView()),
+      
       GoRoute(path: kSignUp, builder: (context, state) => SignUpView()),
-      GoRoute(path: kSign2Up, builder: (context, state) => Step2View()),
-      GoRoute(path: kSign3Up, builder: (context, state) => Step3View()),
+    
+    //  GoRoute(path: kSign2Up, builder: (context, state) => Step2View()),
+
+    //  GoRoute(path: kSign3Up, builder: (context, state) => Step3View()),
+
       GoRoute(
         path: kPatientSignUpView,
         builder: (context, state) => PatientSignUpView(),

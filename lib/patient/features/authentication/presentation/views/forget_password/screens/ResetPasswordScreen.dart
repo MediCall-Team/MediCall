@@ -2,9 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/widgets/CustomTextField.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/widgets/custom_button.dart';
 
-class ResetPasswordScreen extends StatelessWidget {
+class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
 
+  @override
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
+}
+
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+
+  late TextEditingController newPassController ;
+  late TextEditingController checkNewPassController ;
+  @override
+  void initState() {
+   newPassController = TextEditingController();
+   checkNewPassController = TextEditingController();
+   super.initState();
+  }
+
+  @override
+  void dispose() {
+   newPassController.dispose();
+   checkNewPassController.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Directionality(
@@ -51,6 +72,7 @@ class ResetPasswordScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: CustomTextField2(
+                        controller: newPassController,
                         hintText: 'أدخل كلمة المرور',
                         prefixIcon: Icons.lock_outline,
                         isPassword: true,
@@ -62,6 +84,7 @@ class ResetPasswordScreen extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 24),
                       child: CustomTextField2(
+                        controller: checkNewPassController,
                         hintText: 'تأكيد كلمة المرور',
                         prefixIcon: Icons.lock_outline,
                         isPassword: true,

@@ -39,7 +39,7 @@ class _CustomTextFieldState extends State<CustomTextField1> {
       }
 
       RegExp passwordRegex =
-          RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-]).+$');
+          RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-.]).+$');
 
       if (!passwordRegex.hasMatch(value)) {
         return "كلمة المرور يجب أن تحتوي على حرف كبير وصغير ورقم ورمز";

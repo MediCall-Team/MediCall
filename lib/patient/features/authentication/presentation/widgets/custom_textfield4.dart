@@ -24,6 +24,12 @@ class CustomTextField4 extends StatefulWidget {
 class _CustomTextField4State extends State<CustomTextField4> {
   final _formKey = GlobalKey<FormFieldState<String>>();
 
+  String ? validate(String? value){
+    if(value == null || value.isEmpty ) return "${widget.hintText} مطلوب";
+
+    return null;
+
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -40,12 +46,7 @@ class _CustomTextField4State extends State<CustomTextField4> {
           textAlign: TextAlign.right,
           style: const TextStyle(color: Colors.grey, fontSize: 15),
           autovalidateMode: AutovalidateMode.onUserInteraction,
-          validator: (value) {
-            if (value == null || value.isEmpty) {
-              return "${widget.hintText} مطلوب";
-            }
-            return null;
-          },
+          validator: validate,
           onChanged: (value) {
             // اعادة التحقق بدون setState داخل build
             _formKey.currentState?.validate();
