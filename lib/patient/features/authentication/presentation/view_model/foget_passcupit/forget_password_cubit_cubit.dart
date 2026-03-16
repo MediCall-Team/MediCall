@@ -9,16 +9,19 @@ class ForgetPasswordCubit extends Cubit<ForgetPasswordState> {
 
   Future<void> forgetPassword({required String email}) async {
     emit(ForgetPasswordLoading());
-
     var result = await authRepo.forgetPassword(email: email);
-
     result.fold(
-      (failure) {
-        emit(ForgetPasswordFailure(errorMsg: failure.errorMsg));
-      },
-      (msg) {
-        emit(ForgetPasswordSuccess(msg: msg));
-      },
+      (failure) => emit(ForgetPasswordFailure(errorMsg: failure.errorMsg)),
+      (msg) => emit(ForgetPasswordSuccess(msg: msg)),
+    );
+  }
+
+  Future<void> verifyCode({required String email, required String code}) async {
+    emit(ForgetPasswordLoading());
+    var result = await authRepo.verifyCode(email: email, code: code);
+    result.fold(
+      (failure) => emit(ForgetPasswordFailure(errorMsg: failure.errorMsg)),
+      (msg) => emit(ForgetPasswordSuccess(msg: msg)),
     );
   }
 }

@@ -39,7 +39,8 @@ abstract class AppRouter {
   static const String kResetPassword = "/reset_password_page";
   static const String kHomeView = "/khome_view";
   static const String kServiceProvider = "/service_provider_page";
-  static const String kServiceProviderProfile ="/service_provider_profile_page";
+  static const String kServiceProviderProfile =
+      "/service_provider_profile_page";
   static const String kmoreCategories = "/more_categories_page";
   static const String kSCustomBottomNavPage = "/s_custom_bottom_nav_pag";
   static const String kServiceProviderEditView = "/service_provider_editView";
@@ -58,13 +59,13 @@ abstract class AppRouter {
 
       // patient
       GoRoute(
-        path:  kCustomBottomNavPage,
+        path: kBottomNavPage, // kCustomBottomNavPage
         builder: (context, state) => CustomBottomNavView(),
       ),
 
       // service provider
       GoRoute(
-        path: kSCustomBottomNavPage, // kCustomBottomNavPage
+        path: "/", // kCustomBottomNavPage
         builder: (context, state) => SCustomBottomNav(),
       ),
 
@@ -86,14 +87,22 @@ abstract class AppRouter {
         path: forgetpass,
         builder: (context, state) => ForgotPasswordScreen(),
       ),
-      GoRoute(
-        path: kPassCode,
-        builder: (context, state) => VerificationCodeScreen(),
-      ),
+
+      // GoRoute(
+      //   path: kPassCode,
+      //   builder: (context, state) {
+      //     final email = state.extra as String; // بنستقبل الإيميل من extra
+      //     return VerificationCodeScreen(email: email);
+      //   },
+      // ),
       GoRoute(
         path: kResetPassword,
-        builder: (context, state) => ResetPasswordScreen(),
+        builder: (context, state) {
+          final email = state.extra as String;
+          return ResetPasswordScreen(email: email, code: "");
+        },
       ),
+
       GoRoute(path: kHomeView, builder: (context, state) => HomeView()),
       GoRoute(
         path: kmoreCategories,
