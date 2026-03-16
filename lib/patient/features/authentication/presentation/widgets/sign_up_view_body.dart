@@ -1,19 +1,35 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grad_project/core/utils/app_router.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/widgets/CustomTextField.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/widgets/custom_button.dart';
+import 'package:grad_project/patient/features/authentication/presentation/widgets/step2_view_body.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/steps.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/upload_image.dart';
+import 'package:grad_project/service_provider/auth/presentation/view_model/sp_register_cubit/sp_register_cubit.dart';
 
-class SignUpViewBody extends StatelessWidget {
-  SignUpViewBody({super.key});
-  final GlobalKey<FormState> formKey = GlobalKey();
+class SignUpViewBody extends StatefulWidget {
+  const SignUpViewBody({super.key});
+
+  @override
+  State<SignUpViewBody> createState() => _SignUpViewBodyState();
+}
+
+class _SignUpViewBodyState extends State<SignUpViewBody> {
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final TextEditingController phoneController = TextEditingController();
+
+  File? userImage;
 
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      //physics: const BouncingScrollPhysics(),
       child: Directionality(
         textDirection: TextDirection.ltr,
         child: Padding(
@@ -33,55 +49,81 @@ class SignUpViewBody extends StatelessWidget {
                     fit: BoxFit.contain,
                   ),
                 ),
-                SizedBox(height: 20),
-                Steps(num: 1),
-                SizedBox(height: 24),
 
-                UploadImageButton(),
-                SizedBox(height: 30),
+                const SizedBox(height: 20),
+
+                const Steps(num: 1),
+
+                const SizedBox(height: 24),
+
+                UploadImageButton(
+                  onImageSelected: (image) {
+                    userImage = image;
+                  },
+                ),
+
+                const SizedBox(height: 30),
 
                 CustomTextField2(
                   hintText: 'الإسم الأول',
                   prefixIcon: Icons.person_outlined,
                 ),
-                SizedBox(height: 10),
+
+                const SizedBox(height: 10),
+
                 CustomTextField2(
                   hintText: 'الإسم الأخير',
                   prefixIcon: Icons.person_outlined,
                 ),
-                SizedBox(height: 10),
+
+                const SizedBox(height: 10),
+
                 CustomTextField2(
                   hintText: 'البريد إلكتروني',
                   prefixIcon: Icons.email_outlined,
                 ),
-                SizedBox(height: 10),
+
+                const SizedBox(height: 10),
+
                 CustomTextField2(
                   hintText: 'أدخل كلمة المرور',
                   prefixIcon: Icons.lock_outline,
                   isPassword: true,
                 ),
-                SizedBox(height: 10),
+
+                const SizedBox(height: 10),
+
                 CustomTextField2(
                   hintText: 'رقم الهاتف',
                   prefixIcon: Icons.phone_outlined,
                 ),
 
-                // SizedBox(height: 10),
+                const SizedBox(height: 80),
 
-                // CustomTextField2(
-                //   hintText: 'الموقع',
-                //   prefixIcon: Icons.location_on,
-                // ),
-                SizedBox(height: 80),
                 CustomButton(
                   onPressed: () {
-                    if (formKey.currentState!.validate()) {
-                      GoRouter.of(context).push(AppRouter.kSign2Up);
+                    if (formKey.currentState!.validate() && userImage != null) {
+                      context.read<SpRegisterCubit>().setBasicInfo(
+                        firstName: firstNameController.text,
+                        lastName: lastNameController.text,
+                        phone: phoneController.text,
+                        password: passwordController.text,
+                        email: emailController.text,
+                        image: userImage!,
+                      );
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => const Step2ViewBody(),
+                        ),
+                      );
                     }
                   },
                   text: 'التالي',
                 ),
-                SizedBox(height: 30),
+
+                const SizedBox(height: 30),
               ],
             ),
           ),

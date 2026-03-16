@@ -5,14 +5,20 @@ class CustomTextField3 extends StatefulWidget {
   final String hintText;
   final IconData suffixIcon;
   final Function()? onTap;
-  final bool isExpanded; // متغير جديد للتحكم في الاتجاه
+  final bool isExpanded;
+  final TextEditingController? controller; // إضافة controller
+  final TextInputType? keyboardType; // إضافة نوع لوحة المفاتيح
+  final String? Function(String?)? validator; // إضافة validator
   
   const CustomTextField3({
     super.key,
     required this.hintText,
     required this.suffixIcon,
     this.onTap,
-    this.isExpanded = false, // قيمة افتراضية false
+    this.isExpanded = false,
+    this.controller, // controller اختياري
+    this.keyboardType, // نوع لوحة المفاتيح اختياري
+    this.validator, // validator اختياري
   });
 
   @override
@@ -20,6 +26,33 @@ class CustomTextField3 extends StatefulWidget {
 }
 
 class _CustomTextFieldState extends State<CustomTextField3> {
+  late TextEditingController _controller;
+  
+  @override
+  void initState() {
+    super.initState();
+    // إذا كان هناك controller من الخارج نستخدمه، وإلا ننشئ واحد جديد
+    _controller = widget.controller ?? TextEditingController();
+  }
+
+  @override
+  void didUpdateWidget(CustomTextField3 oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // تحديث الـ controller إذا تغير من الخارج
+    if (widget.controller != oldWidget.controller) {
+      _controller = widget.controller ?? TextEditingController();
+    }
+  }
+
+  @override
+  void dispose() {
+    // نقوم بمسح الـ controller فقط إذا كنا نحن من أنشأناه
+    if (widget.controller == null) {
+      _controller.dispose();
+    }
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -31,6 +64,9 @@ class _CustomTextFieldState extends State<CustomTextField3> {
       child: Directionality(
         textDirection: TextDirection.rtl,
         child: TextFormField(
+          controller: _controller,
+          keyboardType: widget.keyboardType,
+          validator: widget.validator,
           cursorColor: kPrimaryColorB,
           textAlign: TextAlign.right,
           style: const TextStyle(color: Colors.grey),
@@ -38,8 +74,7 @@ class _CustomTextFieldState extends State<CustomTextField3> {
             labelText: widget.hintText,
             labelStyle: const TextStyle(fontSize: 18, color: Colors.grey),
             suffixIcon: Transform.rotate(
-              // تدوير الأيقونة 180 درجة إذا كان isExpanded = true
-              angle: widget.isExpanded ? -1.5708  : 0.0, // π راديان = 180 درجة
+              angle: widget.isExpanded ? -1.5708 : 0.0,
               child: IconButton(
                 onPressed: widget.onTap,
                 icon: Icon(
