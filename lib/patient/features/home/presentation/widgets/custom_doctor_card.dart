@@ -22,7 +22,7 @@ class CustomDoctorCard extends StatelessWidget {
       width: cardWidth, // العرض الآن مرن
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 10),
       decoration: BoxDecoration(
-        color: AppTheme.background(context),
+        color:AppTheme.spB(context), //AppTheme.background(context),
         borderRadius: BorderRadius.circular(20), // يمكن جعلها نسبية أيضاً
         border: Border.all(color: Colors.grey.shade100, width: 1.5),
         boxShadow: [
@@ -77,7 +77,7 @@ class CustomDoctorCard extends StatelessWidget {
                       fontFamily: "Tajawal",
                       fontSize: (h * 0.07).clamp(14, 22), // الخط يكبر مع الكارت
                       fontWeight: FontWeight.bold,
-                      color: AppTheme.textSecondaryTwo(context),//const Color(0xff2D3142),
+                      color:AppTheme.mainContrast(context) //AppTheme.textSecondaryTwo(context),//const Color(0xff2D3142),
                     ),
                   ),
                   SizedBox(height: h * 0.02),

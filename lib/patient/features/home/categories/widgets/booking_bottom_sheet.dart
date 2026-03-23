@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/booking_action_button.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/booking_text_field.dart';
 
@@ -43,8 +44,8 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
         left: 20, right: 20, top: 20,
         bottom: MediaQuery.of(context).viewInsets.bottom + 20,
       ),
-      decoration: const BoxDecoration(
-        color: Color(0xffE1F2F8),
+      decoration:  BoxDecoration(
+        color:AppTheme.surfaceContainer(context) ,//Color(0xffE1F2F8),
         borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
       ),
       child: Column(
@@ -55,7 +56,7 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
             style: TextStyle(
               fontSize: (widget.screenWidth * 0.05).clamp(18, 22),
               fontWeight: FontWeight.bold,
-              color: const Color(0xff1F3E6C),
+              color:AppTheme.mainContrast(context) ,//const Color(0xff1F3E6C),
               fontFamily: "Tajawal",
             ),
           ),
@@ -82,7 +83,8 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
             ],
           ),
           const SizedBox(height: 20),
-          Icon(Icons.location_on, color: const Color(0xff1F3E6C), size: widget.screenWidth * 0.08),
+          Icon(Icons.location_on, color:AppTheme.brandColor(context) ,// const Color(0xff1F3E6C),
+           size: widget.screenWidth * 0.08),
           const SizedBox(height: 25),
           Row(
             children: [
@@ -135,16 +137,18 @@ class BookingSelectableBox extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.5),
+         // color: Colors.white.withOpacity(0.5),
           borderRadius: BorderRadius.circular(15),
-          border: Border.all(color: const Color(0xff1F3E6C), width: 0.8),
+          border: Border.all(color: AppTheme.brandColor(context), width: 0.8),
+          
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
           
             Text(hint, style: const TextStyle(color: Colors.grey, fontFamily: "Tajawal")),
-              Icon(icon, color: const Color(0xff1F3E6C), size: 20),
+              Icon(icon, color:AppTheme.brandColor(context) ,//const Color(0xff1F3E6C), 
+              size: 20),
           ],
         ),
       ),

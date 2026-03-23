@@ -43,7 +43,7 @@ class Header extends StatelessWidget {
               Text(
                 "مرحبا",
                 style: TextStyle(
-                  color: AppTheme.textSecondary(context),
+                  color: Color(0xFFCAC7C7), //AppTheme.textSecondary(context),
                   fontFamily: "Poppins",
                   fontWeight: FontWeight.w500,
                   fontSize: fontSize.clamp(12, 25),
@@ -52,7 +52,7 @@ class Header extends StatelessWidget {
               Text(
                 "ندي الشيمي",
                 style: TextStyle(
-                  color: AppTheme.secondary(context),
+                  color:AppTheme.brandColor(context), //AppTheme.secondary(context),
                   fontFamily: "Poppins",
                   fontWeight: FontWeight.w700,
                   fontSize: fontSize.clamp(12, 20),

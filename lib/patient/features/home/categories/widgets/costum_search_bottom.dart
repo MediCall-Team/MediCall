@@ -32,7 +32,7 @@ class CostumSearchBottom extends StatelessWidget {
 
   OutlineInputBorder buildBorder() {
     return OutlineInputBorder(
-      borderRadius: BorderRadius.circular(40),
+      borderRadius: BorderRadius.circular(20),
       borderSide: BorderSide(color: kPrimaryColorC, width: 1.5),
     );
   }

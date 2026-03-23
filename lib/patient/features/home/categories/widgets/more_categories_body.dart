@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grad_project/core/utils/app_router.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/styles.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/costum_search_bottom.dart';
 import 'package:grad_project/patient/features/home/data/models/category_model.dart';
@@ -47,7 +48,7 @@ class _MoreCategoriesBodyState extends State<MoreCategoriesBody> {
           const SizedBox(height: 20),
 
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30.0),
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
             child: CostumSearchBottom(
               onChanged: _filterCategories, // 👈 الربط
             ),
@@ -55,11 +56,13 @@ class _MoreCategoriesBodyState extends State<MoreCategoriesBody> {
 
           const SizedBox(height: 20),
 
-          const Padding(
+           Padding(
             padding: EdgeInsets.only(left: 16),
             child: Text(
               'التخصصات الأكثر طلبًا',
-              style: Styles.textStyle20,
+              style: Styles.textStyle20.copyWith(
+                color: AppTheme.mainContrast(context)
+              ),
             ),
           ),
 
@@ -85,13 +88,17 @@ class _MoreCategoriesBodyState extends State<MoreCategoriesBody> {
                       const SizedBox(width: 24),
                       Image.asset(
                         filteredCategories[index].icon,
+                        color: AppTheme.brandColor(context),
                         width: 36,
                         height: 36,
                       ),
                       const SizedBox(width: 20),
                       Text(
                         filteredCategories[index].name,
-                        style: Styles.textStyle15F,
+                        style: Styles.textStyle15F.copyWith(
+                          color: AppTheme.mainContrast(context)
+                        )
+                        ,
                       ),
                     ],
                   ),

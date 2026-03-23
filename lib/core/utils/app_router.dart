@@ -49,6 +49,8 @@ abstract class AppRouter {
   static const String kSPProfile = '/s_p_profile_view';
   static final router = GoRouter(
     routes: [
+
+      
       //splash
       GoRoute(path: "/", builder: (context, state) => SplashView()),
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/profile/widgets/Bulleitem.dart';
 import 'package:grad_project/patient/features/profile/widgets/ShareButton.dart';
 
@@ -10,18 +11,18 @@ class MedicalRecordDetails extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: Colors.white,
+       // backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.white,
-          iconTheme: const IconThemeData(color: Color(0xFF1F3E6C)),
+        //  backgroundColor: Colors.white,
+        //  iconTheme: const IconThemeData(color: Color(0xFF1F3E6C)),
           titleSpacing: 0,
-          title: const Text(
+          title:  Text(
             '  الحالة الطبية',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 24,
-              color: Color(0xFF1F3E6C),
+              color: AppTheme.mainContrast(context) ,//Color(0xFF1F3E6C),
             ),
           ),
         ),
@@ -51,7 +52,7 @@ class MedicalRecordDetails extends StatelessWidget {
                   const SizedBox(width: 12),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children: const [
+                    children:  [
                       Text(
                         'الطبيب المعالج:',
                         style: TextStyle(
@@ -65,13 +66,13 @@ class MedicalRecordDetails extends StatelessWidget {
                         style: TextStyle(
                           fontWeight: FontWeight.bold,
                           fontSize: 15,
-                          color: Color(0xFF1F3E6C),
+                          color: AppTheme.mainContrast(context) ,//Color(0xFF1F3E6C),
                         ),
                       ),
                       Text(
                         'استشاري أمراض القلب',
                         style: TextStyle(
-                          color: Color(0xFF1F3E6C),
+                          color: AppTheme.mainContrast(context) ,//Color(0xFF1F3E6C),
                           fontSize: 15,
                           fontWeight: FontWeight.bold,
                         ),
@@ -88,12 +89,12 @@ class MedicalRecordDetails extends StatelessWidget {
                 endIndent: 40,
               ),
               const SizedBox(height: 16),
-              const Text(
+               Text(
                 'وصف الحالة:',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
-                  color: Color(0xFF1F3E6C),
+                  color: AppTheme.brandColor(context) ,//Color(0xFF1F3E6C),
                 ),
               ),
               const SizedBox(height: 8),
@@ -110,12 +111,12 @@ class MedicalRecordDetails extends StatelessWidget {
                 ),
               ),
               const SizedBox(height: 20),
-              const Text(
+               Text(
                 'خطة العلاج والمتابعة:',
                 style: TextStyle(
                   fontWeight: FontWeight.bold,
                   fontSize: 16,
-                  color: Color(0xFF1F3E6C),
+                  color: AppTheme.brandColor(context) ,//Color(0xFF1F3E6C),
                 ),
               ),
               const SizedBox(height: 8),

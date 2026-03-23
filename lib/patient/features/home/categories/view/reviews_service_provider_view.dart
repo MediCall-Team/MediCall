@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/home/categories/data/service_provider_reviews_model.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/add_review_field.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/rating_summary_widget.dart';
@@ -66,7 +67,7 @@ class SectionTitle extends StatelessWidget {
       style:  TextStyle(
         fontSize:screenWidth*0.044,// 18,
         fontWeight: FontWeight.bold,
-        color: Color(0xff1F3E6C),
+        color:AppTheme.mainContrast(context), //Color(0xff1F3E6C),
       ),
     );
   }

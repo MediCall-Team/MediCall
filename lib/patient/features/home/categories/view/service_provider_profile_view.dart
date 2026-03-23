@@ -54,7 +54,7 @@ class ServiceProviderProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("بيانات الدكتور", style: Styles.textStyle25.copyWith(
-        color: AppTheme.secondary(context)
+        color:AppTheme.mainContrast(context) ,//AppTheme.secondary(context)
       ))),
       body: SafeArea(
         child: ServireProviderProfileViewBody(

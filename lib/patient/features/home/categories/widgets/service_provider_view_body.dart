@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/home/categories/view_model/filter_cubit/filter_cubit.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/filter_section.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/service_provider_list_section.dart';
@@ -75,7 +76,7 @@ class ServiceProviderViewBody extends StatelessWidget {
 
                     const SizedBox(width: 15),
                     PopupMenuButton<String>(
-                      color: Colors.white,
+                      color:AppTheme.background(context), // Colors.white,
                       icon: SvgPicture.asset("assets/images/align-left.svg"),
                       onSelected: (value) {
                         if (value == "السعر") {
@@ -171,7 +172,7 @@ class GenderFilterDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Color(0xffE1F2F8),
+      backgroundColor:AppTheme.surfaceContainer(context), //Color(0xffE1F2F8),
       title: const Text(
         "اختر النوع",
         textAlign: TextAlign.center,
@@ -218,7 +219,7 @@ class LocationFilterDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor: Color(0xffE1F2F8),
+      backgroundColor:AppTheme.surfaceContainer(context), //Color(0xffE1F2F8),
       title: const Text(
         "اختر المركز",
         textAlign: TextAlign.center,
@@ -251,7 +252,7 @@ class PriceFilterDialog extends StatelessWidget {
     final TextEditingController maxController = TextEditingController();
 
     return AlertDialog(
-      backgroundColor: const Color(0xffE1F2F8),
+      backgroundColor:AppTheme.surfaceContainer(context), //const Color(0xffE1F2F8),
       title: const Text(
         "نطاق السعر",
         textAlign: TextAlign.center,

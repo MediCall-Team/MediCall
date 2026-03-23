@@ -19,7 +19,7 @@ class CustomBookButton extends StatelessWidget {
         borderRadius: BorderRadius.circular(8),
         color:
         isActive?
-           AppTheme.primary(context)
+           priColor //AppTheme.primary(context)
          : const Color.fromARGB(143, 115, 123, 128)
          ,
       ),

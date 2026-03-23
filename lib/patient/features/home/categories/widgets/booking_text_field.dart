@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 
 class BookingTextField extends StatelessWidget {
   final String hint;
@@ -13,12 +14,12 @@ class BookingTextField extends StatelessWidget {
     return TextField(
       maxLines: maxLines,
       textAlign: TextAlign.right,
-      cursorColor: kPrimaryColorC,
+      cursorColor:AppTheme.brandColor(context) ,//kPrimaryColorC,
       decoration: InputDecoration(
         hintText: hint,
         hintStyle: const TextStyle(color: Colors.grey, fontFamily: "Tajawal"),
-        filled: true,
-        fillColor: Colors.white.withOpacity(0.5),
+      //  filled: true,
+       // fillColor: Colors.white.withOpacity(0.5),
         contentPadding: const EdgeInsets.all(12),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
@@ -26,7 +27,7 @@ class BookingTextField extends StatelessWidget {
         ),
         focusedBorder:OutlineInputBorder(
           borderRadius: BorderRadius.circular(15),
-          borderSide: const BorderSide(color: kPrimaryColorC, width: 0.8),
+          borderSide:  BorderSide(color: AppTheme.brandColor(context), width: 0.8),
         ), 
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(15)),
       ),

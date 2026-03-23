@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/requests/data/model/request_model.dart';
 import 'package:grad_project/patient/features/requests/presentation/widgets/button_row.dart';
 import 'package:grad_project/patient/features/requests/presentation/widgets/time_request_section.dart';
@@ -70,7 +71,7 @@ class RequestItem extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color:AppTheme.spB(context) ,//Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -106,7 +107,7 @@ class RequestItem extends StatelessWidget {
                 child: Text(
                   requestmodel.dcName,
                   style:  TextStyle(
-                    color: kPrimaryColorC,
+                    color:AppTheme.mainContrast(context) ,//kPrimaryColorC,
                     fontWeight: FontWeight.bold,
                     fontSize: (screenWidth*0.035).clamp(12, 25),
                     fontFamily: "Tajawal",
@@ -117,7 +118,7 @@ class RequestItem extends StatelessWidget {
               const SizedBox(width: 16),
               Container(
                 decoration: BoxDecoration(
-                  color: const Color.fromARGB(31, 6, 20, 4),
+                  color:AppTheme.opacityAccent(context) ,//const Color.fromARGB(31, 6, 20, 4),
                   borderRadius: BorderRadius.circular(22),
                 ),
                 padding:
@@ -125,7 +126,7 @@ class RequestItem extends StatelessWidget {
                 child: Text(
                   requestmodel.status,
                   style:  TextStyle(
-                    color: kPrimaryColorC,
+                    color:AppTheme.mainContrast(context) ,//kPrimaryColorC,
                     fontWeight: FontWeight.w600,
                     fontSize: (screenWidth*0.03).clamp(12, 24),
                     fontFamily: "Tajawal",
@@ -145,7 +146,7 @@ class RequestItem extends StatelessWidget {
                   Text(
                     "وصف الحاله :",
                     style:  TextStyle(
-                      color: kPrimaryColorC,
+                      color:AppTheme.mainContrast(context), //kPrimaryColorC,
                       fontWeight: FontWeight.bold,
                       fontSize: (screenWidth*0.03).clamp(12, 24),
                       fontFamily: "Tajawal",
@@ -155,7 +156,7 @@ class RequestItem extends StatelessWidget {
                   Text(
                     requestmodel.description,
                     style:  TextStyle(
-                      color: kPrimaryColorC,
+                      color: AppTheme.mainContrast(context), //kPrimaryColorC,
                       fontSize: (screenWidth*0.03).clamp(12, 24),
                       fontFamily: "Tajawal",
                     ),
@@ -164,7 +165,7 @@ class RequestItem extends StatelessWidget {
                   Text(
                     "الوقت المناسب للكشف:",
                     style:  TextStyle(
-                      color: kPrimaryColorC,
+                      color: AppTheme.mainContrast(context), //kPrimaryColorC,
                       fontWeight: FontWeight.bold,
                       fontSize: (screenWidth*0.03).clamp(12, 24),
                       fontFamily: "Tajawal",
@@ -181,7 +182,7 @@ class RequestItem extends StatelessWidget {
                   Text(
                     "الموقع:",
                     style:  TextStyle(
-                      color: kPrimaryColorC,
+                      color: AppTheme.mainContrast(context), //kPrimaryColorC,
                       fontWeight: FontWeight.bold,
                       fontSize: (screenWidth*0.03).clamp(12, 24),
                       fontFamily: "Tajawal",
@@ -192,7 +193,9 @@ class RequestItem extends StatelessWidget {
                     child: Center(
                       child: Lottie.asset(
                         "assets/animation/Location Pin.json",
+                        
                         width: (screenWidth*0.075).clamp(50, 90),
+                        
                       ),
                     ),
                   ),

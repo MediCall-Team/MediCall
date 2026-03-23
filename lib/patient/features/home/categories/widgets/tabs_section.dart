@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grad_project/constants.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/home/categories/data/service_provider_profile_model.dart';
 import 'package:grad_project/patient/features/home/categories/view/about_service_provider_view.dart';
@@ -43,7 +44,7 @@ class _TabsSectionState extends State<TabsSection> {
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           padding: const EdgeInsets.all(4),
           decoration: BoxDecoration(
-            color:   AppTheme.card(context),
+            color:  AppTheme.opacitySurface(context), //AppTheme.card(context),
             borderRadius: BorderRadius.circular(50),
           ),
           child: Stack(
@@ -59,7 +60,7 @@ class _TabsSectionState extends State<TabsSection> {
                     width: (widget.screenWidth - 32) / 3,
                     height: (widget.screenHeight * 0.056).clamp(40, 100),
                     decoration: BoxDecoration(
-                      color:   AppTheme.primary(context),
+                      color:  priColor,// AppTheme.primary(context),
                       borderRadius: BorderRadius.circular(50),
                     ),
                   ),

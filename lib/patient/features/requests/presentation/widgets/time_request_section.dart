@@ -2,6 +2,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/requests/data/model/request_model.dart';
 import 'package:intl/intl.dart';
 
@@ -25,13 +26,13 @@ class TimeRequestSection extends StatelessWidget {
         Expanded(child: SizedBox()),
 
         SvgPicture.asset("assets/images/clock.svg",
-        width: (screenWidth*0.03),
+        width: (screenWidth*0.045),
         ),
 
         SizedBox(width: 5),
         Container(
           decoration: BoxDecoration(
-            color: kPrimaryColorD,
+            color:AppTheme.surfaceToGrey(context) ,//kPrimaryColorD,
             borderRadius: BorderRadius.circular(16),
           ),
 
@@ -52,12 +53,12 @@ class TimeRequestSection extends StatelessWidget {
         Expanded(child: SizedBox()),
 
         SvgPicture.asset("assets/images/calendar.svg",
-        width: (screenWidth*0.03),
+        width: (screenWidth*0.045),
         ),
         SizedBox(width: 5),
         Container(
           decoration: BoxDecoration(
-            color: kPrimaryColorD,
+            color:AppTheme.surfaceToGrey(context) ,//kPrimaryColorD,
             borderRadius: BorderRadius.circular(16),
           ),
           child: Padding(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/service_provider/features/chats/presentation/views/chats_view.dart';
 import 'package:grad_project/service_provider/features/notification/s_notification_view.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/views/s_p_profile_settings.dart';
@@ -96,10 +97,10 @@ class _CustomBottomNavViewState extends State<SCustomBottomNav> {
             color: kPrimaryColorB
           ),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-          backgroundColor: Colors.white, //<--
+          backgroundColor:AppTheme.background(context) ,//Colors.white, //<--
           color: Colors.grey,
           activeColor: kPrimaryColorB,
-          tabBackgroundColor: kPrimaryColorB.withOpacity(0.1),
+          tabBackgroundColor:AppTheme.surfaceContainer(context) ,//kPrimaryColorB.withOpacity(0.1),
           onTabChange: (index) {
             setState(() {
               currentIndex = index;
@@ -112,7 +113,7 @@ class _CustomBottomNavViewState extends State<SCustomBottomNav> {
               icon: Icons.circle,
               leading: buildIcon(
                 "assets/images/live_chat.png",
-                isActive: currentIndex == 2,
+                isActive: currentIndex == 0,
               ),
               text: "المحادثة",
             ),
