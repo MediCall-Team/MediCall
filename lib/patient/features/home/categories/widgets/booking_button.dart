@@ -13,7 +13,8 @@ class BookingButton extends StatelessWidget {
         width: double.infinity,
         child: ElevatedButton(
           onPressed: () {
-          showModalBottomSheet(context: context,
+          showModalBottomSheet(
+          context: context,
           backgroundColor: Colors.transparent,
           isScrollControlled: true,
            builder:(context)=> BookingBottomSheet(screenWidth: screenWidth));

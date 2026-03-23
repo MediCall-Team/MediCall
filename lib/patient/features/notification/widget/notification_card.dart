@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 
 class NotificationCard extends StatelessWidget {
   final String icon;
@@ -35,7 +36,7 @@ class NotificationCard extends StatelessWidget {
         const EdgeInsets.all(16),
       ),
       decoration: BoxDecoration(
-        color: Colors.white,
+        color:AppTheme.spB(context) ,//Colors.white,
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
@@ -53,7 +54,7 @@ class NotificationCard extends StatelessWidget {
             width: iconBoxSize,
             height: iconBoxSize,
             decoration: BoxDecoration(
-              color: iconBg,
+             // color: iconBg,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(color: Colors.grey.shade50), // إطار خفيف جداً
             ),
@@ -84,7 +85,7 @@ class NotificationCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: titleSize,
                           fontWeight: FontWeight.bold,
-                          color: const Color(0xFF1F3E6C),
+                          color:AppTheme.mainContrast(context) ,//const Color(0xFF1F3E6C),
                           fontFamily: "Tajawal",
                         ),
                       ),

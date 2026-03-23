@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/styles.dart';
 import 'package:grad_project/patient/features/chats/a_chat/widgets/chat_bubble.dart';
 import 'package:grad_project/patient/features/chats/views/widget/write_message.dart';
@@ -23,7 +24,8 @@ class AChatView extends StatelessWidget {
       const SizedBox(width: 10),
       Text(
         'حمزة طارق',
-        style: Styles.textStyle25,
+        style: Styles.textStyle25.copyWith(color: AppTheme.mainContrast(context)),
+
       ),
     ],
   ),

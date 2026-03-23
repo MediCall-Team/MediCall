@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/styles.dart';
 import 'package:grad_project/patient/features/profile/views/sick%20record.dart';
 import 'package:grad_project/patient/features/profile/widgets/user_image_profile.dart';
@@ -13,7 +14,10 @@ class ProfileView extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        appBar: AppBar(title: Text('الملف الشخصي', style: Styles.textStyle25)),
+        appBar: AppBar(title: Text('الملف الشخصي', style: Styles.textStyle25.copyWith(
+
+          color: AppTheme.mainContrast(context) 
+        ))),
 
         body: SingleChildScrollView(
           child: Column(

@@ -49,7 +49,7 @@ class ServiceProviderItem extends StatelessWidget {
                 doctorModel.name,
                 style: Styles.textStyle15F.copyWith(
                   fontSize: screenWidth * 0.03,
-                  color: AppTheme.secondary(context)
+                  color:AppTheme.mainContrast(context)// AppTheme.secondary(context)
                 ),
               ),
 
@@ -61,7 +61,7 @@ class ServiceProviderItem extends StatelessWidget {
                     style: TextStyle(
                       fontSize: screenWidth * 0.03,
                       fontWeight: FontWeight.w500,
-                      color: AppTheme.secondary(context),
+                      color: AppTheme.mainContrast(context)//AppTheme.secondary(context),
                     ),
                   ),
                   const SizedBox(width: 6),

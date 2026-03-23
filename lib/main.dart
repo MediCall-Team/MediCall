@@ -6,12 +6,11 @@ import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/generated/l10n.dart';
 import 'package:grad_project/core/utils/app_router.dart';
-import 'package:grad_project/patient/features/home/presentation/view_models.dart/cubit/app_theme_cubit.dart';
-
+import 'package:grad_project/patient/features/home/presentation/view_models/cubit/app_theme_cubit.dart';
 
 void main() {
-   setupServiceLocator();
-   
+  setupServiceLocator();
+
   runApp(
     DevicePreview(
       enabled: false,
@@ -39,8 +38,17 @@ class MediApp extends StatelessWidget {
           locale: const Locale("ar"),
           routerConfig: AppRouter.router,
 
-          theme: AppTheme.lightTheme,
-          darkTheme: AppTheme.darkTheme,
+          // 🔹 التعديل هنا: نمرر الثيم مع التأكيد على شفافية الـ surfaceTintColor
+          theme: AppTheme.lightTheme.copyWith(
+            appBarTheme: AppTheme.lightTheme.appBarTheme.copyWith(
+              surfaceTintColor: Colors.transparent,
+            ),
+          ),
+          darkTheme: AppTheme.darkTheme.copyWith(
+            appBarTheme: AppTheme.darkTheme.appBarTheme.copyWith(
+              surfaceTintColor: Colors.transparent,
+            ),
+          ),
           themeMode: themeMode,
 
           localizationsDelegates: const [

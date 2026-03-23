@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/handle_stars_rate.dart';
 
 class ReviewCard extends StatelessWidget {
@@ -43,7 +44,7 @@ class ReviewCard extends StatelessWidget {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: (size.width * 0.04).clamp(14, 35),
-                        color: const Color(0xff1F3E6C),
+                        color:AppTheme.mainContrast(context) //const Color(0xff1F3E6C),
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -68,7 +69,7 @@ class ReviewCard extends StatelessWidget {
                   Text(
                     "${review.rate}",
                     style: TextStyle(
-                      color: const Color(0xff1F3E6C),
+                      color:AppTheme.mainContrast(context), //const Color(0xff1F3E6C),
                       fontWeight: FontWeight.bold,
                       fontSize: (size.width * 0.035).clamp(12, 30),
                     ),

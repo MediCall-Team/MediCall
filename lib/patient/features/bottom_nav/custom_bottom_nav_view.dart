@@ -94,13 +94,13 @@ class _CustomBottomNavViewState extends State<CustomBottomNavView> {
             fontSize: width * 0.033,
             fontWeight: FontWeight.w500,
             fontFamily: "Tajawal",
-            color: AppTheme.primary(context)
+            color: priColor
           ),
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
           backgroundColor: AppTheme.background(context), //<--
           color: Colors.grey,
-          activeColor: AppTheme.primary(context),
-          tabBackgroundColor: AppTheme.primary(context).withOpacity(0.1),
+          activeColor: priColor,
+          tabBackgroundColor: AppTheme.surfaceContainer(context),
           onTabChange: (index) {
             setState(() {
               currentIndex = index;

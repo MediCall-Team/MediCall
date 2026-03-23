@@ -13,7 +13,7 @@ class CustomDetialCard extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(8),
-        color:  AppTheme.background(context),
+        color:  AppTheme.spB(context),//AppTheme.background(context),
         boxShadow: const[
           BoxShadow(
              color: Colors.black26, // لون الشادو
@@ -29,9 +29,9 @@ class CustomDetialCard extends StatelessWidget {
           children: [
              Text(number,style: Styles.textStyle20.copyWith(
               fontSize: (screenWidth*0.045).clamp(16, 40),
-              color:   AppTheme.secondary(context)
+              color: AppTheme.mainContrast(context) // AppTheme.secondary(context)
              ),),
-              Text(text , style: TextStyle(color:   AppTheme.textSecondary(context),
+              Text(text , style: TextStyle(color:  AppTheme.spStext(context),// AppTheme.textSecondary(context),
               fontSize: (screenWidth*0.035).clamp(12, 40),
 
               ),),

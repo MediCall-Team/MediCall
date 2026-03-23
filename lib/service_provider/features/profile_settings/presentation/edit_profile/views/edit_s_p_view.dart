@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grad_project/patient/features/home/presentation/widgets/theme_toggle.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/Add_country.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/widget/custom_phone_field.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/widget/custom_text_field.dart';
@@ -18,21 +19,25 @@ class _EditSPViewState extends State<EditSPView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+    //  backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+      //  backgroundColor: Colors.white,
         elevation: 0,
         automaticallyImplyLeading: false,
-        title: const Text(
-          'إلغاء',
-          style: TextStyle(
-            color: Color(0xFF9C9C9C),
-            fontSize: 24,
-            fontWeight: FontWeight.w500,
-          ),
-        ),
+      //  leading: ThemeToggleApp(),
+        title: ThemeToggleApp(),
+        // const Text(
+        //   'إلغاء',
+        //   style: TextStyle(
+        //     color: Color(0xFF9C9C9C),
+        //     fontSize: 18,
+        //     fontWeight: FontWeight.w500,
+        //   ),
+        // ),
         centerTitle: false,
       ),
+
+
       body: SingleChildScrollView(
         padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Column(

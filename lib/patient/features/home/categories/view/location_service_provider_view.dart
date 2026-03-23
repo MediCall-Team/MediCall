@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/home/categories/view_model/location_cubit/location_cubit_cubit.dart';
 
 import 'package:grad_project/patient/features/home/categories/widgets/location_chip.dart';
@@ -41,7 +42,7 @@ class LocationServiceProviderView extends StatelessWidget {
                   fontSize: (screenWidth * 0.045).clamp(12, 30),
                   fontWeight: FontWeight.bold,
                   fontFamily: "Tajawal",
-                  color: kPrimaryColorC,
+                  color:AppTheme.mainContrast(context) ,//kPrimaryColorC,
                 ),
               ),
             ),

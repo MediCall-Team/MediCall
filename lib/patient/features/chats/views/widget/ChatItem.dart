@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grad_project/core/utils/app_router.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 
 class ChatItem extends StatelessWidget {
   const ChatItem({super.key});
@@ -23,13 +24,13 @@ class ChatItem extends StatelessWidget {
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children:  [
                   Text(
                     'دكتور حمزة طارق',
                     style: TextStyle(
                       fontSize: 16,
                       fontWeight: FontWeight.bold,
-                      color: Color(0xFFF1F3D6B),
+                      color:AppTheme.mainContrast(context) ,//Color(0xFFF1F3D6B),
                     ),
                   ),
                   SizedBox(height: 4),
