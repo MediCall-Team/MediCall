@@ -79,7 +79,7 @@ class SPData extends StatelessWidget {
 
               CustomDetialCard(
                 screenWidth: screenWidth,
-                number: spModel.doctorModel.rate,
+                number: (spModel.doctorModel.rate).toString(),
                 text: "تقييم المرضي",
               ),
             ],

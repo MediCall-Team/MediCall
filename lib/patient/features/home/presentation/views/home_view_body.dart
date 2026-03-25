@@ -13,42 +13,34 @@ import 'package:grad_project/patient/features/home/presentation/widgets/specialt
 
 class HomeViewBody extends StatelessWidget {
   HomeViewBody({super.key});
-  final List<CategoryModel> categories = [
-    CategoryModel(
-      name: "الطب الباطني",
-      icon: "assets/images/internal_medicin.png",
-    ),
-    CategoryModel(name: "العلاج الطبيعي", icon: "assets/images/physical.png"),
-    CategoryModel(name: "العظام", icon: "assets/images/bones.png"),
-    CategoryModel(name: "الجلدية", icon: "assets/images/skin.png"),
-    CategoryModel(name: "التمريض المنزلي", icon: "assets/images/nursing.png"),
-    CategoryModel(name: "المزيد", icon: "assets/images/Plus.png"),
-    // يمكن إضافة المزيد...
-  ];
+  final List<CategoryModel> categories = categoriesList;
   List<DoctorModel> doctorModelList = [
     DoctorModel(
+      id: 0,
       image: "assets/images/tempphoto.png",
       name: "حمزة طارق",
       specialty: "استشاري جراحة",
-      rate: "4.9",
-      price: "120",
-      isActive: true,
+      rate: 4.9,
+      price: 120,
+   //   isActive: true,
     ),
     DoctorModel(
+      id: 0,
       image: "assets/images/tempphoto.png",
       name: "حمزة طارق",
       specialty: "استشاري جراحة",
-      rate: "4.9",
-      price: "120",
-      isActive: true,
+      rate: 4.9,
+      price: 120,
+    //  isActive: true,
     ),
     DoctorModel(
+      id: 0,
       image: "assets/images/tempphoto.png",
       name: "حمزة طارق",
       specialty: "استشاري جراحة",
-      rate: "4.9",
-      price: "120",
-      isActive: true,
+      rate: 4.9,
+      price: 120,
+   //   isActive: true,
     ),
   ];
 

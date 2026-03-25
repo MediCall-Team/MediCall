@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grad_project/constants.dart';
@@ -7,6 +8,7 @@ import 'package:grad_project/core/utils/styles.dart';
 import 'package:grad_project/patient/features/home/data/models/doctor_model.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/custom_book_button.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/handle_stars_rate.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 class ServiceProviderItem extends StatelessWidget {
   const ServiceProviderItem({
@@ -20,7 +22,7 @@ class ServiceProviderItem extends StatelessWidget {
   final double screenHeight;
   @override
   Widget build(BuildContext context) {
-    double rate = double.parse(doctorModel.rate);
+    double rate = (doctorModel.rate).toDouble();
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -28,12 +30,18 @@ class ServiceProviderItem extends StatelessWidget {
         //photo
         Flexible(
           child: SizedBox(
-            width: screenWidth * 0.23,
+            width: screenWidth * 0.2,
             child: AspectRatio(
               aspectRatio: 1,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(18),
-                child: Image.asset(doctorModel.image, fit: BoxFit.cover),
+                child: CachedNetworkImage(
+                  imageUrl: doctorModel.image,
+                  fit: BoxFit.cover,
+                  placeholder: (context, url) =>
+                      Shimmer(child: Container(color: Colors.grey)),
+                  errorWidget: (context, url, error) => Icon(Icons.error),
+                ),
               ),
             ),
           ),
@@ -49,7 +57,9 @@ class ServiceProviderItem extends StatelessWidget {
                 doctorModel.name,
                 style: Styles.textStyle15F.copyWith(
                   fontSize: screenWidth * 0.03,
-                  color:AppTheme.mainContrast(context)// AppTheme.secondary(context)
+                  color: AppTheme.mainContrast(
+                    context,
+                  ), // AppTheme.secondary(context)
                 ),
               ),
 
@@ -57,11 +67,13 @@ class ServiceProviderItem extends StatelessWidget {
               Row(
                 children: [
                   Text(
-                    doctorModel.rate,
+                    (doctorModel.rate).toString(),
                     style: TextStyle(
                       fontSize: screenWidth * 0.03,
                       fontWeight: FontWeight.w500,
-                      color: AppTheme.mainContrast(context)//AppTheme.secondary(context),
+                      color: AppTheme.mainContrast(
+                        context,
+                      ), //AppTheme.secondary(context),
                     ),
                   ),
                   const SizedBox(width: 6),
@@ -95,7 +107,7 @@ class ServiceProviderItem extends StatelessWidget {
             },
             child: CustomBookButton(
               screenWidth: screenWidth,
-              isActive: doctorModel.isActive,
+              //   isActive: doctorModel.isActive,
             ),
           ),
         ),

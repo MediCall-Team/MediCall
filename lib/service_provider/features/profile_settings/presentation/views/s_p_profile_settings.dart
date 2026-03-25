@@ -13,12 +13,13 @@ class SPProfileSettings extends StatelessWidget {
   final ServiceProviderProfileModel
   serviceProviderProfileModel = ServiceProviderProfileModel(
     doctorModel: DoctorModel(
+      id:0,
       image: "assets/images/tempphoto.png",
       name: "حمزه طارق",
       specialty: "استشاري جراحه عظام",
-      rate: "4.5",
-      price: "120",
-      isActive: true,
+      rate: 4.5,
+      price: 120,
+    //  isActive: true,
     ),
     homeVisits: "300",
     yearsofexperience: "5",

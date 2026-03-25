@@ -4,6 +4,8 @@ import 'package:grad_project/core/utils/api/api_consumer.dart';
 import 'package:grad_project/core/utils/api/dio_consumer.dart';
 import 'package:grad_project/patient/features/authentication/repo/auth_repo.dart';
 import 'package:grad_project/patient/features/authentication/repo/auth_repo_imp.dart';
+import 'package:grad_project/patient/features/home/categories/repo/categories_repo.dart';
+import 'package:grad_project/patient/features/home/categories/repo/categories_repo_imp.dart';
 import 'package:grad_project/service_provider/features/auth/repo/sp_regester_repo.dart';
 import 'package:grad_project/service_provider/features/auth/repo/spregister_repo_imp.dart';
 
@@ -25,7 +27,12 @@ void setupServiceLocator() {
       api: getIt<ApiConsumer>(),
     ),
   );
+
   getIt.registerLazySingleton<SpRegesterRepo>(
     ()=>SpregisterRepoImp(api: getIt<ApiConsumer>(),)
+  );
+
+  getIt.registerLazySingleton<CategoriesRepo>(
+    ()=>CategoriesRepoImp(api: getIt<ApiConsumer>(),)
   );
 }

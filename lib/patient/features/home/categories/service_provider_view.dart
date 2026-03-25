@@ -21,7 +21,7 @@ class ServiceProviderView extends StatelessWidget {
           ),
         ),
       ),
-      body: SafeArea(child: ServiceProviderViewBody()),
+     // body: SafeArea(child: ServiceProviderViewBody()),
     );
   }
 }

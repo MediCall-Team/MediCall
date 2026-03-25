@@ -4,140 +4,202 @@ import 'package:flutter_svg/svg.dart';
 import 'package:grad_project/constants.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/home/categories/view_model/filter_cubit/filter_cubit.dart';
+import 'package:grad_project/patient/features/home/categories/view_model/service_providers_list_cubit/service_providers_list_cubit.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/filter_section.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/service_provider_list_section.dart';
-import 'package:grad_project/patient/features/home/data/models/doctor_model.dart';
 
-class ServiceProviderViewBody extends StatelessWidget {
-  const ServiceProviderViewBody({super.key});
+class ServiceProviderViewBody extends StatefulWidget {
+  const ServiceProviderViewBody({super.key, required this.cName});
+  final String cName;
 
-  static List<DoctorModel> doctorModelList = [
-    DoctorModel(
-      image: "assets/images/tempphoto.png",
-      name: "حمزة طارق",
-      specialty: "استشاري جراحة",
-      rate: "4",
-      price: "120",
-      isActive: true,
-    ),
-    DoctorModel(
-      image: "assets/images/tempphoto.png",
-      name: "حمزة طارق",
-      specialty: "استشاري جراحة",
-      rate: "4",
-      price: "120",
-      isActive: false,
-    ),
-    DoctorModel(
-      image: "assets/images/tempphoto.png",
-      name: "حمزة طارق",
-      specialty: "استشاري جراحة",
-      rate: "4",
-      price: "120",
-      isActive: true,
-    ),
-  ];
+  @override
+  State<ServiceProviderViewBody> createState() =>
+      _ServiceProviderViewBodyState();
+}
+
+class _ServiceProviderViewBodyState extends State<ServiceProviderViewBody> {
+  late ScrollController controller;
+  TextEditingController searchController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = ScrollController();
+
+    controller.addListener(() {
+      if (controller.position.pixels >=
+          controller.position.maxScrollExtent - 200) {
+        context.read<ServiceProvidersListCubit>().loadMore();
+      }
+    });
+
+    context.read<ServiceProvidersListCubit>().init(widget.cName);
+  }
+
+  void applyFilters(FilterState filterState) {
+    double? min;
+    double? max;
+    int? genderValue;
+  
+
+    // 🔥 تحويل الجندر لـ enum (1 أو 2)
+    if (filterState.selectedGender != null) {
+      genderValue = filterState.selectedGender == "ذكر" ? 1 : 2;
+    }
+
+    // 🔥 price parsing
+    if (filterState.selectedPriceRange != null) {
+      var parts = filterState.selectedPriceRange!.split("-");
+      min = double.tryParse(parts[0]);
+      max = double.tryParse(parts[1].split(" ").first);
+    }
+
+
+
+    context.read<ServiceProvidersListCubit>().updateFilters(
+      gender: genderValue, 
+      area: filterState.selectedLocation,
+      minPrice: min,
+      maxPrice: max,
+      search: searchController.text,
+
+    );
+  }
+  
+  @override
+  void dispose() {
+   controller.dispose();
+   searchController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     var screenWidth = MediaQuery.of(context).size.width;
     var screenHeight = MediaQuery.of(context).size.height;
 
-    return BlocBuilder<FilterCubit, FilterState>(
-      builder: (context, state) {
-        final cubit = context.read<FilterCubit>();
+    return BlocListener<FilterCubit, FilterState>(
+      listener: (context, filterState) {
+        applyFilters(filterState); // 🔥
+      },
+      child: BlocBuilder<FilterCubit, FilterState>(
+        builder: (context, state) {
+          final cubit = context.read<FilterCubit>();
 
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 15),
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 16,
-                  vertical: 16,
-                ),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: TextField(
-                        decoration: InputDecoration(
-                          hintText: "ابحث",
-                          hintStyle: TextStyle(
-                            fontFamily: "Tajawal",
-                            fontSize: (screenWidth * 0.03).clamp(16, 22),
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 15),
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 16,
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: searchController,
+                          onSubmitted: (_) => applyFilters(state), // 🔥 search
+                          decoration: InputDecoration(
+                            hintText: "ابحث",
+                            prefixIcon: const Icon(Icons.search),
+                            border: buildBorder(),
                           ),
-                          contentPadding: EdgeInsets.zero,
-                          prefixIcon: const Icon(Icons.search),
-                          border: buildBorder(),
-                          enabledBorder: buildBorder(),
                         ),
                       ),
-                    ),
-
-                    const SizedBox(width: 15),
-                    PopupMenuButton<String>(
-                      color:AppTheme.background(context), // Colors.white,
-                      icon: SvgPicture.asset("assets/images/align-left.svg"),
-                      onSelected: (value) {
-                        if (value == "السعر") {
-                          showDialog(
-                            context: context,
-                            builder: (_) => PriceFilterDialog(
-                              onSave: (val) => cubit.updateFilter("السعر", val),
-                            ),
-                          );
-                        } else if (value == "النوع") {
-                          showDialog(
-                            context: context,
-                            builder: (_) => GenderFilterDialog(
-                              onSelect: (val) =>
-                                  cubit.updateFilter("النوع", val),
-                            ),
-                          );
-                        } else if (value == "المركز") {
-                          showDialog(
-                            context: context,
-                            builder: (_) => LocationFilterDialog(
-                              onSelect: (val) =>
-                                  cubit.updateFilter("المركز", val),
-                            ),
-                          );
-                        }
-                      },
-                      itemBuilder: (context) => [
-                        _buildPopupMenuItem(
-                          "السعر",
-                          state.selectedPriceRange != null,
-                        ),
-                        _buildPopupMenuItem(
-                          "النوع",
-                          state.selectedGender != null,
-                        ),
-                        _buildPopupMenuItem(
-                          "المركز",
-                          state.selectedLocation != null,
-                        ),
-                      ],
-                    ),
-                  ],
+                      const SizedBox(width: 15),
+                      PopupMenuButton<String>(
+                        icon: SvgPicture.asset("assets/images/align-left.svg"),
+                        onSelected: (value) {
+                          if (value == "السعر") {
+                            showDialog(
+                              context: context,
+                              builder: (_) => PriceFilterDialog(
+                                onSave: (val) {
+                                  cubit.updateFilter("السعر", val);
+                                },
+                              ),
+                            );
+                          } else if (value == "النوع") {
+                            showDialog(
+                              context: context,
+                              builder: (_) => GenderFilterDialog(
+                                onSelect: (val) {
+                                  cubit.updateFilter("النوع", val);
+                                },
+                              ),
+                            );
+                          } else if (value == "المركز") {
+                            showDialog(
+                              context: context,
+                              builder: (_) => LocationFilterDialog(
+                                onSelect: (val) {
+                                  cubit.updateFilter("المركز", val);
+                                },
+                              ),
+                            );
+                          }
+                        },
+                        itemBuilder: (context) => [
+                          _buildPopupMenuItem(
+                            "السعر",
+                            state.selectedPriceRange != null,
+                          ),
+                          _buildPopupMenuItem(
+                            "النوع",
+                            state.selectedGender != null,
+                          ),
+                          _buildPopupMenuItem(
+                            "المركز",
+                            state.selectedLocation != null,
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              FilterSection(
-                screenHeight: screenHeight,
-                filterList: state.activeFilters,
-              ),
 
-              Expanded(
-                child: ServiceProviderListSection(
-                  doctorModelList: ServiceProviderViewBody.doctorModelList,
-                  screenWidth: screenWidth,
+                FilterSection(
                   screenHeight: screenHeight,
+                  filterList: state.activeFilters,
                 ),
-              ),
-            ],
-          ),
-        );
-      },
+
+                Expanded(
+                  child:
+                      BlocBuilder<
+                        ServiceProvidersListCubit,
+                        ServiceProvidersListState
+                      >(
+                        builder: (context, state) {
+                          if (state is ServiceProvidersListSuccess) {
+                            return state.doctorSModelList.isEmpty
+                                ? Center(child: Text("لا يتوفر مقدمي خدمه"))
+                                : ServiceProviderListSection(
+                                    doctorModelList: state.doctorSModelList,
+                                    screenWidth: screenWidth,
+                                    screenHeight: screenHeight,
+                                    controller: controller,
+                                    isLoadingMore: state.isLoadingMore,
+                                  );
+                          } else if (state is ServiceProvidersListFaliure) {
+                            return Center(child: Text(state.errorMsg));
+                          } else {
+                            return Center(
+                              child: CircularProgressIndicator(
+                                color: AppTheme.brandColor(context),
+                              ),
+                            );
+                          }
+                        },
+                      ),
+                ),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -172,7 +234,7 @@ class GenderFilterDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor:AppTheme.surfaceContainer(context), //Color(0xffE1F2F8),
+      backgroundColor: AppTheme.surfaceContainer(context), //Color(0xffE1F2F8),
       title: const Text(
         "اختر النوع",
         textAlign: TextAlign.center,
@@ -213,13 +275,12 @@ class LocationFilterDialog extends StatelessWidget {
     "ساقلتة",
     "المنشاة",
     "جرجا",
-
   ];
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      backgroundColor:AppTheme.surfaceContainer(context), //Color(0xffE1F2F8),
+      backgroundColor: AppTheme.surfaceContainer(context), //Color(0xffE1F2F8),
       title: const Text(
         "اختر المركز",
         textAlign: TextAlign.center,
@@ -242,6 +303,7 @@ class LocationFilterDialog extends StatelessWidget {
     );
   }
 }
+
 class PriceFilterDialog extends StatelessWidget {
   final Function(String) onSave;
   const PriceFilterDialog({super.key, required this.onSave});
@@ -252,7 +314,9 @@ class PriceFilterDialog extends StatelessWidget {
     final TextEditingController maxController = TextEditingController();
 
     return AlertDialog(
-      backgroundColor:AppTheme.surfaceContainer(context), //const Color(0xffE1F2F8),
+      backgroundColor: AppTheme.surfaceContainer(
+        context,
+      ), //const Color(0xffE1F2F8),
       title: const Text(
         "نطاق السعر",
         textAlign: TextAlign.center,
@@ -286,8 +350,8 @@ class PriceFilterDialog extends StatelessWidget {
         TextButton(
           onPressed: () {
             // 1. التأكد أن الحقول ليست فارغة
-            if (minController.text.isNotEmpty && maxController.text.isNotEmpty) {
-              
+            if (minController.text.isNotEmpty &&
+                maxController.text.isNotEmpty) {
               // 2. تحويل النص إلى أرقام للمقارنة
               double? min = double.tryParse(minController.text);
               double? max = double.tryParse(maxController.text);
