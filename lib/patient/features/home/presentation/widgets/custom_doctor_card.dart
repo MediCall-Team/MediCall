@@ -114,7 +114,7 @@ class CustomDoctorCard extends StatelessWidget {
                   Icon(Icons.star, color: const Color(0xffFFD33C), size: h * 0.08),
                   const SizedBox(width: 4),
                   Text(
-                    doctorModel.rate,
+                    (doctorModel.rate).toString(),
                     style: TextStyle(
                       fontSize: (h * 0.06).clamp(12, 18),
                       fontWeight: FontWeight.bold,

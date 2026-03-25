@@ -1,4 +1,6 @@
 import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:grad_project/patient/features/authentication/data/patient_user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 
@@ -7,6 +9,8 @@ class CacheHelper {
 
 //! Here The Initialize of cache .
  static init() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    
     sharedPreferences = await SharedPreferences.getInstance();
   }
 
@@ -72,24 +76,24 @@ static  Future<dynamic> put({
   ////////////////////
 
 
-  // // 🔹 Save User
-  // static Future<void> saveUser(UserModel userModel) async {
-  //   final userJson = jsonEncode(userModel.toJson());
-  //   await sharedPreferences.setString("user", userJson);
-  // }
+  // 🔹 Save User
+  static Future<void> saveUser(PatientUserModel userModel) async {
+    final userJson = jsonEncode(userModel.toJson());
+    await sharedPreferences.setString("user", userJson);
+  }
 
-  // // 🔹 Get User
-  // static UserModel? getUser() {
-  //   final userString = sharedPreferences.getString("user");
-  //   if (userString == null) return null;
+  // 🔹 Get User
+  static PatientUserModel? getUser() {
+    final userString = sharedPreferences.getString("user");
+    if (userString == null) return null;
 
-  //   final Map<String, dynamic> userMap = jsonDecode(userString);
-  //   return UserModel.fromJson(userMap);
-  // }
+    final Map<String, dynamic> userMap = jsonDecode(userString);
+    return PatientUserModel.fromJson(userMap);
+  }
 
-  // // 🔹 Remove User
-  // static Future<void> removeUser() async {
-  //   await sharedPreferences.remove("user");
-  // }
+  // 🔹 Remove User
+  static Future<void> removeUser() async {
+    await sharedPreferences.remove("user");
+  }
   
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/styles.dart';
 import 'package:grad_project/patient/features/profile/views/sick%20record.dart';
@@ -93,18 +95,20 @@ class ProfileView extends StatelessWidget {
                       ),
                       divider(),
 
-                      UserInfo(
-                        icon: Icons.location_on_outlined,
-                        title: 'الموقع',
-                        onTap: () {},
-                      ),
-                      divider(),
+                      // UserInfo(
+                      //   icon: Icons.location_on_outlined,
+                      //   title: 'الموقع',
+                      //   onTap: () {},
+                      // ),
+                      // divider(),
 
                       UserInfo(
                         icon: Icons.logout,
                         title: 'تسجيل الخروج',
-                        onTap: () {
+                        onTap: () async{
                           // logout
+                        await CacheHelper.removeUser();
+                        GoRouter.of(context).go("/");
                         },
                       ),
                     ],

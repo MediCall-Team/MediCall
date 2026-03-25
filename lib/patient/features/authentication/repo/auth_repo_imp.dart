@@ -22,6 +22,7 @@ class PatienAuthRepoImp implements PatienAuthRepo {
         data: {"Email": email, "Password": password},
       );
       final user = PatientUserModel.fromJson(response as Map<String, dynamic>);
+      
       return right(user);
     } on Failure catch (e) {
       return left(e);

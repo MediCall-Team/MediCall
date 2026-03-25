@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/screens/ResetPasswordScreen.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/screens/forgot_pass_screen.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/screens/pass_code.dart';
@@ -48,6 +49,24 @@ abstract class AppRouter {
   static const String kVerifyCodeView = "/verifyCode";
   static const String kSPProfile = '/s_p_profile_view';
   static final router = GoRouter(
+
+     initialLocation: "/",
+   redirect: (context, state) {
+      final user = CacheHelper.getUser();
+      
+      // إحنا بنتدخل فقط لو المستخدم فاتح الصفحة الرئيسية (اللوجين) ومعاه توكن
+      final isAtStart = state.matchedLocation == "/";
+
+      if (isAtStart && user != null) {
+
+      
+        return kBottomNavPage; // لو مسجل وديه الهوم فوراً
+      }
+
+      // في أي حالة تانية (رايح ساين أب، رايح ينسى الباسورد) سيبه يروح براحته
+      return null; 
+    },
+
     routes: [
 
       

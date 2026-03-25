@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
+import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/patient/features/authentication/data/patient_user_model.dart';
 import 'package:grad_project/patient/features/authentication/repo/auth_repo.dart';
 import 'package:meta/meta.dart';
@@ -25,13 +28,17 @@ class LoginCubit extends Cubit<LoginState> {
         loading = false;
         emit(LoginFailure(errorMsg: failure.errorMsg));
       },
-      (user_model) {
+      (userModel) async{
         loading = false;
         // PatientUserModel patientUserModel = PatientUserModel.fromJson(
         //   user_model as  Map<String, dynamic>,
         // );
+
         // save in cach 
-        emit(LoginSuccess(userModel: user_model));
+      await CacheHelper.saveUser(userModel);
+      log("token : ${userModel.token},\nid : ${userModel.id} ,\nrole : ${userModel.role}");
+
+        emit(LoginSuccess(userModel: userModel));
       },
     );
   }
