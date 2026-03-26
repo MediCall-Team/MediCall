@@ -6,12 +6,14 @@ import 'package:image_picker/image_picker.dart';
 
 class UserImageProfile extends StatefulWidget {
   final bool canEdit;
-  final String? imageUrl; // 👈 ضيفنا دي
+  final String? imageUrl;
+  final Function(File)? onImageSelected;
 
   const UserImageProfile({
     super.key,
     this.canEdit = false,
     this.imageUrl,
+    this.onImageSelected,
   });
 
   @override
@@ -20,16 +22,21 @@ class UserImageProfile extends StatefulWidget {
 
 class _UserImageProfileState extends State<UserImageProfile> {
   File? selectedImage;
-
   final ImagePicker _picker = ImagePicker();
 
+  /// 📸 اختيار الصورة بدون crop
   Future<void> pickImage() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
 
     if (image != null) {
+      final file = File(image.path);
+
       setState(() {
-        selectedImage = File(image.path);
+        selectedImage = file;
       });
+
+      // 🔥 نبعتها للـ parent (عشان الكيوبت)
+      widget.onImageSelected?.call(file);
     }
   }
 
@@ -39,12 +46,10 @@ class _UserImageProfileState extends State<UserImageProfile> {
 
     if (selectedImage != null) {
       imageProvider = FileImage(selectedImage!);
-    } else if (widget.imageUrl != null &&
-        widget.imageUrl!.isNotEmpty) {
-      imageProvider = NetworkImage(widget.imageUrl!); // 👈 من API
+    } else if (widget.imageUrl != null && widget.imageUrl!.isNotEmpty) {
+      imageProvider = NetworkImage(widget.imageUrl!);
     } else {
-      imageProvider =
-          const AssetImage('assets/images/tempphoto.png');
+      imageProvider = const AssetImage('assets/images/tempphoto.png');
     }
 
     return Center(
@@ -64,17 +69,10 @@ class _UserImageProfileState extends State<UserImageProfile> {
                 decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 6,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
+                  boxShadow: [BoxShadow(color: Colors.black26, blurRadius: 6)],
                 ),
                 padding: const EdgeInsets.all(6),
-                child: Icon(Icons.edit_outlined,
-                    color: secColor, size: 22),
+                child: Icon(Icons.edit_outlined, color: secColor, size: 22),
               ),
             ),
         ],
