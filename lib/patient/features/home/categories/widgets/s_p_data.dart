@@ -26,14 +26,14 @@ class SPData extends StatelessWidget {
             spModel.doctorModel.name,
             style: Styles.textStyle25.copyWith(
               fontSize: (screenWidth * 0.07).clamp(20, 40),
-              color:   AppTheme.secondary(context)
+              color: AppTheme.mainContrast(context)//  AppTheme.secondary(context)
             ),
           ),
         ),
         Text(
           spModel.doctorModel.specialty,
           style: Styles.textStyle18w400.copyWith(
-            color:   AppTheme.textSecondary(context),
+            color:  AppTheme.spStext(context),// AppTheme.textSecondary(context),
             fontSize: (screenWidth * 0.045).clamp(16, 40),
             
           ),
@@ -79,7 +79,7 @@ class SPData extends StatelessWidget {
 
               CustomDetialCard(
                 screenWidth: screenWidth,
-                number: spModel.doctorModel.rate,
+                number: (spModel.doctorModel.rate).toString(),
                 text: "تقييم المرضي",
               ),
             ],

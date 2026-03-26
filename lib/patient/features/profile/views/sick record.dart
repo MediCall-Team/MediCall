@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/profile/widgets/MedicalRecordItem.dart';
 
 class MedicalRecordView extends StatelessWidget {
@@ -9,18 +10,18 @@ class MedicalRecordView extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: Colors.white,
+      //  backgroundColor: Colors.white,
         appBar: AppBar(
           elevation: 0,
-          backgroundColor: Colors.white,
-          iconTheme: const IconThemeData(color: Color(0xFF1F3E6C)),
+        //  backgroundColor: Colors.white,
+        //  iconTheme: const IconThemeData(color: Color(0xFF1F3E6C)),
           titleSpacing: 0,
-          title: const Text(
+          title:  Text(
             'سجل الحالة الطبية',
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 24,
-              color: Color(0xFF1F3E6C),
+              color:AppTheme.mainContrast(context) ,//Color(0xFF1F3E6C),
             ),
           ),
         ),

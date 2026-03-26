@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/notification/widget/notification_card.dart';
 
 class NotificationViewBody extends StatelessWidget {
@@ -28,7 +29,7 @@ class NotificationViewBody extends StatelessWidget {
                       style: TextStyle(
                         fontSize: titleFontSize,
                         fontWeight: FontWeight.bold,
-                        color: const Color(0xff1F3E6C),
+                        color:AppTheme.mainContrast(context) ,//const Color(0xff1F3E6C),
                       ),
                     ),
                     const Spacer(),

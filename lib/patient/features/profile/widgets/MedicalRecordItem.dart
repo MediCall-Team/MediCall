@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/profile/views/Sick%20record%20file.dart';
 
 class MedicalRecordItem extends StatelessWidget {
@@ -46,17 +47,17 @@ class MedicalRecordItem extends StatelessWidget {
                     const SizedBox(height: 2),
                     Text(
                       doctorName,
-                      style: const TextStyle(
+                      style:  TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
-                        color: Color(0xFF1F3E6C),
+                        color:AppTheme.mainContrast(context) ,//Color(0xFF1F3E6C),
                       ),
                     ),
                     const SizedBox(height: 2),
                     Text(
                       specialty,
-                      style: const TextStyle(
-                        color: Color(0xFF1F3E6C),
+                      style:  TextStyle(
+                        color: AppTheme.mainContrast(context) ,//Color(0xFF1F3E6C),
                         fontWeight: FontWeight.bold,
                         fontSize: 15,
                       ),

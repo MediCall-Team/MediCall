@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grad_project/patient/features/home/presentation/view_models.dart/cubit/app_theme_cubit.dart';
+import 'package:grad_project/patient/features/home/presentation/view_models/cubit/app_theme_cubit.dart';
 
 
 class ThemeToggleApp extends StatelessWidget {

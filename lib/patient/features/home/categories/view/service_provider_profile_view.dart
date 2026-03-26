@@ -12,12 +12,13 @@ class ServiceProviderProfileView extends StatelessWidget {
   final ServiceProviderProfileModel
   serviceProviderProfileModel = ServiceProviderProfileModel(
     doctorModel: DoctorModel(
+      id: 0,
       image: "assets/images/tempphoto.png",
       name: "حمزه طارق",
       specialty: "استشاري جراحه عظام",
-      rate: "4.5",
-      price: "120",
-      isActive: true,
+      rate: 4.5,
+      price: 120,
+    //  isActive: true,
     ),
     homeVisits: "300",
     yearsofexperience: "5",
@@ -54,7 +55,7 @@ class ServiceProviderProfileView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text("بيانات الدكتور", style: Styles.textStyle25.copyWith(
-        color: AppTheme.secondary(context)
+        color:AppTheme.mainContrast(context) ,//AppTheme.secondary(context)
       ))),
       body: SafeArea(
         child: ServireProviderProfileViewBody(

@@ -17,7 +17,7 @@ class PatientUserModel {
   final String email;
   final String token;
   final String role;
- //  final String imageUrl;
+  final String imageUrl;
 
 
   PatientUserModel({
@@ -26,7 +26,7 @@ class PatientUserModel {
     required this.email,
     required this.token,
     required this.role, 
-    //required this.imageUrl,
+    required this.imageUrl,
   });
 
   factory PatientUserModel.fromJson( Map<String, dynamic> json) {
@@ -39,8 +39,21 @@ class PatientUserModel {
       fullName: json["fullName"],
       email: json["email"],
       token: json["token"],
-    //  imageUrl: json["imageUrl"],
+      imageUrl: json["imageUrl"],
       role: decodedToken["http://schemas.microsoft.com/ws/2008/06/identity/claims/role"], // جاي من التوكين
     );
   }
+
+  Map<String, dynamic> toJson() {
+  return {
+    "id": id,
+    "fullName": fullName,
+    "email": email,
+    "token": token,
+    "role": role,
+    "imageUrl": imageUrl,
+  };
+}
+
+
 }

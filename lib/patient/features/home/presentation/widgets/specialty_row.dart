@@ -26,7 +26,7 @@ class SpecialtyRow extends StatelessWidget {
               fontFamily: "Poppins",
               fontSize: (fontSize + 10).clamp(12, 25),
               fontWeight: FontWeight.bold,
-              color: AppTheme.secondary(context),
+              color:AppTheme.brandColor(context) //AppTheme.secondary(context),
 
             ),
           ),

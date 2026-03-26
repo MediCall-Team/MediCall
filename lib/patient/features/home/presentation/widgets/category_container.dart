@@ -22,7 +22,7 @@ class CategoryContainer extends StatelessWidget {
         height: 85, // ⬅️ أكبر شوية
         width: 85,
         decoration: BoxDecoration(
-          color: AppTheme.card(context) ,//const Color(0xffE1F2F8),
+          color:AppTheme.surfaceContainer(context), //AppTheme.card(context) ,//const Color(0xffE1F2F8),
           borderRadius: BorderRadius.circular(20),
           boxShadow: [
             BoxShadow(
@@ -42,7 +42,7 @@ class CategoryContainer extends StatelessWidget {
               width: 35,
               height: 35,
               fit: BoxFit.contain,
-              color: AppTheme.secondary(context),
+              color:AppTheme.brandColor(context) //AppTheme.secondary(context),
             ),
               
             ),
@@ -54,7 +54,7 @@ class CategoryContainer extends StatelessWidget {
                 textAlign: TextAlign.center,
                 style: TextStyle(
                   fontFamily: "Tajawal",
-                  color: AppTheme.secondary(context),
+                  color:AppTheme.brandColor(context) , //AppTheme.secondary(context),
                   fontWeight: FontWeight.bold,
                   fontSize: 9,
                 ),

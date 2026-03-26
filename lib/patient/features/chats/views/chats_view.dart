@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/chats/views/widget/ChatItem.dart';
 
 class ChatsView extends StatelessWidget {
@@ -10,7 +11,7 @@ class ChatsView extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-        backgroundColor: Colors.white,
+       // backgroundColor: Colors.white,
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -21,8 +22,8 @@ class ChatsView extends StatelessWidget {
                 alignment: Alignment.centerRight,
                 child: Text(
                   'المحادثات',
-                  style: const TextStyle(
-                    color: Color(0xFFF1F3D6B),
+                  style:  TextStyle(
+                    color:AppTheme.mainContrast(context) ,//Color(0xFFF1F3D6B),
                     fontSize: 25,
                     fontWeight: FontWeight.bold,
                   ),
@@ -39,7 +40,8 @@ class ChatsView extends StatelessWidget {
                   textDirection: TextDirection.rtl,
                   child: TextFormField(
                     textAlign: TextAlign.right,
-                    style: const TextStyle(color: Colors.black, fontSize: 15),
+                    style: const TextStyle(color: Colors.black,
+                     fontSize: 15),
                     decoration: InputDecoration(
                       hintText: 'بحث',
                       hintStyle: const TextStyle(
@@ -63,8 +65,8 @@ class ChatsView extends StatelessWidget {
                         borderSide: BorderSide(color: priColor, width: 1.5),
                         borderRadius: BorderRadius.circular(16),
                       ),
-                      filled: true,
-                      fillColor: Colors.white,
+                    //  filled: true,
+                    //  fillColor: Colors.white,
                     ),
                   ),
                 ),
