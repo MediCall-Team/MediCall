@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -51,8 +53,9 @@ class _ServiceProviderViewBodyState extends State<ServiceProviderViewBody> {
     // 🔥 price parsing
     if (filterState.selectedPriceRange != null) {
       var parts = filterState.selectedPriceRange!.split("-");
-      min = double.tryParse(parts[0]);
-      max = double.tryParse(parts[1].split(" ").first);
+      max = double.tryParse(parts[0]);
+      min = double.tryParse(parts[1].split(" ").first);
+      log("min $min , max $max");
     }
 
 
