@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/constants.dart';
-
 class UserInfo extends StatelessWidget {
   const UserInfo({
     super.key,
@@ -8,6 +7,7 @@ class UserInfo extends StatelessWidget {
     required this.title,
     this.trailing,
     this.onTap,
+    this.onEditTap, // 🆕
     this.flibx = false,
   });
 
@@ -15,6 +15,7 @@ class UserInfo extends StatelessWidget {
   final String title;
   final IconData? trailing;
   final VoidCallback? onTap;
+  final VoidCallback? onEditTap; // 🆕
   final bool flibx;
 
   @override
@@ -22,7 +23,7 @@ class UserInfo extends StatelessWidget {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: GestureDetector(
-        onTap:onTap,
+        onTap: onTap,
         child: Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
@@ -31,7 +32,6 @@ class UserInfo extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
             child: Row(
               children: [
-                // Leading icon
                 Transform.flip(
                   flipX: flibx,
                   child: Icon(
@@ -41,8 +41,6 @@ class UserInfo extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 16),
-                
-                // Title
                 Expanded(
                   child: Text(
                     title,
@@ -52,13 +50,14 @@ class UserInfo extends StatelessWidget {
                     ),
                   ),
                 ),
-                
-                // Trailing icon
                 if (trailing != null)
-                  Icon(
-                    trailing,
-                    color: secColor,
-                    size: 20,
+                  GestureDetector(
+                    onTap: onEditTap, // هنا نستخدم onEditTap
+                    child: Icon(
+                      trailing,
+                      color: secColor,
+                      size: 20,
+                    ),
                   ),
               ],
             ),
