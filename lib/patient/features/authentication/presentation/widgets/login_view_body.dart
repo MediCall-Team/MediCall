@@ -58,8 +58,12 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   ScaffoldMessenger.of(
                     context,
                   ).showSnackBar(const SnackBar(content: Text("مرحبا بك")));
+                  if(state.userModel.role=="Patient"){
+                  GoRouter.of(context).go(AppRouter.kBottomNavPage);}
+                  else{
+                    GoRouter.of(context).go(AppRouter.kSCustomBottomNavPage);
+                  }
 
-                  GoRouter.of(context).push(AppRouter.kBottomNavPage);
                 } else if (state is LoginFailure) {
                 //  setState(() {
                 //     Loading = false;

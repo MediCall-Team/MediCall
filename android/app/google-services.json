@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "82277317687",
+    "project_id": "medicall-notification",
+    "storage_bucket": "medicall-notification.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:82277317687:android:6dfe3246f85d705ca993b2",
+        "android_client_info": {
+          "package_name": "com.example.grad_project"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB274DesA2RNz01M7udLHCx75MIWjepPYs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

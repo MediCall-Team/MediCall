@@ -58,8 +58,6 @@ abstract class AppRouter {
       final isAtStart = state.matchedLocation == "/";
 
       if (isAtStart && user != null) {
-
-      
         return kBottomNavPage; // لو مسجل وديه الهوم فوراً
       }
 
