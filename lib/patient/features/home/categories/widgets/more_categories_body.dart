@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grad_project/constants.dart';
 import 'package:grad_project/core/utils/app_router.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/styles.dart';
@@ -14,25 +15,25 @@ class MoreCategoriesBody extends StatefulWidget {
 }
 
 class _MoreCategoriesBodyState extends State<MoreCategoriesBody> {
-  final List<CategoryModel> categories = [
-    CategoryModel(name: "الطب الباطني", icon: "assets/images/internal_medicin.png"),
-    CategoryModel(name: "العلاج الطبيعي", icon: "assets/images/physical.png"),
-    CategoryModel(name: "العظام", icon: "assets/images/bones.png"),
-    CategoryModel(name: "الجلدية", icon: "assets/images/skin.png"),
-    CategoryModel(name: "التمريض المنزلي", icon: "assets/images/nursing.png"),
-  ];
+  // final List<CategoryModel> categories = [
+  //   CategoryModel(name: "الطب الباطني", icon: "assets/images/internal_medicin.png"),
+  //   CategoryModel(name: "العلاج الطبيعي", icon: "assets/images/physical.png"),
+  //   CategoryModel(name: "العظام", icon: "assets/images/bones.png"),
+  //   CategoryModel(name: "الجلدية", icon: "assets/images/skin.png"),
+  //   CategoryModel(name: "التمريض المنزلي", icon: "assets/images/nursing.png"),
+  // ];
 
   List<CategoryModel> filteredCategories = [];
 
   @override
   void initState() {
     super.initState();
-    filteredCategories = categories; // أول ما الصفحة تفتح
+    filteredCategories = categoriesList; // أول ما الصفحة تفتح
   }
 
   void _filterCategories(String query) {
     setState(() {
-      filteredCategories = categories
+      filteredCategories = categoriesList
           .where((category) =>
               category.name.contains(query)) // بحث بالحرف أو الكلمة
           .toList();

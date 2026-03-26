@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/utils/app_theme.dart';
 
 
 class CustomHeaderCard extends StatelessWidget {
@@ -14,7 +15,7 @@ class CustomHeaderCard extends StatelessWidget {
       aspectRatio: 2.2, // تقليل النسبة قليلاً ليعطي ارتفاعاً مناسباً
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xff78C6E3),
+          color:AppTheme.customHeaderCard(context) ,//const Color(0xff78C6E3),
           borderRadius: BorderRadius.circular(24),
         ),
         child: LayoutBuilder( // 👈 نستخدم LayoutBuilder لمعرفة أبعاد الكونتينة الفعلي

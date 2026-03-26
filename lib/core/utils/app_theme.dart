@@ -172,6 +172,10 @@ class AppTheme {
   static const Color _bgL = Color(0xFFFFFFFF); // أبيض في اللايت
   static const Color _bgD = Color(0xFF121212); // أسود في الدارك
 
+// 11. Scaffold Backgrounds (خلفية الصفحات)
+    static const Color _chcL = Color(0xff78C6E3); 
+  static const Color _chcD = Color(0xFF1F3E6C);
+
   // ---------------------------------------------------------
   // 🌞 تعريف الثيمات (ThemeData)
   // ---------------------------------------------------------
@@ -270,4 +274,10 @@ static final ThemeData lightTheme = ThemeData(
       Theme.of(context).brightness == Brightness.light
       ? _surfSecondaryL
       : _greyD;
+
+    // ل(المجموعة 11)
+  static Color customHeaderCard(BuildContext context) =>
+      Theme.of(context).brightness == Brightness.light
+      ? _chcL
+      : _chcD;
 }
