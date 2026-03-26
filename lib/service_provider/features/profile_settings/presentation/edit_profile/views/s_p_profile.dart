@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:grad_project/core/utils/styles.dart';
-import 'package:grad_project/patient/features/profile/views/profile_view.dart';
-import 'package:grad_project/patient/features/profile/widgets/user_image_profile.dart';
-import 'package:grad_project/patient/features/profile/widgets/user_info.dart';
-
+import 'package:grad_project/patient/features/profile/presentation/views/profile_view.dart';
+import 'package:grad_project/patient/features/profile/presentation/widgets/profile_view_body.dart';
+import 'package:grad_project/patient/features/profile/presentation/widgets/user_info.dart';
 class SPProfile extends StatelessWidget {
   const SPProfile({super.key});
 

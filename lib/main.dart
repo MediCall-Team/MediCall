@@ -15,7 +15,7 @@ void main() async{
 
   runApp(
     DevicePreview(
-      enabled: false,
+      enabled:false ,
       builder: (context) => BlocProvider(
         create: (_) => AppThemeCubit(),
         child: const MediApp(),

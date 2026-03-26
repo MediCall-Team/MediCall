@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
-import 'package:grad_project/patient/features/profile/views/Sick%20record%20file.dart';
+import 'package:grad_project/patient/features/profile/presentation/views/Sick%20record%20file.dart';
 
 class MedicalRecordItem extends StatelessWidget {
   final String date;

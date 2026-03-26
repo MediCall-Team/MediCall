@@ -5,11 +5,13 @@ import 'package:grad_project/constants.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserImageProfile extends StatefulWidget {
-  final bool canEdit; // للتحكم في ظهور زر التعديل
+  final bool canEdit;
+  final String? imageUrl; // 👈 ضيفنا دي
 
   const UserImageProfile({
     super.key,
-    this.canEdit = false, // الافتراضي عرض فقط
+    this.canEdit = false,
+    this.imageUrl,
   });
 
   @override
@@ -33,6 +35,18 @@ class _UserImageProfileState extends State<UserImageProfile> {
 
   @override
   Widget build(BuildContext context) {
+    ImageProvider imageProvider;
+
+    if (selectedImage != null) {
+      imageProvider = FileImage(selectedImage!);
+    } else if (widget.imageUrl != null &&
+        widget.imageUrl!.isNotEmpty) {
+      imageProvider = NetworkImage(widget.imageUrl!); // 👈 من API
+    } else {
+      imageProvider =
+          const AssetImage('assets/images/tempphoto.png');
+    }
+
     return Center(
       child: Stack(
         alignment: Alignment.bottomRight,
@@ -40,18 +54,14 @@ class _UserImageProfileState extends State<UserImageProfile> {
           CircleAvatar(
             radius: 65,
             backgroundColor: Colors.blue.shade100.withOpacity(0.4),
-            backgroundImage: selectedImage != null
-                ? FileImage(selectedImage!)
-                : const AssetImage('assets/images/tempphoto.png')
-                    as ImageProvider,
+            backgroundImage: imageProvider,
           ),
 
-          // زر تعديل الصورة (يظهر فقط لو canEdit = true)
           if (widget.canEdit)
             GestureDetector(
               onTap: pickImage,
               child: Container(
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   shape: BoxShape.circle,
                   color: Colors.white,
                   boxShadow: [

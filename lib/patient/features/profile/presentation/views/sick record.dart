@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
-import 'package:grad_project/patient/features/profile/widgets/MedicalRecordItem.dart';
+import 'package:grad_project/patient/features/profile/presentation/widgets/MedicalRecordItem.dart';
 
 class MedicalRecordView extends StatelessWidget {
   const MedicalRecordView({super.key});
