@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/home/categories/data/service_provider_reviews_model.dart';
+import 'package:grad_project/patient/features/home/categories/view/more_reviews_page.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/add_review_field.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/rating_summary_widget.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/review_card.dart';
@@ -30,7 +31,31 @@ class ReviewsServiceProviderView extends StatelessWidget {
         physics: const NeverScrollableScrollPhysics(),
         itemCount: spReviews.reviewsList.length,
         separatorBuilder: (context, index) => const SizedBox(height: 20),
-        itemBuilder: (context, index) => ReviewCard(review: spReviews.reviewsList[index], screenWidth: screenWidth),
+        itemBuilder: (context, index) => ReviewCard(
+          review: spReviews.reviewsList[index],
+          screenWidth: screenWidth,
+        ),
+      ),
+      const SizedBox(height: 12),
+
+      // زر المزيد
+      TextButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MoreReviewsPage(spReviews: spReviews),
+            ),
+          );
+        },
+        child: const Text(
+          "المزيد من التقييمات .........",
+          style: TextStyle(
+            color: Color(0xff1F3E6C),
+            fontSize: 16,
+            fontWeight: FontWeight.bold,
+          ),
+        ),
       ),
     ];
 
@@ -41,10 +66,7 @@ class ReviewsServiceProviderView extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: List.generate(children.length, (index) {
-            return StaggeredStepAnimation(
-              index: index,
-              child: children[index],
-            );
+            return StaggeredStepAnimation(index: index, child: children[index]);
           }),
         ),
       ),
@@ -54,20 +76,23 @@ class ReviewsServiceProviderView extends StatelessWidget {
 
 // --- تحويل الـ Methods إلى Widgets منفصلة ---
 
-
 class SectionTitle extends StatelessWidget {
   final String title;
   final double screenWidth;
-  const SectionTitle({super.key, required this.title, required this.screenWidth});
+  const SectionTitle({
+    super.key,
+    required this.title,
+    required this.screenWidth,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Text(
       title,
-      style:  TextStyle(
-        fontSize:screenWidth*0.044,// 18,
+      style: TextStyle(
+        fontSize: screenWidth * 0.044, // 18,
         fontWeight: FontWeight.bold,
-        color:AppTheme.mainContrast(context), //Color(0xff1F3E6C),
+        color: AppTheme.mainContrast(context), //Color(0xff1F3E6C),
       ),
     );
   }

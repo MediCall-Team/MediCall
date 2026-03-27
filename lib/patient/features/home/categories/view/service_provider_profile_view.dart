@@ -18,11 +18,12 @@ class ServiceProviderProfileView extends StatelessWidget {
       specialty: "استشاري جراحه عظام",
       rate: 4.5,
       price: 120,
-    //  isActive: true,
+      //  isActive: true,
     ),
     homeVisits: "300",
     yearsofexperience: "5",
-    bio: "استشاري جراحة عظام متخصص في تشخيص وعلاج إصابات العظام والمفاصل، ويملك خبرة واسعة في التعامل مع حالات الكسور وآلام المفاصل المختلفة، مع الحرص على تقديم رعاية طبية دقيقة وآمنة للمرضى في منازلهم.",
+    bio:
+        "استشاري جراحة عظام متخصص في تشخيص وعلاج إصابات العظام والمفاصل، ويملك خبرة واسعة في التعامل مع حالات الكسور وآلام المفاصل المختلفة، مع الحرص على تقديم رعاية طبية دقيقة وآمنة للمرضى في منازلهم.",
     places: ["أخميم", "جرجا", "المراغه", "طهطا", "المنشأة", "ساقلته"],
     spReviews: ServiceProviderReviewsModel(
       rate: 4.5,
@@ -40,6 +41,23 @@ class ServiceProviderProfileView extends StatelessWidget {
               "دكتور محترم جدًا وشرح الحالة بشكل واضح، والزيارة كانت في معادها بالظبط. حسّيت باهتمام ومتابعة كويسة بعد الكشف",
           rate: 4.5,
         ),
+
+        ReviewsModel(
+          image: "assets/images/tempphoto.png",
+          name: "ادهم محمد",
+          description:
+              "دكتور محترم جدًا وشرح الحالة بشكل واضح، والزيارة كانت في معادها بالظبط. حسّيت باهتمام ومتابعة كويسة بعد الكشف",
+          rate: 4.5,
+        ),
+
+        ReviewsModel(
+          image: "assets/images/tempphoto.png",
+          name: "ادهم محمد",
+          description:
+              "دكتور محترم جدًا وشرح الحالة بشكل واضح، والزيارة كانت في معادها بالظبط. حسّيت باهتمام ومتابعة كويسة بعد الكشف",
+          rate: 4.5,
+        ),
+
         ReviewsModel(
           image: "assets/images/tempphoto.png",
           name: "ادهم محمد",
@@ -54,9 +72,14 @@ class ServiceProviderProfileView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("بيانات الدكتور", style: Styles.textStyle25.copyWith(
-        color:AppTheme.mainContrast(context) ,//AppTheme.secondary(context)
-      ))),
+      appBar: AppBar(
+        title: Text(
+          "بيانات الدكتور",
+          style: Styles.textStyle25.copyWith(
+            color: AppTheme.mainContrast(context), //AppTheme.secondary(context)
+          ),
+        ),
+      ),
       body: SafeArea(
         child: ServireProviderProfileViewBody(
           spModel: serviceProviderProfileModel,
