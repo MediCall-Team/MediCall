@@ -58,7 +58,7 @@ class ProfileReviewCard extends StatelessWidget {
 
                   /// نص الريفيو
                   Text(
-                    review.description,
+                    review.description ?? "",
                     style: Styles.textStyle16w400.copyWith(
                       color: Colors.grey[700],
                     ),
