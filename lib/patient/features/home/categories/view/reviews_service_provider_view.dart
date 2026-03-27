@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/home/categories/data/service_provider_reviews_model.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/add_review_field.dart';
@@ -7,9 +8,9 @@ import 'package:grad_project/patient/features/home/categories/widgets/review_car
 import 'package:grad_project/patient/features/home/categories/widgets/stagged_step_animation.dart';
 
 class ReviewsServiceProviderView extends StatelessWidget {
-  const ReviewsServiceProviderView({super.key, required this.spReviews});
+   ReviewsServiceProviderView({super.key, required this.spReviews});
   final ServiceProviderReviewsModel spReviews;
-
+  final String role= CacheHelper.getUser()!.role;
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.sizeOf(context).width;
@@ -18,10 +19,18 @@ class ReviewsServiceProviderView extends StatelessWidget {
     List<Widget> children = [
       RatingSummaryWidget(spReviews: spReviews, screenWidth: screenWidth),
       const SizedBox(height: 30),
-      SectionTitle(title: "أضف تقييمك", screenWidth: screenWidth),
+
+  role == "Patient"?  Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+        SectionTitle(title: "أضف تقييمك", screenWidth: screenWidth),
       const SizedBox(height: 12),
       AddReviewField(screenWidth: screenWidth),
       const SizedBox(height: 30),
+    ],):SizedBox(),
+    
+
+
       SectionTitle(title: "أحدث التقييمات", screenWidth: screenWidth),
       const SizedBox(height: 16),
       // المراجعات نفسها سنعرضها كعنصر واحد أو نفككها
@@ -38,7 +47,8 @@ class ReviewsServiceProviderView extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child: Column(
+        child: spReviews.reviewsList.isNotEmpty?
+         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: List.generate(children.length, (index) {
             return StaggeredStepAnimation(
@@ -46,7 +56,9 @@ class ReviewsServiceProviderView extends StatelessWidget {
               child: children[index],
             );
           }),
-        ),
+        ):
+        Center(child: Text("لا توجد تقييمات"),)
+        ,
       ),
     );
   }

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
+import 'package:grad_project/core/helper/chach_helper.dart';
+import 'package:grad_project/core/utils/app_router.dart';
 import 'package:grad_project/core/utils/styles.dart';
-import 'package:grad_project/patient/features/profile/presentation/views/profile_view.dart';
 import 'package:grad_project/patient/features/profile/presentation/widgets/profile_view_body.dart';
 import 'package:grad_project/patient/features/profile/presentation/widgets/user_info.dart';
 class SPProfile extends StatelessWidget {
@@ -52,11 +54,21 @@ class SPProfile extends StatelessWidget {
                       onTap: () {},
                     ),
                     divider(),
+                      UserInfo(
+                      icon: Icons.info_outline,
+                      title: "عرض كما يظهر للأخرين",
+                      onTap: () {
+                         GoRouter.of(context).push(AppRouter.kServiceProviderProfile,extra:7 );
+                      },
+                    ),
+                    divider(),
                     UserInfo(
                       icon: Icons.logout,
                       title: 'تسجيل الخروج',
-                      onTap: () {
+                      onTap: () async{
                         // logout
+                           await CacheHelper.removeUser();
+                              GoRouter.of(context).go("/");
                       },
                     ),
                   ],

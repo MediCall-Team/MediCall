@@ -103,7 +103,7 @@ class ServiceProviderItem extends StatelessWidget {
         Expanded(
           child: GestureDetector(
             onTap: () {
-              GoRouter.of(context).push(AppRouter.kServiceProviderProfile);
+              GoRouter.of(context).push(AppRouter.kServiceProviderProfile,extra:doctorModel.id );
             },
             child: CustomBookButton(
               screenWidth: screenWidth,

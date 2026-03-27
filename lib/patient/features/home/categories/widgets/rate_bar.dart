@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 class RateBar extends StatelessWidget {
   final String label;
-  final double count;
-  final double total;
+  final int count;
+  final int total;
   final double screenWidth;
 
   const RateBar({

@@ -31,7 +31,7 @@ List<CategoryModel> categoriesList = [
   CategoryModel(name: 'جلدية', icon: "assets/images/skin.png"),
   CategoryModel(name: "تمريض منزلي", icon: "assets/images/nursing.png"),
   CategoryModel(name: "المزيد", icon: "assets/images/Plus.png"),
-
+  CategoryModel(name: "طب عام", icon: "assets/images/physical.png"),
   //
 ];
 List<String> sohagCenters = [

@@ -57,8 +57,11 @@ abstract class AppRouter {
       // إحنا بنتدخل فقط لو المستخدم فاتح الصفحة الرئيسية (اللوجين) ومعاه توكن
       final isAtStart = state.matchedLocation == "/";
 
-      if (isAtStart && user != null) {
+      if (isAtStart && user != null && user.role=="Patient") {
         return kBottomNavPage; // لو مسجل وديه الهوم فوراً
+      }
+      else if(isAtStart && user != null){
+        return kSCustomBottomNavPage;
       }
 
       // في أي حالة تانية (رايح ساين أب، رايح ينسى الباسورد) سيبه يروح براحته
@@ -147,7 +150,12 @@ abstract class AppRouter {
 
       GoRoute(
         path: kServiceProviderProfile,
-        builder: (context, state) => ServiceProviderProfileView(),
+        builder: (context, state) {
+          final int id = state.extra as int;
+          return ServiceProviderProfileView(
+          id: id,
+        );
+        }
       ),
       GoRoute(path: kSPProfile, builder: (context, state) => SPProfile()),
     ],
