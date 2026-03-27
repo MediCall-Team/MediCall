@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:grad_project/constants.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/styles.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/stagged_step_animation.dart';
@@ -29,13 +28,23 @@ class AboutServiceProviderView extends StatelessWidget {
 
           StaggeredStepAnimation(
             index: 1,
-            child: Text(bio
+            child:bio.isNotEmpty ?  Text(
+              bio
             ,style: TextStyle(
               fontWeight: FontWeight.w500,
               color:AppTheme.spStext(context) ,//kPrimaryColorE,
               fontSize:(screenWidth*0.03).clamp(16, 30)
             ),
+            ):
+            Center(child: Text(
+            "لا توجد معلومات"
+            ,style: TextStyle(
+              fontWeight: FontWeight.w500,
+              color:AppTheme.spStext(context) ,//kPrimaryColorE,
+              fontSize:(screenWidth*0.03).clamp(16, 30)
             ),
+            ))
+            ,
           )
       
         ],

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grad_project/constants.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/home/categories/view_model/location_cubit/location_cubit_cubit.dart';
 
@@ -26,7 +25,7 @@ class LocationServiceProviderView extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return BlocProvider(
+    return places.isNotEmpty? BlocProvider(
       create: (_) => LocationCubitCubit()..fetchLocations(places),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,6 +119,8 @@ class LocationServiceProviderView extends StatelessWidget {
           ),
         ],
       ),
-    );
+    ):
+    Center(child: Text("لا توجد مراكز"),)
+    ;
   }
 }

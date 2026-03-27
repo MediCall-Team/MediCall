@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:grad_project/core/error/failure.dart';
+import 'package:grad_project/patient/features/home/categories/data/service_provider_profile_model.dart';
 import 'package:grad_project/patient/features/home/data/models/doctor_model.dart';
 
 abstract class CategoriesRepo {
@@ -13,4 +14,11 @@ abstract class CategoriesRepo {
     String? search,
     }
   );
+
+  Future<Either<Failure,ServiceProviderProfileModel>> getProviderProfile(
+    {
+      required int id
+    }
+  );
+
 }
