@@ -190,7 +190,7 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                     ),
 
                     const SizedBox(height: 20),
-
+                    //*  الجزء ده عايز يتهندل
                     const Text(
                       'لم يصلك الرمز؟ أعد الإرسال (55)',
                       style: TextStyle(fontSize: 12, color: Color(0xFF1F3E6C)),

@@ -7,7 +7,6 @@ import 'package:grad_project/patient/features/home/categories/repo/categories_re
 import 'package:grad_project/patient/features/home/categories/view_model/service_provider_profile/service_provider_profile_cubit.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/servire_provider_profile_view_body.dart';
 
-
 class ServiceProviderProfileView extends StatelessWidget {
   const ServiceProviderProfileView({super.key, required this.id});
   final int id;
@@ -28,7 +27,7 @@ class ServiceProviderProfileView extends StatelessWidget {
         ),
         body: SafeArea(
           child: ServireProviderProfileViewBody(
-            id : id
+            id: id,
             //  spModel: serviceProviderProfileModel,
           ),
         ),

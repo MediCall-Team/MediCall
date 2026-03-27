@@ -1,17 +1,17 @@
-
 import 'package:flutter/material.dart';
 
 class RateBar extends StatelessWidget {
   final String label;
-  final int count;
-  final int total;
+  final double count;
+  final double total;
   final double screenWidth;
 
   const RateBar({
     super.key,
     required this.label,
     required this.count,
-    required this.total, required this.screenWidth,
+    required this.total,
+    required this.screenWidth,
   });
 
   @override
@@ -35,10 +35,13 @@ class RateBar extends StatelessWidget {
           ),
           const SizedBox(width: 8),
 
-          Text(label, style:  TextStyle(
-            fontSize: screenWidth*0.034//12
-          
-          , color: Colors.grey)),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: screenWidth * 0.034, //12
+              color: Colors.grey,
+            ),
+          ),
         ],
       ),
     );
