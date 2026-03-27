@@ -48,7 +48,8 @@ class _UserImageProfileState extends State<UserImageProfile> {
       imageProvider = FileImage(selectedImage!);
     } else if (widget.imageUrl != null && widget.imageUrl!.isNotEmpty) {
       imageProvider = NetworkImage(widget.imageUrl!);
-    } else {
+    }
+     else {
       imageProvider = const AssetImage('assets/images/tempphoto.png');
     }
 
