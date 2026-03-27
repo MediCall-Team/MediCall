@@ -6,24 +6,23 @@ class CustomTextField2 extends StatefulWidget {
   final IconData prefixIcon;
   final bool isPassword;
   final TextEditingController controller;
+  final TextInputType? keyboardType; // إضافة نوع لوحة المفاتيح
 
   const CustomTextField2({
     super.key,
     required this.hintText,
     required this.prefixIcon,
     this.isPassword = false,
-     required this.controller,
+    required this.controller,
+    this.keyboardType,
   });
 
   @override
   State<CustomTextField2> createState() => _CustomTextFieldState();
 }
 
-class _CustomTextFieldState extends State<CustomTextField2>
-    with SingleTickerProviderStateMixin {
+class _CustomTextFieldState extends State<CustomTextField2> {
   bool obscure = true;
-  
-  String? errorText;
 
   String? validate(String? value) {
     if (value == null || value.isEmpty) {
@@ -39,7 +38,8 @@ class _CustomTextFieldState extends State<CustomTextField2>
       r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-]).+$',
     );
 
-    if (widget.hintText.contains("كلمة المرور") && !passwordRegex.hasMatch(value)) {
+    if (widget.hintText.contains("كلمة المرور") &&
+        !passwordRegex.hasMatch(value)) {
       return "كلمة المرور يجب أن تحتوي على حرف كبير وصغير ورقم ورمز";
     }
 
@@ -60,54 +60,70 @@ class _CustomTextFieldState extends State<CustomTextField2>
     return AnimatedSize(
       duration: const Duration(milliseconds: 200),
       curve: Curves.easeInOut,
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Directionality(
-          textDirection: TextDirection.rtl,
-          child: TextFormField(
-            controller: widget.controller,
-            autovalidateMode: AutovalidateMode.onUserInteraction,
-            validator: (value) => validate(value),
-            onChanged: (_) {
-              // هنا مش محتاج setState للخطأ
-            },
-            cursorColor: kPrimaryColorB,
-            textAlign: TextAlign.right,
-            obscureText: widget.isPassword ? obscure : false,
-            style: const TextStyle(color: Colors.grey),
-            decoration: InputDecoration(
-              labelText: widget.hintText,
-              labelStyle: const TextStyle(fontSize: 15, color: Colors.grey),
-              prefixIcon: Transform(
-                alignment: Alignment.center,
-                transform: Matrix4.rotationY(3.14159),
-                child: Icon(widget.prefixIcon, color: Colors.grey, size: 24),
-              ),
-              suffixIcon: widget.isPassword
-                  ? IconButton(
-                      icon: Icon(
-                        obscure ? Icons.visibility_off : Icons.visibility,
-                        color: Colors.grey,
-                        size: 24,
-                      ),
-                      onPressed: () => setState(() => obscure = !obscure),
-                    )
-                  : null,
-              enabledBorder: buildBorder(),
-              focusedBorder: buildBorder(),
-              border: buildBorder(),
-              errorBorder: buildBorderError(),
-              focusedErrorBorder: buildBorderError(),
-              contentPadding: const EdgeInsets.symmetric(
-                vertical: 0,
-                horizontal: 12,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Directionality(
+              textDirection: TextDirection.rtl,
+              child: TextFormField(
+                keyboardType: widget.keyboardType,
+                controller: widget.controller,
+                validator: (value) => validate(value),
+
+                cursorColor: kPrimaryColorB,
+                textAlign: TextAlign.right,
+                obscureText: widget.isPassword ? obscure : false,
+
+                maxLines: 1,
+
+                style: const TextStyle(color: Colors.grey),
+
+                decoration: InputDecoration(
+                  labelText: widget.hintText,
+                  labelStyle: const TextStyle(fontSize: 15, color: Colors.grey),
+
+                  errorMaxLines: 3, // 👈 مهم جدًا
+
+                  prefixIcon: Transform(
+                    alignment: Alignment.center,
+                    transform: Matrix4.rotationY(3.14159),
+                    child: Icon(
+                      widget.prefixIcon,
+                      color: Colors.grey,
+                      size: 24,
+                    ),
+                  ),
+
+                  suffixIcon: widget.isPassword
+                      ? IconButton(
+                          icon: Icon(
+                            obscure ? Icons.visibility_off : Icons.visibility,
+                            color: Colors.grey,
+                          ),
+                          onPressed: () => setState(() => obscure = !obscure),
+                        )
+                      : null,
+
+                  enabledBorder: buildBorder(),
+                  focusedBorder: buildBorder(),
+                  border: buildBorder(),
+                  errorBorder: buildBorderError(),
+                  focusedErrorBorder: buildBorderError(),
+
+                  contentPadding: const EdgeInsets.symmetric(
+                    vertical: 14,
+                    horizontal: 12,
+                  ),
+                ),
               ),
             ),
           ),
-        ),
+        ],
       ),
     );
   }

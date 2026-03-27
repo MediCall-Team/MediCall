@@ -38,6 +38,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
     firstNameController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -100,7 +101,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                 const SizedBox(height: 10),
 
                 CustomTextField2(
-                  hintText: 'أدخل كلمة المرور',
+                  hintText: 'كلمة المرور',
                   prefixIcon: Icons.lock_outline,
                   isPassword: true,
                   controller: passwordController,
@@ -112,13 +113,21 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                   hintText: 'رقم الهاتف',
                   prefixIcon: Icons.phone_outlined,
                   controller: phoneController,
+                  keyboardType: TextInputType.numberWithOptions(),
                 ),
 
                 const SizedBox(height: 80),
 
                 CustomButton(
                   onPressed: () {
-                    if (formKey.currentState!.validate() && userImage != null) {
+                    final isValid = formKey.currentState!.validate();
+
+                    if (userImage == null) {
+                      snackBarMethod(context, "يجب إضافة صورة");
+                      return;
+                    }
+
+                    if (isValid) {
                       context.read<SpRegisterCubit>().setBasicInfo(
                         firstName: firstNameController.text,
                         lastName: lastNameController.text,
@@ -134,24 +143,12 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                           builder: (_) => BlocProvider.value(
                             value: context.read<SpRegisterCubit>(),
                             child: const Step2View(),
-                            ),
+                          ),
                         ),
                       );
-
-                      
-                      // Navigator.push(
-                      //   context,
-                      //   MaterialPageRoute(
-                      //     builder: (_) =>  const Step2View(),
-                      //       ),
-                      // );
-
-                    // GoRouter.of(context).push(AppRouter.kSign2Up);
-
-                    log("ttt");
-
-                    }else{
-                      snackBarMethod(context, "يجب عليك اضافه كل البيانات!");
+                    } else {
+                      // 👇 ده يخلي الفورم يعمل rebuild ويظهر الأخطاء
+                      setState(() {});
                     }
                   },
                   text: 'التالي',

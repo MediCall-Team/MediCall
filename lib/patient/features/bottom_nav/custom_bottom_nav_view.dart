@@ -5,8 +5,8 @@ import 'package:grad_project/constants.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/chats/views/chats_view.dart';
 import 'package:grad_project/patient/features/home/presentation/views/home_view.dart';
+import 'package:grad_project/patient/features/profile/presentation/views/profile_view.dart';
 
-import 'package:grad_project/patient/features/profile/views/profile_view.dart';
 import 'package:grad_project/patient/features/requests/presentation/views/requests_view.dart';
 
 class CustomBottomNavView extends StatefulWidget {

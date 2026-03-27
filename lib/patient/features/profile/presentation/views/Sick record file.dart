@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
-import 'package:grad_project/patient/features/profile/widgets/Bulleitem.dart';
-import 'package:grad_project/patient/features/profile/widgets/ShareButton.dart';
-
+import 'package:grad_project/patient/features/profile/presentation/widgets/Bulleitem.dart';
+import 'package:grad_project/patient/features/profile/presentation/widgets/ShareButton.dart';
 class MedicalRecordDetails extends StatelessWidget {
   const MedicalRecordDetails({super.key});
 

@@ -1,88 +1,35 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
+import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/core/utils/styles.dart';
-import 'package:grad_project/patient/features/home/categories/data/service_provider_profile_model.dart';
-import 'package:grad_project/patient/features/home/categories/data/service_provider_reviews_model.dart';
+import 'package:grad_project/patient/features/home/categories/repo/categories_repo.dart';
+import 'package:grad_project/patient/features/home/categories/view_model/service_provider_profile/service_provider_profile_cubit.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/servire_provider_profile_view_body.dart';
-import 'package:grad_project/patient/features/home/data/models/doctor_model.dart';
 
 class ServiceProviderProfileView extends StatelessWidget {
-  ServiceProviderProfileView({super.key});
-
-  final ServiceProviderProfileModel
-  serviceProviderProfileModel = ServiceProviderProfileModel(
-    doctorModel: DoctorModel(
-      id: 0,
-      image: "assets/images/tempphoto.png",
-      name: "حمزه طارق",
-      specialty: "استشاري جراحه عظام",
-      rate: 4.5,
-      price: 120,
-      //  isActive: true,
-    ),
-    homeVisits: "300",
-    yearsofexperience: "5",
-    bio:
-        "استشاري جراحة عظام متخصص في تشخيص وعلاج إصابات العظام والمفاصل، ويملك خبرة واسعة في التعامل مع حالات الكسور وآلام المفاصل المختلفة، مع الحرص على تقديم رعاية طبية دقيقة وآمنة للمرضى في منازلهم.",
-    places: ["أخميم", "جرجا", "المراغه", "طهطا", "المنشأة", "ساقلته"],
-    spReviews: ServiceProviderReviewsModel(
-      rate: 4.5,
-      numPepoleRate: 128,
-      rateFive: 100,
-      rateFour: 28,
-      rateThree: 0,
-      rateTwo: 0,
-      rateOne: 0,
-      reviewsList: [
-        ReviewsModel(
-          image: "assets/images/tempphoto.png",
-          name: "ادهم محمد",
-          description:
-              "دكتور محترم جدًا وشرح الحالة بشكل واضح، والزيارة كانت في معادها بالظبط. حسّيت باهتمام ومتابعة كويسة بعد الكشف",
-          rate: 4.5,
-        ),
-
-        ReviewsModel(
-          image: "assets/images/tempphoto.png",
-          name: "ادهم محمد",
-          description:
-              "دكتور محترم جدًا وشرح الحالة بشكل واضح، والزيارة كانت في معادها بالظبط. حسّيت باهتمام ومتابعة كويسة بعد الكشف",
-          rate: 4.5,
-        ),
-
-        ReviewsModel(
-          image: "assets/images/tempphoto.png",
-          name: "ادهم محمد",
-          description:
-              "دكتور محترم جدًا وشرح الحالة بشكل واضح، والزيارة كانت في معادها بالظبط. حسّيت باهتمام ومتابعة كويسة بعد الكشف",
-          rate: 4.5,
-        ),
-
-        ReviewsModel(
-          image: "assets/images/tempphoto.png",
-          name: "ادهم محمد",
-          description:
-              "دكتور محترم جدًا وشرح الحالة بشكل واضح، والزيارة كانت في معادها بالظبط. حسّيت باهتمام ومتابعة كويسة بعد الكشف",
-          rate: 4.5,
-        ),
-      ],
-    ),
-  );
-
+  const ServiceProviderProfileView({super.key, required this.id});
+  final int id;
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          "بيانات الدكتور",
-          style: Styles.textStyle25.copyWith(
-            color: AppTheme.mainContrast(context), //AppTheme.secondary(context)
+    return BlocProvider(
+      create: (context) => ServiceProviderProfileCubit(getIt<CategoriesRepo>()),
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text(
+            "بيانات الدكتور",
+            style: Styles.textStyle25.copyWith(
+              color: AppTheme.mainContrast(
+                context,
+              ), //AppTheme.secondary(context)
+            ),
           ),
         ),
-      ),
-      body: SafeArea(
-        child: ServireProviderProfileViewBody(
-          spModel: serviceProviderProfileModel,
+        body: SafeArea(
+          child: ServireProviderProfileViewBody(
+            id: id,
+            //  spModel: serviceProviderProfileModel,
+          ),
         ),
       ),
     );

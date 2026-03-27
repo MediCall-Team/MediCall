@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:grad_project/patient/features/home/categories/data/service_provider_reviews_model.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/handle_stars_rate.dart';
@@ -35,25 +34,25 @@ class RatingSummaryWidget extends StatelessWidget {
                 ),
                 RateBar(
                   label: "4",
-                   screenWidth: screenWidth,
+                  screenWidth: screenWidth,
                   count: spReviews.rateFour,
                   total: spReviews.numPepoleRate,
                 ),
                 RateBar(
                   label: "3",
-                   screenWidth: screenWidth,
+                  screenWidth: screenWidth,
                   count: spReviews.rateThree,
                   total: spReviews.numPepoleRate,
                 ),
                 RateBar(
                   label: "2",
-                   screenWidth: screenWidth,
+                  screenWidth: screenWidth,
                   count: spReviews.rateTwo,
                   total: spReviews.numPepoleRate,
                 ),
                 RateBar(
                   label: "1",
-                   screenWidth: screenWidth,
+                  screenWidth: screenWidth,
                   count: spReviews.rateOne,
                   total: spReviews.numPepoleRate,
                 ),
@@ -67,8 +66,8 @@ class RatingSummaryWidget extends StatelessWidget {
             children: [
               Text(
                 "${spReviews.rate}",
-                style:  TextStyle(
-                  fontSize: (screenWidth*0.1).clamp(20, 60),//48,
+                style: TextStyle(
+                  fontSize: (screenWidth * 0.1).clamp(20, 60), //48,
                   fontWeight: FontWeight.bold,
                   color: Colors.black,
                 ),
@@ -77,9 +76,10 @@ class RatingSummaryWidget extends StatelessWidget {
               const SizedBox(height: 4),
               Text(
                 "(${spReviews.numPepoleRate.toInt()} تقييم)",
-                style:  TextStyle(color: Colors.grey
-                , fontSize:screenWidth*0.038,
-                fontWeight: FontWeight.bold ////12
+                style: TextStyle(
+                  color: Colors.grey,
+                  fontSize: screenWidth * 0.038,
+                  fontWeight: FontWeight.bold, ////12
                 ),
               ),
             ],

@@ -1,25 +1,31 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/get_it.dart';
+import 'package:grad_project/core/utils/services/noti/local_notification_services.dart';
+import 'package:grad_project/core/utils/services/noti/push_notification_services.dart';
 import 'package:grad_project/generated/l10n.dart';
 import 'package:grad_project/core/utils/app_router.dart';
 import 'package:grad_project/patient/features/home/presentation/view_models/cubit/app_theme_cubit.dart';
 
-void main() async{
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   setupServiceLocator();
- await CacheHelper.init();
+  await CacheHelper.init();
+  await Firebase.initializeApp();
+  await LocalNotificationService.init();
+  await PushNotificationServices.init();
 
   runApp(
     DevicePreview(
       enabled: false,
-      builder: (context) => BlocProvider(
-        create: (_) => AppThemeCubit(),
-        child: const MediApp(),
-      ),
+      builder: (context) =>
+          BlocProvider(create: (_) => AppThemeCubit(), child: const MediApp()),
     ),
   );
 }
@@ -31,8 +37,9 @@ class MediApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<AppThemeCubit, AppThemeState>(
       builder: (context, state) {
-        final themeMode =
-            state is AppThemeDark ? ThemeMode.dark : ThemeMode.light;
+        final themeMode = state is AppThemeDark
+            ? ThemeMode.dark
+            : ThemeMode.light;
 
         return MaterialApp.router(
           debugShowCheckedModeBanner: false,

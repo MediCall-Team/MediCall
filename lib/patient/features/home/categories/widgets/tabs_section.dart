@@ -29,7 +29,7 @@ class _TabsSectionState extends State<TabsSection> {
   @override
   Widget build(BuildContext context) {
     List<Widget> pages = [
-      AboutServiceProviderView(bio: widget.spModel.bio),
+      AboutServiceProviderView(bio: widget.spModel.bio ?? ""),
       LocationServiceProviderView(places: widget.spModel.places),
       ReviewsServiceProviderView(spReviews: widget.spModel.spReviews),
     ];
