@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
+import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/patient/features/home/categories/data/service_provider_reviews_model.dart';
+import 'package:grad_project/patient/features/home/categories/repo/more_review_repo.dart';
+import 'package:grad_project/patient/features/home/categories/view/more_review_page.dart';
+import 'package:grad_project/patient/features/home/categories/view_model/more_reviews/more_reviews_cubit.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/add_review_field.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/rating_summary_widget.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/review_card.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/stagged_step_animation.dart';
 
 class ReviewsServiceProviderView extends StatelessWidget {
-   ReviewsServiceProviderView({super.key, required this.spReviews});
+   ReviewsServiceProviderView({super.key, required this.spReviews, required this.id});
   final ServiceProviderReviewsModel spReviews;
   final String role= CacheHelper.getUser()!.role;
+
+  final int id;
   @override
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.sizeOf(context).width;
@@ -41,6 +48,40 @@ class ReviewsServiceProviderView extends StatelessWidget {
         separatorBuilder: (context, index) => const SizedBox(height: 20),
         itemBuilder: (context, index) => ReviewCard(review: spReviews.reviewsList[index], screenWidth: screenWidth),
       ),
+
+        // ⭐ زرار "المزيد" المربوط بالـ Cubit الجديد
+      const SizedBox(height: 12),
+      Align(
+        alignment: Alignment.center,
+        child: TextButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => BlocProvider(
+                  // بنستخدم الـ Repo اللي عملناه بالـ ApiConsumer
+                  create: (context) => MoreReviewCubit(
+                    getIt<MoreReviewRepo>(), // لو بتستخدمي GetIt
+                  )..initPagination(id),
+                  child: MoreReviewsPage(
+                    serviceProviderId: id,
+                  ),
+                ),
+              ),
+            );
+          },
+          child: const Text(
+            "المزيد من التقييمات .........",
+            style: TextStyle(
+              color: Color(0xff1F3E6C),
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+        ),
+      ),
+
+
     ];
 
     return Directionality(
@@ -63,6 +104,9 @@ class ReviewsServiceProviderView extends StatelessWidget {
     );
   }
 }
+
+
+
 
 // --- تحويل الـ Methods إلى Widgets منفصلة ---
 

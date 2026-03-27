@@ -12,12 +12,13 @@ class TabsSection extends StatefulWidget {
     super.key,
     required this.screenWidth,
     required this.screenHeight,
-    required this.spModel,
+    required this.spModel, required this.id,
   });
 
   final double screenWidth;
   final double screenHeight;
   final ServiceProviderProfileModel spModel;
+  final int id;
 
   @override
   State<TabsSection> createState() => _TabsSectionState();
@@ -31,7 +32,7 @@ class _TabsSectionState extends State<TabsSection> {
     List<Widget> pages = [
       AboutServiceProviderView(bio: widget.spModel.bio ?? ""),
       LocationServiceProviderView(places: widget.spModel.places),
-      ReviewsServiceProviderView(spReviews: widget.spModel.spReviews),
+      ReviewsServiceProviderView(id:widget.id,spReviews: widget.spModel.spReviews),
     ];
 
     // double width = MediaQuery.of(context).size.width;

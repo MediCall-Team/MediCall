@@ -35,6 +35,8 @@ class ServiceProviderReviewsModel {
           [],
     );
   }
+
+ // int get serviceProviderId => null;
 }
 
 class ReviewsModel {
