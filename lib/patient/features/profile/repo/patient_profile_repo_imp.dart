@@ -41,8 +41,13 @@ class PatientProfileRepoImp implements PatientProfileRepo {
         "LastName": LastName,
         "PhoneNumber": PhoneNumber,
         "IsImageRemoved": IsImageRemoved,
-        if (Image != null) "Image": await MultipartFile.fromFile(Image.path),
       });
+
+      if (Image != null) {
+        formData.files.add(
+          MapEntry("Image", await MultipartFile.fromFile(Image.path)),
+        );
+      }
 
       var response = await api.put(
         'api/Profile/UpdateMyProfile',

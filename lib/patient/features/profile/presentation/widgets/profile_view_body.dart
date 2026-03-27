@@ -23,6 +23,28 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
   String? editedPhone;
   File? selectedImage;
 
+  /// ✅ Validation الموبايل
+  String? validatePhone(String value) {
+    if (value.isEmpty) return "من فضلك ادخل رقم الهاتف";
+
+    final regex = RegExp(r'^(010|011|012|015)\d{8}$');
+
+    if (!regex.hasMatch(value)) return "رقم غير صحيح";
+
+    return null;
+  }
+
+  /// ✅ Validation الاسم
+  String? validateName(String value) {
+    if (value.trim().isEmpty) return "الحقل مطلوب";
+
+    if (RegExp(r'[0-9]').hasMatch(value)) {
+      return "لا يجب إدخال أرقام";
+    }
+
+    return null;
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocListener<UpdateProfileCubit, UpdateProfileState>(
@@ -40,7 +62,6 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
             context,
           ).showSnackBar(const SnackBar(content: Text("تم التعديل بنجاح")));
 
-          // 🔥 نعمل refresh للداتا
           context.read<GetProfileCubit>().getPatProfile();
         } else if (state is UpdateProfilefailure) {
           Navigator.pop(context);
@@ -71,6 +92,8 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
               child: Column(
                 children: [
                   const SizedBox(height: 16),
+
+                  /// 👤 صورة
                   UserImageProfile(
                     canEdit: true,
                     imageUrl: profile.profilePictureUrl,
@@ -78,11 +101,11 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                       selectedImage = image;
 
                       context.read<UpdateProfileCubit>().updatePatProfile(
-                        firstName,
-                        lastName,
-                        phone,
-                        image,
-                        true,
+                        firstName: firstName,
+                        lastName: lastName,
+                        phoneNumber: phone,
+                        isImageRemoved: true,
+                        image: image,
                       );
                     },
                   ),
@@ -105,21 +128,48 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                       ),
                       child: Column(
                         children: [
-                          /// 👤 الاسم
+                          /// 👤 الاسم (2 fields)
                           UserInfo(
                             icon: Icons.person_outlined,
                             title: "$firstName $lastName",
                             trailing: Icons.edit_outlined,
                             onEditTap: () {
-                              final controller = TextEditingController(
-                                text: "$firstName $lastName",
+                              final firstController = TextEditingController(
+                                text: firstName,
                               );
+                              final lastController = TextEditingController(
+                                text: lastName,
+                              );
+
+                              final formKey = GlobalKey<FormState>();
 
                               showDialog(
                                 context: context,
                                 builder: (_) => AlertDialog(
                                   title: const Text("تعديل الاسم"),
-                                  content: TextField(controller: controller),
+                                  content: Form(
+                                    key: formKey,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        TextFormField(
+                                          controller: firstController,
+                                          decoration: const InputDecoration(
+                                            hintText: "الاسم الأول",
+                                          ),
+                                          validator: (v) => validateName(v!),
+                                        ),
+                                        const SizedBox(height: 10),
+                                        TextFormField(
+                                          controller: lastController,
+                                          decoration: const InputDecoration(
+                                            hintText: "الاسم الأخير",
+                                          ),
+                                          validator: (v) => validateName(v!),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
                                   actions: [
                                     TextButton(
                                       onPressed: () => Navigator.pop(context),
@@ -127,31 +177,29 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                                     ),
                                     ElevatedButton(
                                       onPressed: () {
-                                        final parts = controller.text.split(
-                                          " ",
-                                        );
+                                        if (formKey.currentState!.validate()) {
+                                          final first = firstController.text
+                                              .trim();
+                                          final last = lastController.text
+                                              .trim();
 
-                                        final first = parts[0];
-                                        final last = parts.length > 1
-                                            ? parts[1]
-                                            : "";
+                                          setState(() {
+                                            editedFirstName = first;
+                                            editedLastName = last;
+                                          });
 
-                                        setState(() {
-                                          editedFirstName = first;
-                                          editedLastName = last;
-                                        });
+                                          context
+                                              .read<UpdateProfileCubit>()
+                                              .updatePatProfile(
+                                                firstName: first,
+                                                lastName: last,
+                                                phoneNumber: phone,
+                                                image: selectedImage,
+                                                isImageRemoved: false,
+                                              );
 
-                                        context
-                                            .read<UpdateProfileCubit>()
-                                            .updatePatProfile(
-                                              first,
-                                              last,
-                                              phone,
-                                              null,
-                                              false,
-                                            );
-
-                                        Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        }
                                       },
                                       child: const Text("حفظ"),
                                     ),
@@ -163,7 +211,7 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
 
                           divider(),
 
-                          /// 📞 الموبايل
+                          /// 📞 الموبايل (Validation)
                           UserInfo(
                             icon: Icons.phone_outlined,
                             flibx: true,
@@ -174,13 +222,22 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                                 text: phone,
                               );
 
+                              final formKey = GlobalKey<FormState>();
+
                               showDialog(
                                 context: context,
                                 builder: (_) => AlertDialog(
                                   title: const Text("تعديل الهاتف"),
-                                  content: TextField(
-                                    controller: controller,
-                                    keyboardType: TextInputType.phone,
+                                  content: Form(
+                                    key: formKey,
+                                    child: TextFormField(
+                                      controller: controller,
+                                      keyboardType: TextInputType.phone,
+                                      decoration: const InputDecoration(
+                                        hintText: "اكتب الرقم الجديد",
+                                      ),
+                                      validator: (v) => validatePhone(v!),
+                                    ),
                                   ),
                                   actions: [
                                     TextButton(
@@ -189,21 +246,23 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                                     ),
                                     ElevatedButton(
                                       onPressed: () {
-                                        setState(() {
-                                          editedPhone = controller.text;
-                                        });
+                                        if (formKey.currentState!.validate()) {
+                                          setState(() {
+                                            editedPhone = controller.text;
+                                          });
 
-                                        context
-                                            .read<UpdateProfileCubit>()
-                                            .updatePatProfile(
-                                              firstName,
-                                              lastName,
-                                              controller.text,
-                                              null,
-                                              false,
-                                            );
+                                          context
+                                              .read<UpdateProfileCubit>()
+                                              .updatePatProfile(
+                                                firstName: firstName,
+                                                lastName: lastName,
+                                                phoneNumber: controller.text,
+                                                image: selectedImage,
+                                                isImageRemoved: true,
+                                              );
 
-                                        Navigator.pop(context);
+                                          Navigator.pop(context);
+                                        }
                                       },
                                       child: const Text("حفظ"),
                                     ),
@@ -215,6 +274,7 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
 
                           divider(),
 
+                          /// باقي العناصر زي ما هي
                           UserInfo(
                             icon: Icons.assignment_outlined,
                             title: 'السجل المرضي',
@@ -227,22 +287,23 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                               );
                             },
                           ),
+
                           divider(),
 
-                          /// ℹ️ عن التطبيق
                           UserInfo(
                             icon: Icons.info_outline,
                             title: 'عن التطبيق',
                             onTap: () {},
                           ),
+
                           divider(),
 
-                          /// 🚩 إبلاغ
                           UserInfo(
                             icon: Icons.flag_outlined,
                             title: 'إبلاغ',
                             onTap: () {},
                           ),
+
                           divider(),
 
                           UserInfo(
