@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
+import 'package:grad_project/core/utils/services/noti/push_notification_services.dart';
 import 'package:grad_project/patient/features/authentication/data/patient_user_model.dart';
 import 'package:grad_project/patient/features/authentication/repo/auth_repo.dart';
 import 'package:meta/meta.dart';
@@ -37,6 +38,8 @@ class LoginCubit extends Cubit<LoginState> {
         // save in cach 
       await CacheHelper.saveUser(userModel);
       log("token : ${userModel.token},\nid : ${userModel.id} ,\nrole : ${userModel.role}");
+
+    //  await PushNotificationServices.syncTokenAfterLogin();
 
         emit(LoginSuccess(userModel: userModel));
       },
