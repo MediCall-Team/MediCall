@@ -56,6 +56,7 @@ class _ServireProviderProfileViewBodyState
 
             SliverToBoxAdapter(
               child: TabsSection(
+                id: widget.id,
                 spModel: spModel,
                 screenHeight: screenHeight,
                 screenWidth: screenWidth,

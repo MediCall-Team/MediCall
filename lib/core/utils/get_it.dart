@@ -6,6 +6,7 @@ import 'package:grad_project/patient/features/authentication/repo/auth_repo.dart
 import 'package:grad_project/patient/features/authentication/repo/auth_repo_imp.dart';
 import 'package:grad_project/patient/features/home/categories/repo/categories_repo.dart';
 import 'package:grad_project/patient/features/home/categories/repo/categories_repo_imp.dart';
+import 'package:grad_project/patient/features/home/categories/view_model/repo/MoreReviewRepo.dart';
 import 'package:grad_project/patient/features/profile/repo/patient_profile_repo.dart';
 import 'package:grad_project/patient/features/profile/repo/patient_profile_repo_imp.dart';
 import 'package:grad_project/service_provider/features/auth/repo/sp_regester_repo.dart';
@@ -36,5 +37,9 @@ void setupServiceLocator() {
   );
   getIt.registerLazySingleton<PatientProfileRepo>(
     () => PatientProfileRepoImp(api: getIt<ApiConsumer>()),
+  );
+
+  getIt.registerLazySingleton<MoreReviewRepo>(
+    () => MoreReviewRepoImp(api: getIt<ApiConsumer>()),
   );
 }
