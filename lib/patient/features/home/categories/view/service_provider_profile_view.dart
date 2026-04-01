@@ -19,18 +19,11 @@ class ServiceProviderProfileView extends StatelessWidget {
           title: Text(
             "بيانات الدكتور",
             style: Styles.textStyle25.copyWith(
-              color: AppTheme.mainContrast(
-                context,
-              ), //AppTheme.secondary(context)
+              color: AppTheme.mainContrast(context),
             ),
           ),
         ),
-        body: SafeArea(
-          child: ServireProviderProfileViewBody(
-            id: id,
-            //  spModel: serviceProviderProfileModel,
-          ),
-        ),
+        body: SafeArea(child: ServireProviderProfileViewBody(id: id)),
       ),
     );
   }

@@ -13,6 +13,7 @@ abstract class MoreReviewRepo {
 
 class MoreReviewRepoImp implements MoreReviewRepo {
   final ApiConsumer api;
+
   MoreReviewRepoImp({required this.api});
 
   @override
@@ -23,21 +24,18 @@ class MoreReviewRepoImp implements MoreReviewRepo {
   }) async {
     try {
       final response = await api.get(
-        'api/Reviews',
-        queryParameters: {
-          'serviceProviderId': spId,
-          'pageNumber': pageNumber,
-          'pageSize': pageSize,
-        },
+        'api/Providers/$spId/reviews',
+        queryParameters: {'pageNumber': pageNumber, 'pageSize': pageSize},
       );
 
-      // الـ ApiConsumer غالباً بيرجع Map<String, dynamic>
-      final List items = response['items'] ?? [];
+      // الوصول لمفتاح "data" من الـ JSON الذي أرسلته
+      final List items = response['data'] ?? [];
       final List<ReviewModel> reviews = items
-          .map((e) => ReviewModel.fromJson(e as Map<String, dynamic>))
+          .map((e) => ReviewModel.fromJson(e))
           .toList();
 
-      final int totalCount = response['totalCount'] ?? 0;
+      // الوصول لمفتاح "count" من الـ JSON الذي أرسلته
+      final int totalCount = response['count'] ?? 0;
 
       return right((reviews, totalCount));
     } on Failure catch (e) {

@@ -1,26 +1,33 @@
-// ملف: ReviewsModel.dart
 class ReviewModel {
   final int id;
-  final String? comment; // في الـ UI بنسميه description
-  final double ratingValue; // في الـ UI بنسميه rate
-  final String? userName;
-  final String? userImage;
+  final String name;
+  final String? description; // ليطابق review.description في الكارد
+  final double rate; // ليطابق review.rate في الكارد
+  final String createdAt; // ليطابق review.createdAt في الكارد
+  final String? image; // ليطابق review.image في الكارد
 
   ReviewModel({
     required this.id,
-    this.comment,
-    required this.ratingValue,
-    this.userName,
-    this.userImage,
+    required this.name,
+    this.description,
+    required this.rate,
+    required this.createdAt,
+    this.image,
   });
 
   factory ReviewModel.fromJson(Map<String, dynamic> json) {
     return ReviewModel(
       id: json['id'] ?? 0,
-      comment: json['comment'] ?? "",
-      ratingValue: (json['ratingValue'] ?? 0).toDouble(),
-      userName: json['patientName'] ?? "مستخدم", // حسب الـ API
-      userImage: json['patientImage'],
+      // نستخدم الـ Null Coalescing لضمان عدم حدوث خطأ إذا اختلف اسم الحقل من السيرفر
+      name: json['patientName'] ?? json['userName'] ?? "مريض",
+      description: json['comment'] ?? json['description'] ?? "",
+      rate: (json['ratingValue'] ?? json['rate'] ?? 0).toDouble(),
+      createdAt: json['createdAt'] ?? "",
+      image:
+          json['patientImageUrl'] ??
+          json['patientImage'] ??
+          json['image'] ??
+          "",
     );
   }
 }
