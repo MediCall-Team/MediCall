@@ -22,7 +22,7 @@ class PatienAuthRepoImp implements PatienAuthRepo {
         data: {"Email": email, "Password": password},
       );
       final user = PatientUserModel.fromJson(response as Map<String, dynamic>);
-      
+
       return right(user);
     } on Failure catch (e) {
       return left(e);
@@ -129,4 +129,21 @@ class PatienAuthRepoImp implements PatienAuthRepo {
       return left(ServerFailure(e.toString()));
     }
   }
+
+@override
+Future<Either<Failure, Unit>> logOut({required String deviceId}) async {
+  try {
+    await api.delete(
+      "api/Notifications/DeleteToken/$deviceId",
+    );
+
+    return right(unit); // ✅ نجاح
+
+  } on Failure catch (e) {
+      return left(e);
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
+    }
+}
+
 }

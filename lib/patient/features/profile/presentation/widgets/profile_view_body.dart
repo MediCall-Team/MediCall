@@ -3,7 +3,12 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grad_project/constants.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
+import 'package:grad_project/core/helper/snakbar.dart';
+import 'package:grad_project/core/utils/app_router.dart';
+import 'package:grad_project/patient/features/authentication/presentation/view_model/logout_cubit/logout_cubit.dart';
+import 'package:grad_project/patient/features/authentication/presentation/widgets/custom_loading_indecator.dart';
 import 'package:grad_project/patient/features/profile/presentation/view_model/get_profile_cubit/get_profile_cubit.dart';
 import 'package:grad_project/patient/features/profile/presentation/view_model/update_profile_cubit/update_profile_cubit.dart';
 import 'package:grad_project/patient/features/profile/presentation/views/sick%20record.dart';
@@ -88,239 +93,287 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
             final lastName = editedLastName ?? profile.lastName;
             final phone = editedPhone ?? profile.phoneNumber;
 
-            return SingleChildScrollView(
-              child: Column(
-                children: [
-                  const SizedBox(height: 16),
+            return CustomLoadingIndicator(
+              isLoading: context.watch<LogoutCubit>().loading,
+              child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    const SizedBox(height: 16),
 
-                  /// 👤 صورة
-                  UserImageProfile(
-                    canEdit: true,
-                    imageUrl: profile.profilePictureUrl,
-                    onImageSelected: (image) {
-                      selectedImage = image;
+                    /// 👤 صورة
+                    UserImageProfile(
+                      canEdit: true,
+                      imageUrl: profile.profilePictureUrl,
+                      onImageSelected: (image) {
+                        selectedImage = image;
 
-                      context.read<UpdateProfileCubit>().updatePatProfile(
-                        firstName: firstName,
-                        lastName: lastName,
-                        phoneNumber: phone,
-                        isImageRemoved: true,
-                        image: image,
-                      );
-                    },
-                  ),
+                        context.read<UpdateProfileCubit>().updatePatProfile(
+                          firstName: firstName,
+                          lastName: lastName,
+                          phoneNumber: phone,
+                          isImageRemoved: true,
+                          image: image,
+                        );
+                      },
+                    ),
 
-                  const SizedBox(height: 10),
+                    const SizedBox(height: 10),
 
-                  Text(
-                    profile.email,
-                    style: const TextStyle(color: Colors.grey, fontSize: 14),
-                  ),
+                    Text(
+                      profile.email,
+                      style: const TextStyle(color: Colors.grey, fontSize: 14),
+                    ),
 
-                  const SizedBox(height: 24),
+                    const SizedBox(height: 24),
 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 28),
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: const Color(0xffEDF7FB),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Column(
-                        children: [
-                          /// 👤 الاسم (2 fields)
-                          UserInfo(
-                            icon: Icons.person_outlined,
-                            title: "$firstName $lastName",
-                            trailing: Icons.edit_outlined,
-                            onEditTap: () {
-                              final firstController = TextEditingController(
-                                text: firstName,
-                              );
-                              final lastController = TextEditingController(
-                                text: lastName,
-                              );
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 28),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: const Color(0xffEDF7FB),
+                          borderRadius: BorderRadius.circular(16),
+                        ),
+                        child: Column(
+                          children: [
+                            /// 👤 الاسم (2 fields)
+                            UserInfo(
+                              icon: Icons.person_outlined,
+                              title: "$firstName $lastName",
+                              trailing: Icons.edit_outlined,
+                              onEditTap: () {
+                                final firstController = TextEditingController(
+                                  text: firstName,
+                                );
+                                final lastController = TextEditingController(
+                                  text: lastName,
+                                );
 
-                              final formKey = GlobalKey<FormState>();
+                                final formKey = GlobalKey<FormState>();
 
-                              showDialog(
-                                context: context,
-                                builder: (_) => AlertDialog(
-                                  title: const Text("تعديل الاسم"),
-                                  content: Form(
-                                    key: formKey,
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        TextFormField(
-                                          controller: firstController,
-                                          decoration: const InputDecoration(
-                                            hintText: "الاسم الأول",
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => AlertDialog(
+                                    title: const Text("تعديل الاسم"),
+                                    content: Form(
+                                      key: formKey,
+                                      child: Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          TextFormField(
+                                            controller: firstController,
+                                            decoration: const InputDecoration(
+                                              hintText: "الاسم الأول",
+                                            ),
+                                            validator: (v) => validateName(v!),
                                           ),
-                                          validator: (v) => validateName(v!),
-                                        ),
-                                        const SizedBox(height: 10),
-                                        TextFormField(
-                                          controller: lastController,
-                                          decoration: const InputDecoration(
-                                            hintText: "الاسم الأخير",
+                                          const SizedBox(height: 10),
+                                          TextFormField(
+                                            controller: lastController,
+                                            decoration: const InputDecoration(
+                                              hintText: "الاسم الأخير",
+                                            ),
+                                            validator: (v) => validateName(v!),
                                           ),
-                                          validator: (v) => validateName(v!),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: const Text("إلغاء"),
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        if (formKey.currentState!.validate()) {
-                                          final first = firstController.text
-                                              .trim();
-                                          final last = lastController.text
-                                              .trim();
-
-                                          setState(() {
-                                            editedFirstName = first;
-                                            editedLastName = last;
-                                          });
-
-                                          context
-                                              .read<UpdateProfileCubit>()
-                                              .updatePatProfile(
-                                                firstName: first,
-                                                lastName: last,
-                                                phoneNumber: phone,
-                                                image: selectedImage,
-                                                isImageRemoved: false,
-                                              );
-
-                                          Navigator.pop(context);
-                                        }
-                                      },
-                                      child: const Text("حفظ"),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
-
-                          divider(),
-
-                          /// 📞 الموبايل (Validation)
-                          UserInfo(
-                            icon: Icons.phone_outlined,
-                            flibx: true,
-                            title: phone,
-                            trailing: Icons.edit_outlined,
-                            onEditTap: () {
-                              final controller = TextEditingController(
-                                text: phone,
-                              );
-
-                              final formKey = GlobalKey<FormState>();
-
-                              showDialog(
-                                context: context,
-                                builder: (_) => AlertDialog(
-                                  title: const Text("تعديل الهاتف"),
-                                  content: Form(
-                                    key: formKey,
-                                    child: TextFormField(
-                                      controller: controller,
-                                      keyboardType: TextInputType.phone,
-                                      decoration: const InputDecoration(
-                                        hintText: "اكتب الرقم الجديد",
+                                        ],
                                       ),
-                                      validator: (v) => validatePhone(v!),
                                     ),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text("إلغاء"),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          if (formKey.currentState!
+                                              .validate()) {
+                                            final first = firstController.text
+                                                .trim();
+                                            final last = lastController.text
+                                                .trim();
+
+                                            setState(() {
+                                              editedFirstName = first;
+                                              editedLastName = last;
+                                            });
+
+                                            context
+                                                .read<UpdateProfileCubit>()
+                                                .updatePatProfile(
+                                                  firstName: first,
+                                                  lastName: last,
+                                                  phoneNumber: phone,
+                                                  image: selectedImage,
+                                                  isImageRemoved: false,
+                                                );
+
+                                            Navigator.pop(context);
+                                          }
+                                        },
+                                        child: const Text("حفظ"),
+                                      ),
+                                    ],
                                   ),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () => Navigator.pop(context),
-                                      child: const Text("إلغاء"),
+                                );
+                              },
+                            ),
+
+                            divider(),
+
+                            /// 📞 الموبايل (Validation)
+                            UserInfo(
+                              icon: Icons.phone_outlined,
+                              flibx: true,
+                              title: phone,
+                              trailing: Icons.edit_outlined,
+                              onEditTap: () {
+                                final controller = TextEditingController(
+                                  text: phone,
+                                );
+
+                                final formKey = GlobalKey<FormState>();
+
+                                showDialog(
+                                  context: context,
+                                  builder: (_) => AlertDialog(
+                                    title: const Text("تعديل الهاتف"),
+                                    content: Form(
+                                      key: formKey,
+                                      child: TextFormField(
+                                        controller: controller,
+                                        keyboardType: TextInputType.phone,
+                                        decoration: const InputDecoration(
+                                          hintText: "اكتب الرقم الجديد",
+                                        ),
+                                        validator: (v) => validatePhone(v!),
+                                      ),
                                     ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        if (formKey.currentState!.validate()) {
-                                          setState(() {
-                                            editedPhone = controller.text;
-                                          });
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () => Navigator.pop(context),
+                                        child: const Text("إلغاء"),
+                                      ),
+                                      ElevatedButton(
+                                        onPressed: () {
+                                          if (formKey.currentState!
+                                              .validate()) {
+                                            setState(() {
+                                              editedPhone = controller.text;
+                                            });
 
-                                          context
-                                              .read<UpdateProfileCubit>()
-                                              .updatePatProfile(
-                                                firstName: firstName,
-                                                lastName: lastName,
-                                                phoneNumber: controller.text,
-                                                image: selectedImage,
-                                                isImageRemoved: true,
-                                              );
+                                            context
+                                                .read<UpdateProfileCubit>()
+                                                .updatePatProfile(
+                                                  firstName: firstName,
+                                                  lastName: lastName,
+                                                  phoneNumber: controller.text,
+                                                  image: selectedImage,
+                                                  isImageRemoved: true,
+                                                );
 
-                                          Navigator.pop(context);
-                                        }
-                                      },
-                                      child: const Text("حفظ"),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            },
-                          ),
+                                            Navigator.pop(context);
+                                          }
+                                        },
+                                        child: const Text("حفظ"),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ),
 
-                          divider(),
+                            divider(),
 
-                          /// باقي العناصر زي ما هي
-                          UserInfo(
-                            icon: Icons.assignment_outlined,
-                            title: 'السجل المرضي',
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (_) => const MedicalRecordView(),
-                                ),
-                              );
-                            },
-                          ),
+                            /// باقي العناصر زي ما هي
+                            UserInfo(
+                              icon: Icons.assignment_outlined,
+                              title: 'السجل المرضي',
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const MedicalRecordView(),
+                                  ),
+                                );
+                              },
+                            ),
 
-                          divider(),
+                            divider(),
 
-                          UserInfo(
-                            icon: Icons.info_outline,
-                            title: 'عن التطبيق',
-                            onTap: () {},
-                          ),
+                            UserInfo(
+                              icon: Icons.info_outline,
+                              title: 'عن التطبيق',
+                              onTap: () {},
+                            ),
 
-                          divider(),
+                            divider(),
 
-                          UserInfo(
-                            icon: Icons.flag_outlined,
-                            title: 'إبلاغ',
-                            onTap: () {},
-                          ),
+                            UserInfo(
+                              icon: Icons.flag_outlined,
+                              title: 'إبلاغ',
+                              onTap: () {},
+                            ),
 
-                          divider(),
+                            divider(),
+                            BlocConsumer<LogoutCubit, LogoutState>(
+                              listener: (context, state) {
+                                if (state is LogoutFailure) {
+                                  snackBarMethod(
+                                    context,
+                                    state.errorMsg ,
+                                  );
+                                } else if (state is LogoutSuccess) {
+                                  // 🔹 نستخدم microtask عشان listener ما يكونش async
+                                  Future.microtask(() async {
+                                    // إزالة الـ FCM token من الكاش
+                                    await CacheHelper.removeData(
+                                      key: fcmSentKey,
+                                    );
+                                    await CacheHelper.removeData(
+                                      key: fcmTokenKey,
+                                    );
 
-                          UserInfo(
-                            icon: Icons.logout,
-                            title: 'تسجيل الخروج',
-                            onTap: () async {
-                              await CacheHelper.removeUser();
-                              GoRouter.of(context).go("/");
-                            },
-                          ),
-                        ],
+                                    // إزالة بيانات المستخدم
+                                    await CacheHelper.removeUser();
+
+                                    // الانتقال للصفحة الرئيسية
+                                    GoRouter.of(
+                                      context,
+                                    ).go(AppRouter.kLoginPage);
+                                  });
+                                }
+                              },
+                              builder: (context, state) {
+                                return UserInfo(
+                                  icon: Icons.logout,
+                                  title: 'تسجيل الخروج',
+                                  onTap: () async {
+                                    // 🔹 جلب الـ FCM token من الكاش
+                                    final deviceIdd = await CacheHelper.getData(
+                                      key: deviceId,
+                                    );
+                                    if (deviceIdd != null) {
+                                      BlocProvider.of<LogoutCubit>(
+                                        context,
+                                      ).logOut(deviceId: deviceIdd);
+                                    } else {
+                                      // لو مفيش token، ممكن نعمل logout محلي بس
+                                      await CacheHelper.removeUser();
+                                      GoRouter.of(
+                                        context,
+                                      ).go(AppRouter.kLoginPage);
+                                    }
+                                  },
+                                );
+                              },
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
 
-                  const SizedBox(height: 24),
-                ],
+                    const SizedBox(height: 24),
+                  ],
+                ),
               ),
             );
           }

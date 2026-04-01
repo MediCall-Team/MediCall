@@ -2,9 +2,12 @@ import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:grad_project/constants.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/core/utils/api/dio_consumer.dart';
+import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/core/utils/services/noti/local_notification_services.dart';
+import 'package:grad_project/patient/features/authentication/data/patient_user_model.dart';
 import 'package:uuid/uuid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -13,6 +16,7 @@ class PushNotificationServices {
 
   static String? fcmToken;
   static String deviceId = "";
+  
 
   static const _tokenKey = "fcm_token";
 
@@ -46,7 +50,9 @@ class PushNotificationServices {
 
       fcmToken = newToken;
 
-      await _saveToken(newToken);
+     // await _saveToken(newToken);
+
+      await CacheHelper.saveData(key: fcmSentKey, value: false);
 
       if (await AuthService.isLoggedIn()) {
         await sendToken(newToken, deviceId);
@@ -61,40 +67,65 @@ class PushNotificationServices {
   }
 
   /// ================= CHECK TOKEN =================
-  static Future _checkAndUpdateToken() async {
-    if (fcmToken == null) return;
+  // static Future _checkAndUpdateToken() async {
+  //   if (fcmToken == null) return;
 
-    final savedToken = await _getSavedToken();
+  //   final savedToken = await _getSavedToken();
 
-    if (savedToken != fcmToken) {
-      log("Token changed or first time");
+  //   if (savedToken != fcmToken) {
+  //     log("Token changed or first time");
 
-      await _saveToken(fcmToken!);
+  //     await _saveToken(fcmToken!);
 
-      if (await AuthService.isLoggedIn()) {
-        await sendToken(fcmToken!, deviceId);
-      }
-    }
+  //     if (await AuthService.isLoggedIn()) {
+  //       await sendToken(fcmToken!, deviceId);
+  //     }
+  //   }
+  // }
+
+static Future _checkAndUpdateToken() async {
+  if (fcmToken == null) return;
+
+  final savedToken = CacheHelper.getData(key: fcmTokenKey);
+  final isSent = CacheHelper.getData(key: fcmSentKey);
+
+  final isLoggedIn = await AuthService.isLoggedIn();
+
+  // 🔥 الحالة 1: التوكن اتغير
+  if (savedToken != fcmToken && isLoggedIn) {
+    log("Token changed → resend");
+    await sendToken(fcmToken!, deviceId);
+    return;
   }
+
+  // 🔥 الحالة 2: التوكن متبعتش قبل كدا
+  if (isSent != true && isLoggedIn) {
+    log("Token not sent → retry");
+    await sendToken(fcmToken!, deviceId);
+  }
+}
+
 
   /// ================= AFTER LOGIN =================
   static Future syncTokenAfterLogin() async {
     if (fcmToken != null) {
       await sendToken(fcmToken!, deviceId);
-      await _saveToken(fcmToken!);
+      
+     // await _saveToken(fcmToken!);
     }
   }
 
   /// ================= CACHE =================
-  static Future _saveToken(String token) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setString(_tokenKey, token);
-  }
+  // static Future _saveToken(String token) async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   await prefs.setString(_tokenKey, token);
+ 
+  // }
 
-  static Future<String?> _getSavedToken() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString(_tokenKey);
-  }
+  // static Future<String?> _getSavedToken() async {
+  //   final prefs = await SharedPreferences.getInstance();
+  //   return prefs.getString(_tokenKey);
+  // }
 
   /// ================= FOREGROUND =================
   static void handelforgroundMessage() {
@@ -115,22 +146,52 @@ Future<void> handelbackgroundMessage(RemoteMessage message) async {
 }
 
 /// ================= SEND TOKEN =================
+// Future<void> sendToken(String token, String deviceId) async {
+//   try {
+//    DioConsumer api = DioConsumer(dio: getIt<Dio>());
+
+//     var response = await api.post(
+//       "",
+//       data: {
+//         "fcmToken": token,
+//         "deviceType": "android",
+//         "deviceId": deviceId
+//       },
+//     );
+
+//     log("sendToken response : $response");
+//   } catch (e) {
+//     log("Error sending token : ${e.toString()}");
+//   }
+// }
+
 Future<void> sendToken(String token, String deviceId) async {
   try {
-    DioConsumer api = DioConsumer(dio: Dio());
+    DioConsumer api = DioConsumer(dio: getIt<Dio>()); // يفضل interceptor بعدين
 
-    var response = await api.post(
-      "",
+    await api.post(
+      "api/Notifications/SaveToken",
       data: {
-        "fcmToken": token,
-        "deviceType": "android",
-        "deviceId": deviceId
+        "DeviceToken": token,
+      //  "deviceType": "android",
+        "DeviceId": deviceId,
       },
     );
 
-    log("sendToken response : $response");
+    // ✅ نجح
+    await CacheHelper.saveData(key: fcmSentKey, value: true);
+    await CacheHelper.saveData(key: fcmTokenKey, value: token);
+    await CacheHelper.saveData(key: deviceId, value: deviceId);
+
+    log("FCM sent successfully");
+    
+
   } catch (e) {
-    log("Error sending token : ${e.toString()}");
+    // ❌ فشل
+    await CacheHelper.saveData(key: fcmSentKey, value: false);
+
+
+    log("FCM send failed");
   }
 }
 

@@ -8,6 +8,7 @@ import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/core/utils/services/noti/local_notification_services.dart';
 import 'package:grad_project/core/utils/services/noti/push_notification_services.dart';
+import 'package:grad_project/core/utils/session_manager.dart';
 import 'package:grad_project/generated/l10n.dart';
 import 'package:grad_project/core/utils/app_router.dart';
 import 'package:grad_project/patient/features/home/presentation/view_models/cubit/app_theme_cubit.dart';
@@ -43,6 +44,7 @@ class MediApp extends StatelessWidget {
             state is AppThemeDark ? ThemeMode.dark : ThemeMode.light;
 
         return MaterialApp.router(
+          
           debugShowCheckedModeBanner: false,
           scrollBehavior: const NoGlowScrollBehavior(),
           locale: const Locale("ar"),
