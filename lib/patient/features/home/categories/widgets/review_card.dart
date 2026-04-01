@@ -32,25 +32,30 @@ class ReviewCard extends StatelessWidget {
         //   ),
         // ),
         // ClipOval(
-        //   child: 
-      ClipRRect(
-  borderRadius: BorderRadius.circular(12),
-  child: CachedNetworkImage(
-    imageUrl: review.image,
-    width: size.width * 0.23,
-    height: size.width * 0.18,
-    fit: BoxFit.cover,
-    errorWidget: (context, url, error) => Icon(Icons.error),
-    placeholder: (context, url) => Shimmer(
-      child: Container(
-        width: size.width * 0.23,
-        height: size.width * 0.18,
-        color: Colors.grey,
-      ),
-    ),
-  ),
-),
-       // ),
+        //   child:
+        ClipRRect(
+          borderRadius: BorderRadius.circular(12),
+          child: CachedNetworkImage(
+            imageUrl: review.image ?? "",
+            width: size.width * 0.23,
+            height: size.width * 0.18,
+            fit: BoxFit.cover,
+            errorWidget: (context, url, error) => Container(
+              width: size.width * 0.23,
+              height: size.width * 0.18,
+              color: Colors.grey.shade300,
+              child: const Icon(Icons.person, color: Colors.grey),
+            ),
+            placeholder: (context, url) => Shimmer(
+              child: Container(
+                width: size.width * 0.23,
+                height: size.width * 0.18,
+                color: Colors.grey,
+              ),
+            ),
+          ),
+        ),
+        // ),
         const SizedBox(width: 12),
         Expanded(
           child: Column(

@@ -49,7 +49,7 @@ class CategoriesRepoImp implements CategoriesRepo {
     }
   }
 
- ///////////// 
+  /////////////
 
   @override
   Future<Either<Failure, ServiceProviderProfileModel>> getProviderProfile({
