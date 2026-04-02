@@ -46,6 +46,8 @@ class ServerFailure extends Failure{
 
 }
 ////////////////////////////////////
+///
+
 
 class ApiErrorParser {
   static String parse(dynamic error) {
@@ -88,25 +90,49 @@ class ApiErrorParser {
     return "Something went wrong";
   }
 
-  static String _extractErrors(dynamic errors) {
-    if (errors is Map) {
-      final messages = <String>[];
+static String _extractErrors(dynamic errors) {
+  final messages = <String>[];
 
-      errors.forEach((key, value) {
-        if (value is List) {
-          messages.addAll(value.map((e) => e.toString()));
-        } else {
-          messages.add(value.toString());
-        }
-      });
-
-      return messages.join("\n");
+  void extract(dynamic value) {
+    if (value is String) {
+      messages.add(value);
+    } else if (value is List) {
+      for (var item in value) {
+        extract(item);
+      }
+    } else if (value is Map) {
+      for (var val in value.values) {
+        extract(val);
+      }
     }
-
-    if (errors is List) {
-      return errors.join("\n");
-    }
-
-    return errors.toString();
   }
+
+  extract(errors);
+
+  return messages.isNotEmpty
+      ? messages.join("\n")
+      : "Something went wrong";
+}
+
+  // static String _extractErrors(dynamic errors) {
+  //   if (errors is Map) {
+  //     final messages = <String>[];
+
+  //     errors.forEach((key, value) {
+  //       if (value is List) {
+  //         messages.addAll(value.map((e) => e.toString()));
+  //       } else {
+  //         messages.add(value.toString());
+  //       }
+  //     });
+
+  //     return messages.join("\n");
+  //   }
+
+  //   if (errors is List) {
+  //     return errors.join("\n");
+  //   }
+
+  //   return errors.toString();
+  // }
 }

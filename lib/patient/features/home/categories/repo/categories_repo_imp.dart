@@ -66,4 +66,29 @@ class CategoriesRepoImp implements CategoriesRepo {
       return left(ServerFailure(e.toString()));
     }
   }
+
+  @override
+  Future<Either<Failure, String>> addReview({
+    required int id,
+    required int ratingValue,
+    String? comment,
+    int? requestId,
+  }) async {
+    try {
+      var response = await api.post(
+        "api/Reviews",
+        data: {
+          "serviceProviderId": id,
+          "RequestId": requestId,
+          "ratingValue": ratingValue,
+          "comment": comment,
+        },
+      );
+      return right(response["message"]);
+    } on Failure catch (e) {
+      return left(e);
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
+    }
+  }
 }

@@ -5,6 +5,7 @@ import 'package:dio/dio.dart';
 import 'package:grad_project/core/error/failure.dart';
 import 'package:grad_project/core/utils/api/api_consumer.dart';
 import 'package:grad_project/patient/features/profile/data/patient_profile_model.dart';
+import 'package:grad_project/patient/features/profile/data/report_model.dart';
 import 'package:grad_project/patient/features/profile/repo/patient_profile_repo.dart';
 
 class PatientProfileRepoImp implements PatientProfileRepo {
@@ -63,4 +64,27 @@ class PatientProfileRepoImp implements PatientProfileRepo {
       return left(ServerFailure(e.toString()));
     }
   }
+  
+@override
+  Future<Either<Failure, List<ReportModel>>> getReports() async {
+    try {
+      final response = await api.get("api/Reports/patientReports");
+
+      // تحويل الـ List لـ Models
+      // تأكدي إن api.get بترجع الـ data مباشرة، لو بترجع Response كامل استخدمي response.data
+      List<ReportModel> patientReports = (response as List)
+          .map((item) => ReportModel.fromJson(item))
+          .toList();
+
+      return right(patientReports);
+    } catch (e) {
+      // هنا السحر! لو الخطأ من Dio هيروح للـ factory اللي عملناه
+      if (e is DioException) {
+        return left(ServerFailure.dioException(e));
+      }
+      // أي خطأ تاني (زي خطأ في الـ Parsing مثلاً)
+      return left(ServerFailure(e.toString()));
+    }
+  }
+ 
 }
