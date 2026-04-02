@@ -21,7 +21,7 @@ void main() async {
   await CacheHelper.init();
   await Firebase.initializeApp();
   await LocalNotificationService.init();
-  await PushNotificationServices.init();
+  PushNotificationServices.init();
 
   runApp(
     DevicePreview(

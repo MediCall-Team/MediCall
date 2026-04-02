@@ -6,6 +6,7 @@ import 'package:grad_project/patient/features/home/data/models/doctor_model.dart
 import 'package:meta/meta.dart';
 
 part 'service_providers_list_state.dart';
+
 class ServiceProvidersListCubit extends Cubit<ServiceProvidersListState> {
   ServiceProvidersListCubit({required this.repo})
       : super(ServiceProvidersListInitial());
@@ -13,8 +14,6 @@ class ServiceProvidersListCubit extends Cubit<ServiceProvidersListState> {
   final CategoriesRepo repo;
 
   late PaginationHelper<DoctorModel> pagination;
- // late String specialty;
-
 
   String? specialty;
   int? gender;
@@ -42,7 +41,7 @@ class ServiceProvidersListCubit extends Cubit<ServiceProvidersListState> {
     this.maxPrice = maxPrice;
     this.search = search;
 
-    loadFirstPage(); // 🔥 أهم خطوة
+    loadFirstPage();
   }
 
   void _initPagination() {
@@ -62,73 +61,70 @@ class ServiceProvidersListCubit extends Cubit<ServiceProvidersListState> {
 
         return result.fold(
           (failure) => throw failure,
-          (data) => data, // (list , count)
+          (data) => data,
         );
       },
     );
   }
 
-
-
-  // void init(String specialty) {
-  //   this.specialty = specialty;
-
-  //   pagination = PaginationHelper<DoctorModel>(
-  //     pageSize: 10,
-  //     fetchPage: (pageIndex, pageSize) async {
-  //       final result = await repo.getProvidersList(
-  //         pageIndex: pageIndex,
-  //         pageSize: pageSize,
-  //         specialty: specialty,
-  //       );
-
-  //       return result.fold(
-  //         (failure) => throw failure,
-  //         (data) => data, // (list , count)
-  //       );
-  //     },
-  //   );
-
-  //   loadFirstPage();
-  // }
-
   Future<void> loadFirstPage() async {
     pagination.reset();
-    emit(ServiceProvidersListLoading());
+    if (!isClosed) emit(ServiceProvidersListLoading());
 
     try {
       await pagination.loadNextPage();
 
-      emit(ServiceProvidersListSuccess(
-        doctorSModelList: pagination.items,
-        isLoadingMore: false,
-      ));
-    } catch (failure) {
-      emit(ServiceProvidersListFaliure(
-        errorMsg: (failure as Failure).errorMsg,
-      ));
+      if (!isClosed) {
+        emit(ServiceProvidersListSuccess(
+          doctorSModelList: pagination.items,
+          isLoadingMore: false,
+        ));
+      }
+    } catch (error) {
+      if (!isClosed) {
+        final errorMsg =
+            error is Failure ? error.errorMsg : "Something went wrong";
+        emit(ServiceProvidersListFaliure(
+          errorMsg: errorMsg,
+        ));
+      }
     }
   }
 
   Future<void> loadMore() async {
     if (!pagination.hasMore || pagination.isLoading) return;
 
-    emit(ServiceProvidersListSuccess(
-      doctorSModelList: pagination.items,
-      isLoadingMore: true,
-    ));
+    if (!isClosed) {
+      emit(ServiceProvidersListSuccess(
+        doctorSModelList: pagination.items,
+        isLoadingMore: true,
+      ));
+    }
 
     try {
       await pagination.loadNextPage();
 
-      emit(ServiceProvidersListSuccess(
-        doctorSModelList: pagination.items,
-        isLoadingMore: false,
-      ));
-    } catch (failure) {
-      emit(ServiceProvidersListFaliure(
-        errorMsg: (failure as Failure).errorMsg,
-      ));
+      if (!isClosed) {
+        emit(ServiceProvidersListSuccess(
+          doctorSModelList: pagination.items,
+          isLoadingMore: false,
+        ));
+      }
+    } catch (error) {
+      if (!isClosed) {
+        final errorMsg =
+            error is Failure ? error.errorMsg : "Something went wrong";
+        emit(ServiceProvidersListFaliure(
+          errorMsg: errorMsg,
+        ));
+      }
     }
+  }
+
+  /// أضفنا override لميثود الـ close للتأكد من تنظيف الـ pagination إذا لزم الأمر
+  @override
+  Future<void> close() {
+    // لو الـ pagination محتاج يعمل cancel لأي requests ممكن تعمليها هنا
+    return super.close();
   }
 }

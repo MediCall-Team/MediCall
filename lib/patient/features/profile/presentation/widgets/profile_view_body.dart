@@ -7,13 +7,18 @@ import 'package:grad_project/constants.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/core/helper/snakbar.dart';
 import 'package:grad_project/core/utils/app_router.dart';
+import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/patient/features/authentication/presentation/view_model/logout_cubit/logout_cubit.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/custom_loading_indecator.dart';
+import 'package:grad_project/patient/features/home/categories/repo/categories_repo.dart';
+import 'package:grad_project/patient/features/home/categories/view_model/add_review/add_review_cubit.dart';
 import 'package:grad_project/patient/features/profile/presentation/view_model/get_profile_cubit/get_profile_cubit.dart';
+import 'package:grad_project/patient/features/profile/presentation/view_model/get_reports/get_reports_cubit.dart';
 import 'package:grad_project/patient/features/profile/presentation/view_model/update_profile_cubit/update_profile_cubit.dart';
 import 'package:grad_project/patient/features/profile/presentation/views/sick%20record.dart';
 import 'package:grad_project/patient/features/profile/presentation/widgets/user_image_profile.dart';
 import 'package:grad_project/patient/features/profile/presentation/widgets/user_info.dart';
+import 'package:grad_project/patient/features/profile/repo/patient_profile_repo.dart';
 
 class ProfileViewBody extends StatefulWidget {
   const ProfileViewBody({super.key});
@@ -283,19 +288,23 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
 
                             divider(),
 
-                            /// باقي العناصر زي ما هي
-                            UserInfo(
-                              icon: Icons.assignment_outlined,
-                              title: 'السجل المرضي',
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (_) => const MedicalRecordView(),
-                                  ),
-                                );
-                              },
-                            ),
+                           UserInfo(
+  icon: Icons.assignment_outlined,
+  title: 'السجل المرضي',
+  onTap: () {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (context)=>GetReportsCubit(getIt<PatientProfileRepo>()),),
+            //BlocProvider(create: (context)=>AddReviewCubit(getIt<CategoriesRepo>()))
+          ],
+          child: const MedicalRecordView()),
+      ),
+    );
+  },
+),
 
                             divider(),
 
@@ -314,14 +323,11 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                             ),
 
                             divider(),
-                            
+
                             BlocConsumer<LogoutCubit, LogoutState>(
                               listener: (context, state) {
                                 if (state is LogoutFailure) {
-                                  snackBarMethod(
-                                    context,
-                                    state.errorMsg ,
-                                  );
+                                  snackBarMethod(context, state.errorMsg);
                                 } else if (state is LogoutSuccess) {
                                   // 🔹 نستخدم microtask عشان listener ما يكونش async
                                   Future.microtask(() async {
