@@ -13,41 +13,43 @@ class UpdateProfileCubit extends Cubit<UpdateProfileState> {
   UpdateProfileCubit(this.patientRepo) : super(UpdateProfileInitial());
   final PatientProfileRepo patientRepo;
   bool loading = false;
-  Future<void> updatePatProfile({
-    required String firstName,
-    required String lastName,
-    required String phoneNumber,
-    File? image,
-    required bool isImageRemoved,
-  }) async {
-    emit(UpdateProfileLoading());
+ Future<void> updatePatProfile({
+  required String firstName,
+  required String lastName,
+  required String phoneNumber,
+  File? image,
+  required bool isImageRemoved,
+}) async {
+  emit(UpdateProfileLoading());
 
-    final result = await patientRepo.updatePatientProfileData(
-      FirstName: firstName,
-      LastName: lastName,
-      PhoneNumber: phoneNumber,
-      Image: image,
-      IsImageRemoved: isImageRemoved,
-    );
+  final result = await patientRepo.updatePatientProfileData(
+    FirstName: firstName,
+    LastName: lastName,
+    PhoneNumber: phoneNumber,
+    Image: image,
+    IsImageRemoved: isImageRemoved,
+  );
 
-    result.fold((failure) => emit(UpdateProfilefailure()), (
-      patientProfile,
-    ) async {
-      // 👇 نعمل update للكاش
+  result.fold(
+    (failure) => emit(UpdateProfilefailure()),
+    (patientProfile) async {
       final oldUser = await CacheHelper.getUser();
       if (oldUser == null) return;
+
       final updatedUser = PatientUserModel(
         id: oldUser.id,
-        fullName: "${patientProfile.firstName} ${patientProfile.lastName}".trim(),
+        fullName:
+            "${patientProfile.firstName} ${patientProfile.lastName}".trim(),
         email: oldUser.email,
         token: oldUser.token,
         role: oldUser.role,
-        imageUrl: patientProfile.profilePictureUrl ?? oldUser.imageUrl,
+        imageUrl: patientProfile.profilePictureUrl ?? "",
       );
 
       await CacheHelper.saveUser(updatedUser);
 
       emit(UpdateProfileSuccess(patientProfile));
-    });
-  }
+    },
+  );
+}
 }

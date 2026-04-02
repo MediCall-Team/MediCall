@@ -97,6 +97,7 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                   UserImageProfile(
                     canEdit: true,
                     imageUrl: profile.profilePictureUrl,
+
                     onImageSelected: (image) {
                       selectedImage = image;
 
@@ -104,12 +105,23 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                         firstName: firstName,
                         lastName: lastName,
                         phoneNumber: phone,
-                        isImageRemoved: true,
                         image: image,
+                        isImageRemoved: false,
+                      );
+                    },
+
+                    onRemoveImage: () {
+                      selectedImage = null;
+
+                      context.read<UpdateProfileCubit>().updatePatProfile(
+                        firstName: firstName,
+                        lastName: lastName,
+                        phoneNumber: phone,
+                        image: null,
+                        isImageRemoved: true,
                       );
                     },
                   ),
-
                   const SizedBox(height: 10),
 
                   Text(
@@ -195,7 +207,7 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                                                 lastName: last,
                                                 phoneNumber: phone,
                                                 image: selectedImage,
-                                                isImageRemoved: false,
+                                                isImageRemoved: true,
                                               );
 
                                           Navigator.pop(context);
