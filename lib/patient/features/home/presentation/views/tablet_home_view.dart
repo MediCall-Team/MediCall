@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/patient/features/home/presentation/views/home_view_body.dart';
-import 'package:grad_project/patient/features/notification/views/notification_view.dart';
+import 'package:grad_project/patient/features/notification/presentation/views/notification_view.dart';
 
 
 class TabletHomeView extends StatelessWidget {

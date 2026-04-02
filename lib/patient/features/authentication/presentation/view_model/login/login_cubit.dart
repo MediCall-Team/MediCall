@@ -12,9 +12,8 @@ part 'login_state.dart';
 class LoginCubit extends Cubit<LoginState> {
   LoginCubit(this.authRepo) : super(LoginInitial());
   final PatienAuthRepo authRepo;
-  
-  bool loading = false;
 
+  bool loading = false;
 
   Future<void> loginMethod({
     required String email,
@@ -29,21 +28,23 @@ class LoginCubit extends Cubit<LoginState> {
         loading = false;
         emit(LoginFailure(errorMsg: failure.errorMsg));
       },
-      (userModel) async{
+      (userModel) async {
         loading = false;
         // PatientUserModel patientUserModel = PatientUserModel.fromJson(
         //   user_model as  Map<String, dynamic>,
         // );
 
-        // save in cach 
-      await CacheHelper.saveUser(userModel);
-      log("token : ${userModel.token},\nid : ${userModel.id} ,\nrole : ${userModel.role}");
-
-    //  await PushNotificationServices.syncTokenAfterLogin();
-
+        //  await PushNotificationServices.syncTokenAfterLogin();
+        // save in cach
+        await sendToken(userModel);
         emit(LoginSuccess(userModel: userModel));
       },
     );
   }
 
+  Future<void> sendToken(PatientUserModel userModel) async {
+    await CacheHelper.saveUser(userModel); // الأول
+
+    await PushNotificationServices.syncTokenAfterLogin(); // بعدين
+  }
 }
