@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:grad_project/patient/features/notification/views/notification_view.dart';
+import 'package:grad_project/patient/features/notification/presentation/views/notification_view.dart';
 
 class SNotificationView extends StatelessWidget {
   const SNotificationView({super.key});

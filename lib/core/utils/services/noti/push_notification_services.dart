@@ -8,6 +8,7 @@ import 'package:grad_project/core/utils/api/dio_consumer.dart';
 import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/core/utils/services/noti/local_notification_services.dart';
 import 'package:grad_project/patient/features/authentication/data/patient_user_model.dart';
+import 'package:grad_project/patient/features/notification/presentation/view_model/notification_number/notification_number_cubit.dart';
 import 'package:uuid/uuid.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -133,6 +134,9 @@ static Future _checkAndUpdateToken() async {
       log("Notification title : ${message.notification?.title}");
       log("Notification body : ${message.notification?.body}");
 
+      // استدعاء الكيوبت لتحديث الرقم فوراً
+    getIt<NotificationNumberCubit>().getMyNotificationsNumber();
+    
       LocalNotificationService.showBasicNotification(message);
     });
   }

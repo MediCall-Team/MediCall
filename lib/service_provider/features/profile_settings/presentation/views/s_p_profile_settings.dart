@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grad_project/core/utils/app_router.dart';
+import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/core/utils/styles.dart';
+import 'package:grad_project/patient/features/authentication/presentation/view_model/logout_cubit/logout_cubit.dart';
+import 'package:grad_project/patient/features/authentication/repo/auth_repo.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/views/s_p_profile.dart';
 
 
@@ -54,19 +58,24 @@ class SPProfileSettings extends StatelessWidget {
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
-      child: Scaffold(
-        appBar: AppBar(title: Text("بيانات الدكتور", style: Styles.textStyle25),
-     actions: [
-            IconButton(
-              icon: const Icon(Icons.settings),
-              onPressed: (){ 
-                GoRouter.of(context).push(AppRouter.kServiceProviderEditView);
-                },
-            ),
-          ],
-        ),
-        body: SafeArea(
-          child: SPProfile()
+      child: MultiBlocProvider(
+        providers: [
+           BlocProvider(create: (context)=>LogoutCubit(getIt<PatienAuthRepo>())),
+        ],
+        child: Scaffold(
+          appBar: AppBar(title: Text("بيانات الدكتور", style: Styles.textStyle25),
+             actions: [
+              IconButton(
+                icon: const Icon(Icons.settings),
+                onPressed: (){ 
+                  GoRouter.of(context).push(AppRouter.kServiceProviderEditView);
+                  },
+              ),
+            ],
+          ),
+          body: SafeArea(
+            child: SPProfile()
+          ),
         ),
       ),
     );

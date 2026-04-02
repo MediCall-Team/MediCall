@@ -314,6 +314,7 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                             ),
 
                             divider(),
+                            
                             BlocConsumer<LogoutCubit, LogoutState>(
                               listener: (context, state) {
                                 if (state is LogoutFailure) {
