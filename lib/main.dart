@@ -8,9 +8,11 @@ import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/core/utils/services/noti/local_notification_services.dart';
 import 'package:grad_project/core/utils/services/noti/push_notification_services.dart';
+import 'package:grad_project/core/utils/session_manager.dart';
 import 'package:grad_project/generated/l10n.dart';
 import 'package:grad_project/core/utils/app_router.dart';
 import 'package:grad_project/patient/features/home/presentation/view_models/cubit/app_theme_cubit.dart';
+import 'package:grad_project/patient/features/notification/presentation/view_model/notification_number/notification_number_cubit.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -25,9 +27,12 @@ void main() async {
     DevicePreview(
       enabled: false,
       builder: (context) =>
-          BlocProvider(create: (_) => AppThemeCubit(), child: const MediApp()),
-    ),
-  );
+          MultiBlocProvider(providers: [
+            BlocProvider(create: (_)=>AppThemeCubit()),
+            BlocProvider(create: (context) => getIt<NotificationNumberCubit>()),
+          ], child: const MediApp()) ),
+    );
+ 
 }
 
 class MediApp extends StatelessWidget {
@@ -42,6 +47,7 @@ class MediApp extends StatelessWidget {
             : ThemeMode.light;
 
         return MaterialApp.router(
+          
           debugShowCheckedModeBanner: false,
           scrollBehavior: const NoGlowScrollBehavior(),
           locale: const Locale("ar"),

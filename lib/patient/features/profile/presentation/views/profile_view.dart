@@ -3,6 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/core/utils/styles.dart';
+import 'package:grad_project/patient/features/authentication/presentation/view_model/logout_cubit/logout_cubit.dart';
+import 'package:grad_project/patient/features/authentication/repo/auth_repo.dart';
 import 'package:grad_project/patient/features/profile/presentation/view_model/get_profile_cubit/get_profile_cubit.dart';
 import 'package:grad_project/patient/features/profile/presentation/view_model/update_profile_cubit/update_profile_cubit.dart';
 import 'package:grad_project/patient/features/profile/presentation/widgets/profile_view_body.dart';
@@ -21,7 +23,7 @@ class ProfileView extends StatelessWidget {
                 GetProfileCubit(getIt<PatientProfileRepo>())
                   ..getPatProfile(),
           ),
-
+          BlocProvider(create: (context)=>LogoutCubit(getIt<PatienAuthRepo>())),
           BlocProvider(
             create: (context) =>
                 UpdateProfileCubit(getIt<PatientProfileRepo>()),
