@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:grad_project/constants.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
+import 'package:grad_project/patient/features/notification/presentation/view_model/notification_number/notification_number_cubit.dart';
 import 'package:grad_project/service_provider/features/chats/presentation/views/chats_view.dart';
 import 'package:grad_project/service_provider/features/notification/s_notification_view.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/views/s_p_profile_settings.dart';
@@ -25,6 +27,13 @@ class _CustomBottomNavViewState extends State<SCustomBottomNav> {
    SNotificationView(),
    SPProfileSettings()
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    // طلب العدد فور الدخول
+    context.read<NotificationNumberCubit>().getMyNotificationsNumber();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -105,6 +114,9 @@ class _CustomBottomNavViewState extends State<SCustomBottomNav> {
             setState(() {
               currentIndex = index;
             });
+            if (index == 2) {
+                  //  context.read<NotificationNumberCubit>().readNotifications();
+                  }
           },
           tabs: [
 
@@ -128,14 +140,63 @@ class _CustomBottomNavViewState extends State<SCustomBottomNav> {
             ),
 
 
+            // GButton(
+            //   icon: Icons.notifications_outlined,
+            //   // leading: buildIcon(
+            //   //   "assets/images/home.svg",
+            //   //   isSvg: true,
+            //   //   isActive: currentIndex == 0,
+            //   // ),
+            //   text: "الاشعارات",
+            // ),
+
+
             GButton(
-              icon: Icons.notifications_outlined,
-              // leading: buildIcon(
-              //   "assets/images/home.svg",
-              //   isSvg: true,
-              //   isActive: currentIndex == 0,
-              // ),
-              text: "الاشعارات",
+                    icon: Icons.notifications_none,
+                    text: "الاشعارات",
+                    leading: BlocBuilder<NotificationNumberCubit, NotificationNumberState>(
+                      builder: (context, state) {
+                        int count = context.read<NotificationNumberCubit>().number;
+                        return Stack(
+                          clipBehavior: Clip.none,
+                          children: [
+                            Icon(
+                              currentIndex == 2 ? Icons.notifications : Icons.notifications_none,
+                              size: iconSize,
+                              color: currentIndex == 2 ? kPrimaryColorB : Colors.grey,
+                            ),
+                            if (count > 0)
+                              Positioned(
+                                left: -4, // تعديل المكان ليتناسب مع RTL
+                                top: -2,
+                                child: Container(
+                                  padding: const EdgeInsets.all(2),
+                                  decoration: BoxDecoration(
+                                    color: Colors.red,
+                                    shape: BoxShape.circle,
+                                    border: Border.all(color: Colors.white, width: 1.5),
+                                  ),
+                                  constraints: const BoxConstraints(
+                                    minWidth: 18,
+                                    minHeight: 18,
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      count > 9 ? '+9' : '$count',
+                                      style: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 9,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                          ],
+                        );
+                        
+  }
+                        ),
             ),
 
             GButton(

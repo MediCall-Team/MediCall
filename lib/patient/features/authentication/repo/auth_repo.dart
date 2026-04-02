@@ -30,4 +30,6 @@ abstract class PatienAuthRepo {
     required String newPassword,
     required String code,
   });
+
+  Future<Either<Failure,Unit>>logOut({required String deviceId});
 }

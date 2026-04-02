@@ -35,7 +35,7 @@ class _PatientSignUpViewBodyState extends State<PatientSignUpViewBody> {
             context,
           ).showSnackBar(SnackBar(content: Text(state.msg)));
 
-          GoRouter.of(context).push(AppRouter.kHomeView);
+          GoRouter.of(context).push(AppRouter.kLoginPage);
         }
 
         if (state is RegisterPatientFailure) {
