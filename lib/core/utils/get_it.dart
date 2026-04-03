@@ -51,4 +51,6 @@ void setupServiceLocator() {
   );
 
  getIt.registerLazySingleton<NotificationNumberCubit>(() => NotificationNumberCubit(getIt<NotiRepo>()));
+
+ 
 }
