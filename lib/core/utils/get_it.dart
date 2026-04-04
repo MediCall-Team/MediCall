@@ -14,6 +14,8 @@ import 'package:grad_project/patient/features/profile/repo/patient_profile_repo.
 import 'package:grad_project/patient/features/profile/repo/patient_profile_repo_imp.dart';
 import 'package:grad_project/service_provider/features/auth/repo/sp_regester_repo.dart';
 import 'package:grad_project/service_provider/features/auth/repo/spregister_repo_imp.dart';
+import 'package:grad_project/service_provider/features/requests/repos/requests_repo.dart';
+import 'package:grad_project/service_provider/features/requests/repos/requests_repo_imp.dart';
 
 final getIt = GetIt.instance;
 
@@ -50,5 +52,8 @@ void setupServiceLocator() {
     () => NotiRepoImp(api: getIt<ApiConsumer>()),
   );
 
+getIt.registerLazySingleton<RequestsRepo>(
+    () => RequestsRepoImp(api: getIt<ApiConsumer>()),
+  );
  getIt.registerLazySingleton<NotificationNumberCubit>(() => NotificationNumberCubit(getIt<NotiRepo>()));
 }
