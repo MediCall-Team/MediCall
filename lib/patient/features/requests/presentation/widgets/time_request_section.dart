@@ -4,6 +4,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:grad_project/constants.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/requests/data/model/request_model.dart';
+import 'package:grad_project/service_provider/features/requests/data/model/requests_model.dart';
 import 'package:intl/intl.dart';
 
 class TimeRequestSection extends StatelessWidget {
@@ -15,7 +16,7 @@ class TimeRequestSection extends StatelessWidget {
   });
 
   final DateFormat timeFormat;
-  final RequestModel requestmodel;
+  final RequestData requestmodel;
   final DateFormat dateFormat;
   final double screenWidth;
 
@@ -39,7 +40,7 @@ class TimeRequestSection extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              timeFormat.format(requestmodel.date),
+              timeFormat.format(requestmodel.appointmentDate),
               style: TextStyle(
                 color: kPrimaryColorC,
                 fontWeight: FontWeight.w600,
@@ -64,7 +65,7 @@ class TimeRequestSection extends StatelessWidget {
           child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Text(
-              dateFormat.format(requestmodel.date),
+              dateFormat.format(requestmodel.appointmentDate),
               style: TextStyle(
                 color: kPrimaryColorC,
                 fontWeight: FontWeight.w600,

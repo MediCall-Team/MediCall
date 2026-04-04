@@ -19,7 +19,7 @@ class _BottomNavViewState extends State<BottomNavView> {
   int currentIndex = 0;
  final List<Widget> _widget = [
     HomeView(),
-      RequestsView(),
+    //  RequestsView(),
     ChatsView(),
     ProfileView(),
     //  NotificationView(),
