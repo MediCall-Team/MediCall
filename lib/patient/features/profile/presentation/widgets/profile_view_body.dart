@@ -6,18 +6,13 @@ import 'package:grad_project/constants.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/core/helper/snakbar.dart';
 import 'package:grad_project/core/utils/app_router.dart';
-import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/patient/features/authentication/presentation/view_model/logout_cubit/logout_cubit.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/custom_loading_indecator.dart';
-import 'package:grad_project/patient/features/home/categories/repo/categories_repo.dart';
-import 'package:grad_project/patient/features/home/categories/view_model/add_review/add_review_cubit.dart';
 import 'package:grad_project/patient/features/profile/presentation/view_model/get_profile_cubit/get_profile_cubit.dart';
-import 'package:grad_project/patient/features/profile/presentation/view_model/get_reports/get_reports_cubit.dart';
 import 'package:grad_project/patient/features/profile/presentation/view_model/update_profile_cubit/update_profile_cubit.dart';
 import 'package:grad_project/patient/features/profile/presentation/views/sick%20record.dart';
 import 'package:grad_project/patient/features/profile/presentation/widgets/user_image_profile.dart';
 import 'package:grad_project/patient/features/profile/presentation/widgets/user_info.dart';
-import 'package:grad_project/patient/features/profile/repo/patient_profile_repo.dart';
 
 class ProfileViewBody extends StatefulWidget {
   const ProfileViewBody({super.key});
@@ -32,25 +27,18 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
   String? editedPhone;
   File? selectedImage;
 
-  /// ✅ Validation الموبايل
   String? validatePhone(String value) {
     if (value.isEmpty) return "من فضلك ادخل رقم الهاتف";
-
     final regex = RegExp(r'^(010|011|012|015)\d{8}$');
-
     if (!regex.hasMatch(value)) return "رقم غير صحيح";
-
     return null;
   }
 
-  /// ✅ Validation الاسم
   String? validateName(String value) {
     if (value.trim().isEmpty) return "الحقل مطلوب";
-
     if (RegExp(r'[0-9]').hasMatch(value)) {
       return "لا يجب إدخال أرقام";
     }
-
     return null;
   }
 
@@ -104,7 +92,7 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                   children: [
                     const SizedBox(height: 16),
 
-                    /// 👤 صورة
+                    /// صورة البروفايل
                     UserImageProfile(
                       canEdit: true,
                       imageUrl: profile.profilePictureUrl,
@@ -115,8 +103,19 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                           firstName: firstName,
                           lastName: lastName,
                           phoneNumber: phone,
-                          isImageRemoved: true,
                           image: image,
+                          isImageRemoved: false,
+                        );
+                      },
+                      onRemoveImage: () {
+                        selectedImage = null;
+
+                        context.read<UpdateProfileCubit>().updatePatProfile(
+                          firstName: firstName,
+                          lastName: lastName,
+                          phoneNumber: phone,
+                          image: null,
+                          isImageRemoved: true,
                         );
                       },
                     ),
@@ -139,7 +138,7 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                         ),
                         child: Column(
                           children: [
-                            /// 👤 الاسم (2 fields)
+                            /// تعديل الاسم
                             UserInfo(
                               icon: Icons.person_outlined,
                               title: "$firstName $lastName",
@@ -223,7 +222,7 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
 
                             divider(),
 
-                            /// 📞 الموبايل (Validation)
+                            /// تعديل الهاتف
                             UserInfo(
                               icon: Icons.phone_outlined,
                               flibx: true,
@@ -233,7 +232,6 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                                 final controller = TextEditingController(
                                   text: phone,
                                 );
-
                                 final formKey = GlobalKey<FormState>();
 
                                 showDialog(
@@ -271,7 +269,7 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                                                   lastName: lastName,
                                                   phoneNumber: controller.text,
                                                   image: selectedImage,
-                                                  isImageRemoved: true,
+                                                  isImageRemoved: false,
                                                 );
 
                                             Navigator.pop(context);
@@ -287,40 +285,31 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
 
                             divider(),
 
-                           UserInfo(
-  icon: Icons.assignment_outlined,
-  title: 'السجل المرضي',
-  onTap: () {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (context)=>GetReportsCubit(getIt<PatientProfileRepo>()),),
-            //BlocProvider(create: (context)=>AddReviewCubit(getIt<CategoriesRepo>()))
-          ],
-          child: const MedicalRecordView()),
-      ),
-    );
-  },
-),
+                            UserInfo(
+                              icon: Icons.assignment_outlined,
+                              title: 'السجل المرضي',
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (_) => const MedicalRecordView(),
+                                  ),
+                                );
+                              },
+                            ),
 
                             divider(),
-
                             UserInfo(
                               icon: Icons.info_outline,
                               title: 'عن التطبيق',
                               onTap: () {},
                             ),
-
                             divider(),
-
                             UserInfo(
                               icon: Icons.flag_outlined,
                               title: 'إبلاغ',
                               onTap: () {},
                             ),
-
                             divider(),
 
                             BlocConsumer<LogoutCubit, LogoutState>(
@@ -328,20 +317,15 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                                 if (state is LogoutFailure) {
                                   snackBarMethod(context, state.errorMsg);
                                 } else if (state is LogoutSuccess) {
-                                  // 🔹 نستخدم microtask عشان listener ما يكونش async
                                   Future.microtask(() async {
-                                    // إزالة الـ FCM token من الكاش
                                     await CacheHelper.removeData(
                                       key: fcmSentKey,
                                     );
                                     await CacheHelper.removeData(
                                       key: fcmTokenKey,
                                     );
-
-                                    // إزالة بيانات المستخدم
                                     await CacheHelper.removeUser();
 
-                                    // الانتقال للصفحة الرئيسية
                                     GoRouter.of(
                                       context,
                                     ).go(AppRouter.kLoginPage);
@@ -353,16 +337,15 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
                                   icon: Icons.logout,
                                   title: 'تسجيل الخروج',
                                   onTap: () async {
-                                    // 🔹 جلب الـ FCM token من الكاش
                                     final deviceIdd = await CacheHelper.getData(
                                       key: deviceId,
                                     );
+
                                     if (deviceIdd != null) {
                                       BlocProvider.of<LogoutCubit>(
                                         context,
                                       ).logOut(deviceId: deviceIdd);
                                     } else {
-                                      // لو مفيش token، ممكن نعمل logout محلي بس
                                       await CacheHelper.removeUser();
                                       GoRouter.of(
                                         context,
