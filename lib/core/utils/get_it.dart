@@ -56,4 +56,6 @@ getIt.registerLazySingleton<RequestsRepo>(
     () => RequestsRepoImp(api: getIt<ApiConsumer>()),
   );
  getIt.registerLazySingleton<NotificationNumberCubit>(() => NotificationNumberCubit(getIt<NotiRepo>()));
+
+ 
 }

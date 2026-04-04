@@ -26,7 +26,7 @@ class ProfileView extends StatelessWidget {
                 GetProfileCubit(getIt<PatientProfileRepo>())
                   ..getPatProfile(),
           ),
-          BlocProvider(create: (context)=>LogoutCubit(getIt<PatienAuthRepo>())),
+        //  BlocProvider(create: (context)=>LogoutCubit(getIt<PatienAuthRepo>())),
           BlocProvider(
             create: (context) =>
                 UpdateProfileCubit(getIt<PatientProfileRepo>()),
