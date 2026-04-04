@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:grad_project/core/error/failure.dart';
+import 'package:grad_project/patient/features/home/categories/data/create_request_model.dart';
 import 'package:grad_project/patient/features/home/categories/data/service_provider_profile_model.dart';
 import 'package:grad_project/patient/features/home/data/models/doctor_model.dart';
 
@@ -27,6 +28,12 @@ abstract class CategoriesRepo {
       required int ratingValue,
       String? comment,
       int? requestId 
+    }
+  );
+
+   Future<Either<Failure,Unit>> createRequest(
+    {
+     required CreateRequestModel createRequestModel
     }
   );
   

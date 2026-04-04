@@ -9,6 +9,7 @@ import 'package:grad_project/service_provider/features/requests/presentation/wid
 import 'package:grad_project/service_provider/features/requests/presentation/widgets/s_custom_request_button.dart';
 import 'package:intl/intl.dart';
 import 'package:lottie/lottie.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class RequestItem extends StatefulWidget {
   const RequestItem({super.key, required this.request});
@@ -24,6 +25,22 @@ class _RequestItemState extends State<RequestItem> {
 
   final timeFormat = DateFormat('hh:mm a', 'en');
   final dateFormat = DateFormat('dd / MM / yyyy', 'en');
+
+
+  Future<void> _openMap(double latitude, double longitude) async {
+    final String googleMapsUrl = "https://www.google.com/maps/search/?api=1&query=$latitude,$longitude";
+    final Uri url = Uri.parse(googleMapsUrl);
+
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url, mode: LaunchMode.externalApplication);
+    } else {
+      // يمكنك إظهار Snackbar في حالة وجود خطأ
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("تعذر فتح الخريطة")),
+      );
+    }
+  }
+  
 
   @override
   Widget build(BuildContext context) {
@@ -134,10 +151,16 @@ class _RequestItemState extends State<RequestItem> {
                     const SizedBox(height: 14),
 
                     /// الموقع
-                    Center(
-                      child: Lottie.asset(
-                        "assets/animation/Location Pin.json",
-                        width: 70,
+                    
+                    GestureDetector(
+                      onTap:(){
+                        _openMap(request.latitude, request.longitude);
+                      } ,
+                      child: Center(
+                        child: Lottie.asset(
+                          "assets/animation/Location Pin.json",
+                          width: 60,
+                        ),
                       ),
                     ),
 

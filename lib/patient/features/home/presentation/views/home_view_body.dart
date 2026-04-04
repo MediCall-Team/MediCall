@@ -118,12 +118,17 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                     itemCount: state.doctorSModelList.length,
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     itemBuilder: (context, index) {
-                      return CustomDoctorCard(
-                        iconSize: iconSize,
-                        doctorModel: state.doctorSModelList[index],
-                        fontSize: fontSize,
-                        // نمرر عرض الكارت ليكون متناسباً
-                        cardWidth: (width * 0.50).clamp(160, 240),
+                      return GestureDetector(
+                        onTap: (){
+                           GoRouter.of(context).push(AppRouter.kServiceProviderProfile,extra:state.doctorSModelList[index].id );
+                        },
+                        child: CustomDoctorCard(
+                          iconSize: iconSize,
+                          doctorModel: state.doctorSModelList[index],
+                          fontSize: fontSize,
+                          // نمرر عرض الكارت ليكون متناسباً
+                          cardWidth: (width * 0.50).clamp(160, 240),
+                        ),
                       );
                     },
                   ):   state is ServiceProvidersListFaliure ?
