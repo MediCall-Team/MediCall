@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:grad_project/core/error/failure.dart';
 import 'package:grad_project/core/utils/api/api_consumer.dart';
+import 'package:grad_project/patient/features/home/categories/data/create_request_model.dart';
 import 'package:grad_project/patient/features/home/categories/data/service_provider_profile_model.dart';
 import 'package:grad_project/patient/features/home/categories/repo/categories_repo.dart';
 import 'package:grad_project/patient/features/home/data/models/doctor_model.dart';
@@ -85,6 +88,32 @@ class CategoriesRepoImp implements CategoriesRepo {
         },
       );
       return right(response["message"]);
+    } on Failure catch (e) {
+      return left(e);
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Unit>> createRequest({required CreateRequestModel createRequestModel})async {
+    try {
+      var response = await api.post(
+        "api/Requests",
+        data: {
+            'serviceProviderId':createRequestModel. serviceProviderId,
+      'PatientFirstName':createRequestModel. patientFirstName,
+      'PatientLastName':createRequestModel. patientLastName,
+      'description':createRequestModel. description,
+      'scheduledDate':createRequestModel. scheduledDate.toUtc().toIso8601String(),
+      'latitude':createRequestModel. latitude,
+      'longitude':createRequestModel. longitude,
+         // createRequestModel.toJson()
+        },
+      );
+     
+     log("time : ${createRequestModel.scheduledDate.toUtc().toIso8601String()}");
+      return right(unit);
     } on Failure catch (e) {
       return left(e);
     } catch (e) {
