@@ -76,4 +76,21 @@ class RequestData {
       'status': status,
     };
   }
+
+  String get statusText {
+    switch (status) {
+      case 1:
+        return 'قيد المراجعة';
+      case 2:
+        return 'تمت الموافقة';
+      case 3:
+        return 'مرفوض';
+      case 4:
+        return 'اكتمل';
+      case 5:
+        return 'ملغي';
+      default:
+        return 'حالة غير معروفة';
+    }
+  }
 }

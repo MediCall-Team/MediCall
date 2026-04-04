@@ -21,7 +21,7 @@ class _CustomBottomNavViewState extends State<CustomBottomNavView> {
 
   final List<Widget> _widget = [
     HomeView(),
-    //RequestsView(),
+    RequestsView(),
     ChatsView(),
     ProfileView(),
   ];
