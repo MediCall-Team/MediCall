@@ -1,134 +1,60 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
-import 'package:grad_project/patient/features/profile/presentation/widgets/Bulleitem.dart';
-import 'package:grad_project/patient/features/profile/presentation/widgets/ShareButton.dart';
+import 'package:grad_project/patient/features/profile/data/report_model.dart';
+
 class MedicalRecordDetails extends StatelessWidget {
-  const MedicalRecordDetails({super.key});
+  final ReportModel report;
+  const MedicalRecordDetails({super.key, required this.report});
 
   @override
   Widget build(BuildContext context) {
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Scaffold(
-       // backgroundColor: Colors.white,
-        appBar: AppBar(
-          elevation: 0,
-        //  backgroundColor: Colors.white,
-        //  iconTheme: const IconThemeData(color: Color(0xFF1F3E6C)),
-          titleSpacing: 0,
-          title:  Text(
-            '  الحالة الطبية',
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 24,
-              color: AppTheme.mainContrast(context) ,//Color(0xFF1F3E6C),
-            ),
-          ),
-        ),
+        appBar: AppBar(title: const Text('الحالة الطبية')),
         body: SingleChildScrollView(
           padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // التاريخ
               Align(
                 alignment: Alignment.centerLeft,
-                child: const Text(
-                  '20 يناير 2026',
-                  style: TextStyle(
-                    color: Color(0xFF9C9C9C),
-                    fontSize: 10,
-                    fontWeight: FontWeight.bold,
-                  ),
+                child: Text(
+                  "${report.createdAt?.day} / ${report.createdAt?.month} / ${report.createdAt?.year}",
+                  style: const TextStyle(color: Color(0xFF9C9C9C), fontSize: 12),
                 ),
               ),
               const SizedBox(height: 12),
+              // بيانات الدكتور
               Row(
                 children: [
-                  const CircleAvatar(
+                  CircleAvatar(
                     radius: 26,
-                    backgroundImage: AssetImage('assets/images/tempphoto.png'),
+                    backgroundImage: NetworkImage(report.providerImage ?? ""),
                   ),
                   const SizedBox(width: 12),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    children:  [
-                      Text(
-                        'الطبيب المعالج:',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Color(0xFF9C9C9C),
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      Text(
-                        'د. طارق محمد',
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15,
-                          color: AppTheme.mainContrast(context) ,//Color(0xFF1F3E6C),
-                        ),
-                      ),
-                      Text(
-                        'استشاري أمراض القلب',
-                        style: TextStyle(
-                          color: AppTheme.mainContrast(context) ,//Color(0xFF1F3E6C),
-                          fontSize: 15,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
+                    children: [
+                      const Text('الطبيب المعالج:', style: TextStyle(color: Color(0xFF9C9C9C))),
+                      Text(report.providerFullName, style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.brandColor(context))),
+                      Text(report.providerSpecialization ?? "", style: TextStyle(color: AppTheme.brandColor(context))),
                     ],
                   ),
                 ],
               ),
-              const SizedBox(height: 15),
-              const Divider(
-                thickness: 2,
-                color: Color(0xFF1F3E6C),
-                indent: 40,
-                endIndent: 40,
-              ),
-              const SizedBox(height: 16),
-               Text(
-                'وصف الحالة:',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: AppTheme.brandColor(context) ,//Color(0xFF1F3E6C),
-                ),
-              ),
+              const Divider(height: 40),
+                     Text('المريض:', style: TextStyle(color: AppTheme.brandColor(context) )),
+                      Text(report.patientFullName, style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF9C9C9C))),
+              // وصف الحالة من السيرفر
+              Text('وصف الحالة:', style: TextStyle(fontWeight: FontWeight.bold, color: AppTheme.brandColor(context))),
               const SizedBox(height: 8),
-              const Text(
-                'يعاني المريض من آلام شديدة في الصدر '
-                'وضيق في التنفس، تم تشخيص الحالة '
-                'كنوبة قلبية حادة وتم إجراء قسطرة '
-                'قلبية عاجلة وتركيب دعامة في الشريان '
-                'التاجي الأمامي الأيسر.',
-                style: TextStyle(
-                  fontSize: 14,
-                  height: 1.6,
-                  color: Color(0xFF9C9C9C),
-                ),
+              Text(
+                report.description ?? "لا يوجد وصف متاح حالياً.",
+                style: const TextStyle(fontSize: 14, height: 1.6, color: Color(0xFF9C9C9C)),
               ),
-              const SizedBox(height: 20),
-               Text(
-                'خطة العلاج والمتابعة:',
-                style: TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                  color: AppTheme.brandColor(context) ,//Color(0xFF1F3E6C),
-                ),
-              ),
-              const SizedBox(height: 8),
-              const BulletItem(text: 'مراقبة بالقسم المركزة لمدة 48 ساعة'),
-              const BulletItem(text: 'تناول أدوية السيولة وضغط الدم'),
-              const BulletItem(text: 'وصف نظام غذائي صحي'),
-              const BulletItem(text: 'متابعة بعد أسبوعين'),
-              const SizedBox(height: 32),
-              ShareButton(
-                onPressed: () {
-                  // الأكشن عند الضغط
-                },
-              ),
+              // ... باقي الـ Static UI (Bullets)
             ],
           ),
         ),

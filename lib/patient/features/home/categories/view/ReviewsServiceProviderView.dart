@@ -4,7 +4,9 @@ import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/patient/features/home/categories/data/service_provider_reviews_model.dart';
+import 'package:grad_project/patient/features/home/categories/repo/categories_repo.dart';
 import 'package:grad_project/patient/features/home/categories/view/more_review_page.dart';
+import 'package:grad_project/patient/features/home/categories/view_model/add_review/add_review_cubit.dart';
 import 'package:grad_project/patient/features/home/categories/view_model/more_reviews/more_reviews_cubit.dart';
 import 'package:grad_project/patient/features/home/categories/view_model/repo/MoreReviewRepo.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/add_review_field.dart';
@@ -37,11 +39,11 @@ class ReviewsServiceProviderView extends StatelessWidget {
           children: [
             SectionTitle(title: "أضف تقييمك", screenWidth: screenWidth),
             const SizedBox(height: 12),
-            AddReviewField(screenWidth: screenWidth),
+            AddReviewField(screenWidth: screenWidth , id :id),
             const SizedBox(height: 30),
           ],
         ),
-
+    spReviews.reviewsList.isNotEmpty?  Column(children: [
       SectionTitle(title: "أحدث التقييمات", screenWidth: screenWidth),
       const SizedBox(height: 16),
       ListView.separated(
@@ -121,14 +123,15 @@ class ReviewsServiceProviderView extends StatelessWidget {
           ),
         ),
       ),
+      ]):
+       const Center(child: Text("لا توجد تقييمات"))
     ];
 
     return Directionality(
       textDirection: TextDirection.rtl,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
-        child: spReviews.reviewsList.isNotEmpty
-            ? Column(
+        child:Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: List.generate(
                   children.length,
@@ -138,7 +141,7 @@ class ReviewsServiceProviderView extends StatelessWidget {
                   ),
                 ),
               )
-            : const Center(child: Text("لا توجد تقييمات")),
+            ,
       ),
     );
   }

@@ -20,5 +20,14 @@ abstract class CategoriesRepo {
       required int id
     }
   );
-
+  
+   Future<Either<Failure,String>> addReview(
+    {
+      required int id,
+      required int ratingValue,
+      String? comment,
+      int? requestId 
+    }
+  );
+  
 }
