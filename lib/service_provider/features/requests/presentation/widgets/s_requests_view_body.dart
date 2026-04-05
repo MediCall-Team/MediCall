@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:grad_project/service_provider/features/requests/presentation/view_model/cubit/get_requests_cubit.dart';
+import 'package:grad_project/service_provider/features/requests/presentation/view_model/get_requests_cubit/get_requests_cubit.dart';
 import 'package:grad_project/service_provider/features/requests/presentation/widgets/request_item.dart';
 import 'package:grad_project/service_provider/features/requests/presentation/widgets/requests_filter_bar.dart';
 

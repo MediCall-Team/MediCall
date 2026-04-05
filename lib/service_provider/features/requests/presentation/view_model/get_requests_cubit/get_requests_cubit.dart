@@ -22,11 +22,7 @@ class GetRequestsCubit extends Cubit<GetRequestsState> {
     pagination = PaginationHelper<RequestData>(
       pageSize: 10,
       fetchPage: (pageIndex, pageSize) async {
-        final result = await repo.getAllRecuests(
-          pageIndex,
-          pageSize,
-          status ,
-        );
+        final result = await repo.getAllRecuests(pageIndex, pageSize, status);
 
         return result.fold(
           (failure) => throw failure,
@@ -68,6 +64,25 @@ class GetRequestsCubit extends Cubit<GetRequestsState> {
       );
     } catch (failure) {
       emit(GetRequestsFailure(errorMsg: (failure as Failure).errorMsg));
+    }
+  }
+  // في ملف get_requests_cubit.dart
+
+  void removeRequest(int requestId) {
+    final currentState = state;
+
+    if (currentState is GetRequestsSuccess) {
+      // حذف الطلب من القائمة
+      final updatedRequests = List<RequestData>.from(currentState.requests)
+        ..removeWhere((request) => request.requestId == requestId);
+
+      // تحديث الحالة مع القائمة الجديدة
+      emit(
+        GetRequestsSuccess(
+          requests: updatedRequests,
+          isLoadingMore: currentState.isLoadingMore,
+        ),
+      );
     }
   }
 }
