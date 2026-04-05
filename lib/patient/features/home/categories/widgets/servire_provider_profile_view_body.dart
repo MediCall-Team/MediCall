@@ -52,33 +52,33 @@ class _ServireProviderProfileViewBodyState
       },
       builder: (context, state) {
         return state is ServiceProviderProfileSuccess
-            ? CustomScrollView(
-                slivers: [
-                  SliverToBoxAdapter(
-                    child: SPData(spModel: spModel, screenWidth: screenWidth),
-                  ),
-
-                  SliverToBoxAdapter(
-                    child: TabsSection(
-                      id: widget.id,
-                      spModel: spModel,
-                      screenHeight: screenHeight,
-                      screenWidth: screenWidth,
+            ? CustomLoadingIndicator(
+              isLoading:context.watch<CreateRequestCubit>().loading ,
+              child: CustomScrollView(
+                  slivers: [
+                    SliverToBoxAdapter(
+                      child: SPData(spModel: spModel, screenWidth: screenWidth),
                     ),
-                  ),
-
-                  BlocConsumer<CreateRequestCubit, CreateRequestState>(
-                    listener: (context, state) {
-                      if (state is CreateRequestSuccess) {
-                        snackBarMethod(context, "تم ارسال الطلب بنجاح");
-                      } else if (state is CreateRequestFailure) {
-                        snackBarMethod(context, state.errorMsg);
-                      }
-                    },
-                    builder: (context, state) {
-                      return SliverToBoxAdapter(
-                        child: CustomLoadingIndicator(
-                          isLoading: context.watch<CreateRequestCubit>().loading,
+              
+                    SliverToBoxAdapter(
+                      child: TabsSection(
+                        id: widget.id,
+                        spModel: spModel,
+                        screenHeight: screenHeight,
+                        screenWidth: screenWidth,
+                      ),
+                    ),
+              
+                    BlocConsumer<CreateRequestCubit, CreateRequestState>(
+                      listener: (context, state) {
+                        if (state is CreateRequestSuccess) {
+                          snackBarMethod(context, "تم ارسال الطلب بنجاح");
+                        } else if (state is CreateRequestFailure) {
+                          snackBarMethod(context, state.errorMsg);
+                        }
+                      },
+                      builder: (context, state) {
+                        return SliverToBoxAdapter(
                           child: Column(
                             children: [
                               const SizedBox(height: 20),
@@ -97,12 +97,12 @@ class _ServireProviderProfileViewBodyState
                               const SizedBox(height: 20),
                             ],
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ],
-              )
+                        );
+                      },
+                    ),
+                  ],
+                ),
+            )
             : Center(
                 child: CircularProgressIndicator(
                   color: AppTheme.brandColor(context),
