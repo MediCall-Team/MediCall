@@ -1,6 +1,8 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/profile/data/report_model.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
 
 class MedicalRecordDetails extends StatelessWidget {
   final ReportModel report;
@@ -29,10 +31,26 @@ class MedicalRecordDetails extends StatelessWidget {
               // بيانات الدكتور
               Row(
                 children: [
-                  CircleAvatar(
-                    radius: 26,
-                    backgroundImage: NetworkImage(report.providerImage ?? ""),
+                  ClipOval(
+                child: CachedNetworkImage(
+                  imageUrl: report.providerImage!,
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.cover,
+                  errorWidget: (context, url, error) =>
+                      const Icon(Icons.error),
+                  placeholder: (context, url) => Shimmer(
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      decoration: const BoxDecoration(
+                        color: Colors.grey,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
                   ),
+                ),
+              ),
                   const SizedBox(width: 12),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,

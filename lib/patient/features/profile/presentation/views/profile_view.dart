@@ -33,6 +33,7 @@ class ProfileView extends StatelessWidget {
           ),
           BlocProvider(create: (context)=>AddReviewCubit(getIt<CategoriesRepo>())),
           
+       // BlocProvider(create: (context)=>GetReportsCubit(getIt<PatientProfileRepo>())),
 
         ],
         child: Scaffold(
