@@ -224,6 +224,7 @@ class _RequestItemState extends State<RequestItem> {
                                           createReportCubit: createReportCubit,
                                         ),
                                       );
+                                      context.read<GetRequestsCubit>().loadFirstPage();
                                     },
                                     screenWidth: screenWidth,
                                     text: "كتابة تقرير الحالة",
@@ -232,6 +233,7 @@ class _RequestItemState extends State<RequestItem> {
                                     textColor: Colors.white,
                                   ),
                                 ),
+                                
                               )
                             else
                               const SizedBox(),

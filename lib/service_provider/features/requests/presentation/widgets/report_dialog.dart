@@ -8,6 +8,7 @@ class ReportDialog extends StatefulWidget {
   final double screenWidth;
   final int requestId;
   final CreateReportCubit createReportCubit;
+  
 
   const ReportDialog({
     super.key,
