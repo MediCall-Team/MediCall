@@ -86,7 +86,7 @@ class RequestData {
       case 3:
         return 'مرفوض';
       case 4:
-        return 'اكتمل';
+        return 'مكتمل';
       case 5:
         return 'ملغي';
       default:

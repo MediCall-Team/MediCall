@@ -8,7 +8,6 @@ import 'package:grad_project/service_provider/features/requests/presentation/vie
 import 'package:grad_project/service_provider/features/requests/presentation/view_model/get_requests_cubit/get_requests_cubit.dart';
 import 'package:grad_project/service_provider/features/requests/presentation/view_model/request_management/request_management_cubit.dart';
 import 'package:grad_project/service_provider/features/requests/presentation/widgets/report_dialog.dart';
-import 'package:grad_project/service_provider/features/requests/presentation/widgets/request_status.dart';
 import 'package:grad_project/service_provider/features/requests/presentation/widgets/s_button_row.dart';
 import 'package:grad_project/service_provider/features/requests/presentation/widgets/s_custom_request_button.dart';
 import 'package:intl/intl.dart';
@@ -53,42 +52,48 @@ class _RequestItemState extends State<RequestItem> {
     return BlocListener<RequestManagementCubit, RequestManagementState>(
       listener: (context, state) {
         // عند بدء التحميل لنفس الـ request
-        if (state is RequestManagementLoading && state.requestId == request.requestId) {
+        if (state is RequestManagementLoading &&
+            state.requestId == request.requestId) {
           setState(() {
             _isLoading = true;
           });
         }
-        
+
         // عند انتهاء التحميل (نجاح أو فشل)
-        if ((state is RequestManagementSuccess && state.requestId == request.requestId) ||
-            (state is RequestManagementFailure && state.requestId == request.requestId)) {
+        if ((state is RequestManagementSuccess &&
+                state.requestId == request.requestId) ||
+            (state is RequestManagementFailure &&
+                state.requestId == request.requestId)) {
           setState(() {
             _isLoading = false;
           });
-          
+
           // إذا كان نجاح، قم بإزالة الطلب
           if (state is RequestManagementSuccess) {
             context.read<GetRequestsCubit>().removeRequest(request.requestId);
-            
+
             ScaffoldMessenger.of(context).showSnackBar(
               const SnackBar(content: Text("تم تنفيذ العملية بنجاح")),
             );
           }
-          
+
           // إذا كان فشل، أظهر رسالة الخطأ
           if (state is RequestManagementFailure) {
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text(state.errorMsg)),
-            );
+            ScaffoldMessenger.of(
+              context,
+            ).showSnackBar(SnackBar(content: Text(state.errorMsg)));
           }
         }
       },
       child: GestureDetector(
-        onTap: _isLoading ? null : () { // منع الضغط أثناء التحميل
-          setState(() {
-            expanded = !expanded;
-          });
-        },
+        onTap: _isLoading
+            ? null
+            : () {
+                // منع الضغط أثناء التحميل
+                setState(() {
+                  expanded = !expanded;
+                });
+              },
         child: Container(
           decoration: BoxDecoration(
             color: AppTheme.spB(context),
@@ -108,9 +113,7 @@ class _RequestItemState extends State<RequestItem> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      CircularProgressIndicator(
-                        color: kPrimaryColorB,
-                      ),
+                      CircularProgressIndicator(color: kPrimaryColorB),
                       const SizedBox(height: 16),
                       Text(
                         "جاري معالجة الطلب...",
@@ -161,7 +164,7 @@ class _RequestItemState extends State<RequestItem> {
                         ),
                       ],
                     ),
-                    
+
                     /// ---------------- BODY ----------------
                     AnimatedCrossFade(
                       firstChild: const SizedBox(),
@@ -180,14 +183,15 @@ class _RequestItemState extends State<RequestItem> {
                             const SizedBox(height: 4),
                             Text(
                               request.description ?? "لا يوجد وصف",
-                              style: TextStyle(color: AppTheme.mainContrast(context)),
+                              style: TextStyle(
+                                color: AppTheme.mainContrast(context),
+                              ),
                             ),
                             const SizedBox(height: 12),
                             TimeRequestSection(
-                              dateFormat: dateFormat,
-                              timeFormat: timeFormat,
-                              requestmodel: request,
                               screenWidth: screenWidth,
+                              time: timeFormat.format(request.appointmentDate),
+                              date: dateFormat.format(request.appointmentDate),
                             ),
                             const SizedBox(height: 14),
                             GestureDetector(
@@ -202,7 +206,7 @@ class _RequestItemState extends State<RequestItem> {
                               ),
                             ),
                             const SizedBox(height: 12),
-                            
+
                             /// الأزرار
                             if (request.status == 1)
                               SButtonRow(
@@ -212,10 +216,13 @@ class _RequestItemState extends State<RequestItem> {
                             else if (request.status == 2)
                               Center(
                                 child: Padding(
-                                  padding: const EdgeInsets.symmetric(horizontal: 32.0),
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 32.0,
+                                  ),
                                   child: SCustomRequestButton(
                                     onTap: () {
-                                      final createReportCubit = context.read<CreateReportCubit>();
+                                      final createReportCubit = context
+                                          .read<CreateReportCubit>();
                                       showDialog(
                                         context: context,
                                         builder: (context) => ReportDialog(
@@ -224,7 +231,9 @@ class _RequestItemState extends State<RequestItem> {
                                           createReportCubit: createReportCubit,
                                         ),
                                       );
-                                      context.read<GetRequestsCubit>().loadFirstPage();
+                                      context
+                                          .read<GetRequestsCubit>()
+                                          .loadFirstPage();
                                     },
                                     screenWidth: screenWidth,
                                     text: "كتابة تقرير الحالة",
@@ -233,7 +242,6 @@ class _RequestItemState extends State<RequestItem> {
                                     textColor: Colors.white,
                                   ),
                                 ),
-                                
                               )
                             else
                               const SizedBox(),
