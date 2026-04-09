@@ -6,7 +6,7 @@ class BookingActionButton extends StatelessWidget {
   final Color color;
   final Color textColor;
   final bool hasBorder;
-  final VoidCallback onTap;
+  final VoidCallback? onTap;
 
   const BookingActionButton({
     super.key, 

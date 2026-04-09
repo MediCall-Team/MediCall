@@ -8,4 +8,7 @@ abstract class RequestsRepo {
     int PageSize,
     int? status,
   );
+  Future<Either<Failure, String>> acceptRequest(int requestID);
+  Future<Either<Failure, String>> rejectRequest(int requestID);
+  Future<Either<Failure, String>> createReport(int requestID,String description );
 }

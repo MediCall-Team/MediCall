@@ -24,21 +24,32 @@ class _MoreCategoriesBodyState extends State<MoreCategoriesBody> {
   // ];
 
   List<CategoryModel> filteredCategories = [];
+// داخل initState
+@override
+void initState() {
+  super.initState();
+  // تحويل القائمة لـ Map عشان نقدر نفلتر بالـ Index الأصلي (5)
+  filteredCategories = categoriesList
+      .asMap()
+      .entries
+      .where((entry) => entry.key != 5) 
+      .map((entry) => entry.value)
+      .toList();
+}
 
-  @override
-  void initState() {
-    super.initState();
-    filteredCategories = categoriesList; // أول ما الصفحة تفتح
-  }
-
-  void _filterCategories(String query) {
-    setState(() {
-      filteredCategories = categoriesList
-          .where((category) =>
-              category.name.contains(query)) // بحث بالحرف أو الكلمة
-          .toList();
-    });
-  }
+// داخل ميثود البحث _filterCategories
+void _filterCategories(String query) {
+  setState(() {
+    filteredCategories = categoriesList
+        .asMap()
+        .entries
+        .where((entry) => 
+            entry.key != 5 && // استبعاد العنصر الخامس دائمًا
+            entry.value.name.contains(query)) 
+        .map((entry) => entry.value)
+        .toList();
+  });
+}
 
   @override
   Widget build(BuildContext context) {
@@ -75,6 +86,7 @@ class _MoreCategoriesBodyState extends State<MoreCategoriesBody> {
             itemCount: filteredCategories.length,
             separatorBuilder: (context, index) => const Divider(),
             itemBuilder: (context, index) {
+              
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 10.0),
                 child: GestureDetector(
