@@ -28,14 +28,18 @@ void main() async {
   runApp(
     DevicePreview(
       enabled: false,
-      builder: (context) =>
-          MultiBlocProvider(providers: [
-            BlocProvider(create: (_)=>AppThemeCubit()),
-            BlocProvider(create: (context) => getIt<NotificationNumberCubit>()),
-           BlocProvider(create: (context)=>LogoutCubit(getIt<PatienAuthRepo>())),
-          ], child: const MediApp()) ),
-    );
- 
+      builder: (context) => MultiBlocProvider(
+        providers: [
+          BlocProvider(create: (_) => AppThemeCubit()),
+          BlocProvider(create: (context) => getIt<NotificationNumberCubit>()),
+          BlocProvider(
+            create: (context) => LogoutCubit(getIt<PatienAuthRepo>()),
+          ),
+        ],
+        child: const MediApp(),
+      ),
+    ),
+  );
 }
 
 class MediApp extends StatelessWidget {
@@ -50,7 +54,6 @@ class MediApp extends StatelessWidget {
             : ThemeMode.light;
 
         return MaterialApp.router(
-          
           debugShowCheckedModeBanner: false,
           scrollBehavior: const NoGlowScrollBehavior(),
           locale: const Locale("ar"),

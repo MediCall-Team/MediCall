@@ -3,12 +3,19 @@ import 'package:flutter/material.dart';
 class CustomPhoneField extends StatelessWidget {
   final String hint;
   final IconData icon;
+  final TextEditingController controller;
 
-  const CustomPhoneField({super.key, required this.hint, required this.icon});
+  const CustomPhoneField({
+    super.key,
+    required this.hint,
+    required this.icon,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       style: const TextStyle(fontSize: 14, color: Color(0xFF1F3E6C)),
       keyboardType: TextInputType.phone,
       decoration: InputDecoration(
