@@ -3,12 +3,19 @@ import 'package:flutter/material.dart';
 class NumberInputField extends StatelessWidget {
   final IconData icon;
   final String hint;
+  final TextEditingController controller;
 
-  const NumberInputField({super.key, required this.icon, required this.hint});
+  const NumberInputField({
+    super.key,
+    required this.icon,
+    required this.hint,
+    required this.controller,
+  });
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: controller,
       textAlign: TextAlign.center,
       keyboardType: TextInputType.number,
       style: const TextStyle(fontSize: 14, color: Color(0xFF1F3E6C)),

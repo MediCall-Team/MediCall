@@ -18,7 +18,8 @@ class AboutServiceProviderView extends StatelessWidget {
           
           StaggeredStepAnimation(
             index: 0,
-            child: Text("معلومات عن الدكتور ",style: Styles.textStyle20.copyWith(
+            child: Text("معلومات عن الدكتور ",
+            style: Styles.textStyle20.copyWith(
               fontSize: (screenWidth*0.04).clamp(18, 40),
               color: AppTheme.mainContrast(context) ,
             ),),
@@ -28,13 +29,15 @@ class AboutServiceProviderView extends StatelessWidget {
 
           StaggeredStepAnimation(
             index: 1,
-            child:bio.isNotEmpty ?  Text(
-              bio
-            ,style: TextStyle(
-              fontWeight: FontWeight.w500,
-              color:AppTheme.spStext(context) ,//kPrimaryColorE,
-              fontSize:(screenWidth*0.03).clamp(16, 30)
-            ),
+            child:bio.isNotEmpty ?  Center(
+              child: Text(
+                bio
+              ,style: TextStyle(
+                fontWeight: FontWeight.w500,
+                color:AppTheme.spStext(context) ,//kPrimaryColorE,
+                fontSize:(screenWidth*0.03).clamp(16, 30)
+              ),
+              ),
             ):
             Center(child: Text(
             "لا توجد معلومات"
