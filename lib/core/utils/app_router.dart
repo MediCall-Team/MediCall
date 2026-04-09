@@ -1,3 +1,6 @@
+import 'package:dartz/dartz_streaming.dart';
+import 'package:flutter/material.dart' show Scaffold, Center, SizedBox;
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/core/utils/session_manager.dart';
@@ -22,6 +25,8 @@ import 'package:grad_project/common/onboarding/presentation/views/splash_view.da
 import 'package:grad_project/common/onboarding/presentation/views/start_now_view.dart';
 import 'package:grad_project/patient/features/home/presentation/views/home_view.dart';
 import 'package:grad_project/service_provider/features/bottom_nav/presentation/views/s_custom_bottom_nav.dart';
+import 'package:grad_project/service_provider/features/profile_settings/presentation/Git_S_P_cubit/git_s_p_cubit.dart';
+import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/add_country.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/views/edit_s_p_view.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/views/s_p_profile.dart';
 
@@ -51,27 +56,24 @@ abstract class AppRouter {
   static const String kSPProfile = '/s_p_profile_view';
   static final router = GoRouter(
     navigatorKey: SessionManager.navigatorKey,
-     initialLocation: "/",
-   redirect: (context, state) {
+    initialLocation: "/",
+    redirect: (context, state) {
       final user = CacheHelper.getUser();
-      
+
       // إحنا بنتدخل فقط لو المستخدم فاتح الصفحة الرئيسية (اللوجين) ومعاه توكن
       final isAtStart = state.matchedLocation == "/";
 
-      if (isAtStart && user != null && user.role=="Patient") {
+      if (isAtStart && user != null && user.role == "Patient") {
         return kBottomNavPage; // لو مسجل وديه الهوم فوراً
-      }
-      else if(isAtStart && user != null){
+      } else if (isAtStart && user != null) {
         return kSCustomBottomNavPage;
       }
 
       // في أي حالة تانية (رايح ساين أب، رايح ينسى الباسورد) سيبه يروح براحته
-      return null; 
+      return null;
     },
 
     routes: [
-
-      
       //splash
       GoRoute(path: "/", builder: (context, state) => SplashView()),
 
@@ -99,13 +101,12 @@ abstract class AppRouter {
       ),
       GoRoute(path: kChoicePage, builder: (context, state) => ChoicePageView()),
       GoRoute(path: kLoginPage, builder: (context, state) => LoginView()),
-      
+
       GoRoute(path: kSignUp, builder: (context, state) => SignUpView()),
-    
-    //  GoRoute(path: kSign2Up, builder: (context, state) => Step2View()),
 
-    //  GoRoute(path: kSign3Up, builder: (context, state) => Step3View()),
+      //  GoRoute(path: kSign2Up, builder: (context, state) => Step2View()),
 
+      //  GoRoute(path: kSign3Up, builder: (context, state) => Step3View()),
       GoRoute(
         path: kPatientSignUpView,
         builder: (context, state) => PatientSignUpView(),
@@ -122,7 +123,6 @@ abstract class AppRouter {
       //     return VerificationCodeScreen(email: email);
       //   },
       // ),
-
       GoRoute(
         path: kResetPassword,
         builder: (context, state) {
@@ -138,7 +138,15 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: kServiceProviderEditView,
-        builder: (context, state) => EditSPView(),
+
+        builder: (context, state) {
+          final cubit = state.extra as GitSPCubit?;
+          if (cubit == null) {
+            return const Scaffold(body: SizedBox());
+          }
+
+          return BlocProvider.value(value: cubit, child: const EditSPView());
+        },
       ),
       GoRoute(path: kAChat, builder: (context, state) => AChatView()),
       GoRoute(
@@ -153,12 +161,18 @@ abstract class AppRouter {
         path: kServiceProviderProfile,
         builder: (context, state) {
           final int id = state.extra as int;
-          return ServiceProviderProfileView(
-          id: id,
-        );
-        }
+          return ServiceProviderProfileView(id: id);
+        },
       ),
       GoRoute(path: kSPProfile, builder: (context, state) => SPProfile()),
+      GoRoute(
+        path: '/add_country',
+        builder: (context, state) {
+          final cubit = state.extra as GitSPCubit?;
+          if (cubit == null) return const Scaffold(body: SizedBox());
+          return BlocProvider.value(value: cubit, child: const AddCountry());
+        },
+      ),
     ],
   );
 }

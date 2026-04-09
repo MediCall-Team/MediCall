@@ -1,58 +1,20 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grad_project/core/utils/api/api_consumer.dart';
 import 'package:grad_project/core/utils/app_router.dart';
 import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/core/utils/styles.dart';
 import 'package:grad_project/patient/features/authentication/presentation/view_model/logout_cubit/logout_cubit.dart';
 import 'package:grad_project/patient/features/authentication/repo/auth_repo.dart';
+import 'package:grad_project/service_provider/features/profile_settings/presentation/Git_S_P_cubit/git_s_p_cubit.dart';
+import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/views/edit_s_p_view.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/views/s_p_profile.dart';
-
+import 'package:grad_project/service_provider/features/requests/repos/Service_profile_Repo.dart';
 
 class SPProfileSettings extends StatelessWidget {
- const SPProfileSettings({super.key});
-
-  // final ServiceProviderProfileModel
-  // serviceProviderProfileModel = ServiceProviderProfileModel(
-  //   doctorModel: DoctorModel(
-  //     id:0,
-  //     image: "assets/images/tempphoto.png",
-  //     name: "حمزه طارق",
-  //     specialty: "استشاري جراحه عظام",
-  //     rate: 4.5,
-  //     price: 120,
-  //   //  isActive: true,
-  //   ),
-  //   homeVisits: "300",
-  //   yearsofexperience: "5",
-  //   bio: "استشاري جراحة عظام متخصص في تشخيص وعلاج إصابات العظام والمفاصل، ويملك خبرة واسعة في التعامل مع حالات الكسور وآلام المفاصل المختلفة، مع الحرص على تقديم رعاية طبية دقيقة وآمنة للمرضى في منازلهم.",
-  //   places: ["أخميم", "جرجا", "المراغه", "طهطا", "المنشأة", "ساقلته"],
-  //   spReviews: ServiceProviderReviewsModel(
-  //     rate: 4.5,
-  //     numPepoleRate: 128,
-  //     rateFive: 100,
-  //     rateFour: 28,
-  //     rateThree: 0,
-  //     rateTwo: 0,
-  //     rateOne: 0,
-  //     reviewsList: [
-  //       ReviewsModel(
-  //         image: "assets/images/tempphoto.png",
-  //         name: "ادهم محمد",
-  //         description:
-  //             "دكتور محترم جدًا وشرح الحالة بشكل واضح، والزيارة كانت في معادها بالظبط. حسّيت باهتمام ومتابعة كويسة بعد الكشف",
-  //         rate: 4.5,
-  //       ),
-  //       ReviewsModel(
-  //         image: "assets/images/tempphoto.png",
-  //         name: "ادهم محمد",
-  //         description:
-  //             "دكتور محترم جدًا وشرح الحالة بشكل واضح، والزيارة كانت في معادها بالظبط. حسّيت باهتمام ومتابعة كويسة بعد الكشف",
-  //         rate: 4.5,
-  //       ),
-  //     ],
-  //   ),
-  // );
+  const SPProfileSettings({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -60,22 +22,44 @@ class SPProfileSettings extends StatelessWidget {
       textDirection: TextDirection.rtl,
       child: MultiBlocProvider(
         providers: [
-           BlocProvider(create: (context)=>LogoutCubit(getIt<PatienAuthRepo>())),
+          BlocProvider(
+            create: (context) => LogoutCubit(getIt<PatienAuthRepo>()),
+          ),
+
+          // 🔹 إضافة البلوك بروفايدر واستدعاء الدالة فوراً
+          BlocProvider(
+            create: (context) =>
+                GitSPCubit(SPProfileRepoImpl(getIt<ApiConsumer>()))
+                  ..getProviderProfile(),
+          ),
         ],
         child: Scaffold(
-          appBar: AppBar(title: Text("بيانات الدكتور", style: Styles.textStyle25),
-             actions: [
-              IconButton(
-                icon: const Icon(Icons.settings),
-                onPressed: (){ 
-                  GoRouter.of(context).push(AppRouter.kServiceProviderEditView);
-                  },
+          appBar: AppBar(
+            title: Text("بيانات الدكتور", style: Styles.textStyle25),
+            actions: [
+              Builder(
+                builder: (context) {
+                  return IconButton(
+                    icon: const Icon(Icons.settings),
+                    onPressed: () {
+                      final cubit = context.read<GitSPCubit>();
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (_) => BlocProvider.value(
+                            value: cubit,
+                            child: const EditSPView(),
+                          ),
+                        ),
+                      );
+                    },
+                  );
+                },
               ),
             ],
           ),
-          body: SafeArea(
-            child: SPProfile()
-          ),
+          body: SafeArea(child: SPProfile()),
         ),
       ),
     );
