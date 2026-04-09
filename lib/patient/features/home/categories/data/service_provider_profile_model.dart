@@ -36,38 +36,13 @@ class ServiceProviderProfileModel {
       bio: json["bio"] ?? "",
 
       // ✅ تحويل الليست
-      places:
-          (json["serviceAreas"] as List?)?.map((e) => e.toString()).toList() ??
-          [],
+      places: (json["serviceAreas"] as List?)
+    ?.map((e) => e["name"].toString()) // هنا بنسحب الـ name من جوا الـ Map
+    .toList() ?? [],
 
       spReviews: ServiceProviderReviewsModel.fromJson(json),
     );
   }
 
-  // factory ServiceProviderProfileModel.formJson(json) {
-  //   return ServiceProviderProfileModel(
-  //     doctorModel: DoctorModel(
-  //       image: json["imageUrl"],
-  //       name: json["fullName"],
-  //       specialty: json["title"],
-  //       rate: json["averageRating"],
-  //       price: json["price"],
-  //       id: json["id"] ?? "",
-  //     ),
-  //     homeVisits: json["numberOfServices"],
-  //     // yearsofexperience: yearsofexperience,
-  //     bio: json["bio"],
-  //     places: json["serviceAreas"],
-  //     spReviews: ServiceProviderReviewsModel(
-  //       rate: json["averageRating"],
-  //       numPepoleRate: json["totalReviewsCount"],
-  //       rateFive: json["starSummary"]["5"],
-  //       rateFour: json["starSummary"]["4"],
-  //       rateThree: json["starSummary"]["3"],
-  //       rateTwo: json["starSummary"]["2"],
-  //       rateOne: json["starSummary"]["1"],
-  //       reviewsList: json["recentReviews"],
-  //     ),
-  //   );
-  // }
 }
+

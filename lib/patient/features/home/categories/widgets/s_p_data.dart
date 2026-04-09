@@ -24,8 +24,8 @@ class SPData extends StatelessWidget {
         ClipOval(
           child: CachedNetworkImage(
             imageUrl: spModel.doctorModel.image,
-            width: (screenWidth * 0.18).clamp(40, 140),
-            height: (screenWidth * 0.18).clamp(40, 140),
+            width: (screenWidth * 0.25).clamp(40, 140),
+            height: (screenWidth * 0.25).clamp(40, 140),
             fit: BoxFit.cover,
             errorWidget: (context, url, error) => Icon(Icons.error),
             placeholder: (context, url) => Shimmer(

@@ -17,7 +17,6 @@ class MapService {
         // تجاهل الأخطاء لو مكان مش متعرف
       }
     }
-
     return locations;
   }
 }

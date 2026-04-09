@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grad_project/core/helper/snakbar.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/home/categories/view_model/location_cubit/location_cubit_cubit.dart';
 
@@ -11,7 +12,7 @@ import 'package:lottie/lottie.dart';
 class LocationServiceProviderView extends StatelessWidget {
   const LocationServiceProviderView({super.key, required this.places});
 
-  final List<String>places;
+  final List<String> places;
   // static const List<String> places = [
   //   "أخميم",
   //   "جرجا",
@@ -25,102 +26,112 @@ class LocationServiceProviderView extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = MediaQuery.of(context).size.width;
 
-    return places.isNotEmpty? BlocProvider(
-      create: (_) => LocationCubitCubit()..fetchLocations(places),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+    return places.isNotEmpty
+        ? BlocProvider(
+            create: (_) => LocationCubitCubit(),
+            child: BlocListener<LocationCubitCubit, LocationCubitState>(
+              listener: (context, state) {
+                if (state is LocationCubitSuccess) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) => LocationMapView(
+                        locations: state.locations,
+                        places: places,
+                      ),
+                    ),
+                  );
+                } else if (state is LocationCubitFailure) {
+                  snackBarMethod(context, state.errorMsg);
+                } else if (state is LocationCubitLoading) {
+                  snackBarMethod(
+                    context,
+                    "جاري تجهيز الخريطه .... أنتظر من فضلك",
+                  );
+                }
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  StaggeredStepAnimation(
+                    index: 0,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12.0),
+                      child: Text(
+                        "الموقع",
+                        style: TextStyle(
+                          fontSize: (screenWidth * 0.045).clamp(12, 30),
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Tajawal",
+                          color: AppTheme.mainContrast(
+                            context,
+                          ), //kPrimaryColorC,
+                        ),
+                      ),
+                    ),
+                  ),
 
-          StaggeredStepAnimation(
-            index: 0,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 12.0),
-              child: Text(
-                "الموقع",
-                style: TextStyle(
-                  fontSize: (screenWidth * 0.045).clamp(12, 30),
-                  fontWeight: FontWeight.bold,
-                  fontFamily: "Tajawal",
-                  color:AppTheme.mainContrast(context) ,//kPrimaryColorC,
-                ),
-              ),
-            ),
-          ),
+                  const SizedBox(height: 16),
 
-          const SizedBox(height: 16),
+                  StaggeredStepAnimation(
+                    index: 1,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 4.0),
+                      child: Container(
+                        padding: const EdgeInsets.all(12),
+                        decoration: BoxDecoration(
+                          //  color: const Color.fromARGB(96, 225, 242, 248),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Wrap(
+                          spacing: 10.0,
+                          runSpacing: 12.0,
+                          children: places
+                              .map(
+                                (place) => LocationChip(
+                                  screenWidth: screenWidth,
+                                  placeName: place,
+                                ),
+                              )
+                              .toList(),
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 16),
 
-          StaggeredStepAnimation(
-            index: 1,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
-              child: Container(
-                padding: const EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                //  color: const Color.fromARGB(96, 225, 242, 248),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Wrap(
-                  spacing: 10.0,
-                  runSpacing: 12.0,
-                  children: places
-                      .map((place) => LocationChip(
-                          screenWidth: screenWidth, placeName: place))
-                      .toList(),
-                ),
+                  StaggeredStepAnimation(
+                    index: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 50.0,
+                        vertical: 16,
+                      ),
+                      child: Builder(
+                        builder: (context) {
+                          return GestureDetector(
+                            onTap: () {
+                              // إذا ضغط المستخدم وكان التحميل قد فشل مثلاً، نعيد المحاولة
+                              BlocProvider.of<LocationCubitCubit>(
+                                context,
+                              ).fetchLocations(places);
+                              final cubit = context.read<LocationCubitCubit>();
+                              if (cubit.state is LocationCubitFailure) {
+                                cubit.fetchLocations(places);
+                              }
+                            },
+                            child: LottieBuilder.asset(
+                              "assets/animation/ubicacin.json",
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           )
-          ,
-          const SizedBox(height: 16),
-
-          StaggeredStepAnimation(
-            index: 2,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 16),
-              child: Builder(
-                builder: (context) {
-                  return GestureDetector(
-                    onTap: () {
-                      final cubit = context.read<LocationCubitCubit>();
-                      final state = cubit.state;
-            
-                      if (state is LocationCubitSuccess) {
-                        // تم التحميل بنجاح -> انتقل
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (_) => LocationMapView(
-                              locations: state.locations,
-                              places: places,
-                            ),
-                          ),
-                        );
-                      } else if (state is LocationCubitLoading) {
-                        // لسه بيحمل -> أظهر رسالة بسيطة أو Loading مؤقت
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text("جاري تحضير الخريطة... انتظر لحظة"),
-                            duration: Duration(seconds: 1),
-                          ),
-                        );
-                      } else if (state is LocationCubitFailure) {
-                        // فشل -> أعد المحاولة
-                        cubit.fetchLocations(places);
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text(state.errorMsg)),
-                        );
-                      }
-                    },
-                    child: LottieBuilder.asset("assets/animation/ubicacin.json"),
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-    ):
-    Center(child: Text("لا توجد مراكز"),)
-    ;
+        : Center(child: Text("لا توجد مراكز"));
   }
 }

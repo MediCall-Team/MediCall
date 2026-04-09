@@ -7,6 +7,7 @@ import 'package:grad_project/patient/features/authentication/presentation/views/
 import 'package:grad_project/patient/features/authentication/presentation/views/login_view.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/patient_sign_up_view.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/login_view_body.dart';
+import 'package:grad_project/patient/features/home/presentation/views/ai_view.dart';
 import 'package:grad_project/service_provider/features/auth/presentation/views/sign_up_view.dart';
 import 'package:grad_project/service_provider/features/auth/presentation/views/step2_view.dart';
 import 'package:grad_project/service_provider/features/auth/presentation/views/step3_view.dart';
@@ -49,6 +50,7 @@ abstract class AppRouter {
   static const String kAChat = '/a_chat_view';
   static const String kVerifyCodeView = "/verifyCode";
   static const String kSPProfile = '/s_p_profile_view';
+  static const String kAI = '/ai_view';
   static final router = GoRouter(
     navigatorKey: SessionManager.navigatorKey,
      initialLocation: "/",
@@ -159,6 +161,8 @@ abstract class AppRouter {
         }
       ),
       GoRoute(path: kSPProfile, builder: (context, state) => SPProfile()),
+
+      GoRoute(path: kAI, builder: (context, state) => AiView()),
     ],
   );
 }
