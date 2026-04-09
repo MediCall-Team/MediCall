@@ -8,13 +8,14 @@ class ReportDialog extends StatefulWidget {
   final double screenWidth;
   final int requestId;
   final CreateReportCubit createReportCubit;
-  
+  final VoidCallback? onReportSuccess; // ✅ أضفنا الـ callback
 
   const ReportDialog({
     super.key,
     required this.screenWidth,
     required this.requestId,
     required this.createReportCubit,
+    this.onReportSuccess, // ✅ أضفنا الـ callback
   });
 
   @override
@@ -36,7 +37,12 @@ class _ReportDialogState extends State<ReportDialog> {
       bloc: widget.createReportCubit,
       listener: (context, state) {
         if (state is CreateReportSuccess) {
-          // إظهار رسالة النجاح
+          // ✅ الخطوات بالترتيب الصحيح
+          
+          // 1. قفل الـ Dialog أولاً
+          Navigator.pop(context);
+          
+          // 2. إظهار رسالة النجاح
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
               content: Text("تم إرسال التقرير بنجاح"),
@@ -44,20 +50,9 @@ class _ReportDialogState extends State<ReportDialog> {
               duration: Duration(seconds: 2),
             ),
           );
-
-          // إغلاق الـ Dialog أولاً
-          Navigator.pop(context);
-
-          // تأخير تحديث القائمة قليلاً بعد إغلاق الـ Dialog
-          Future.delayed(const Duration(milliseconds: 300), () {
-            if (mounted) {
-              // التحقق من وجود الـ context قبل التحديث
-              final getRequestsCubit = context.read<GetRequestsCubit>();
-              if (getRequestsCubit.state is GetRequestsSuccess) {
-                getRequestsCubit.removeRequest(widget.requestId);
-              }
-            }
-          });
+          
+          // 3. استدعاء الـ callback لإزالة الطلب (مرة واحدة فقط)
+          widget.onReportSuccess?.call();
         }
 
         if (state is CreateReportFailure) {

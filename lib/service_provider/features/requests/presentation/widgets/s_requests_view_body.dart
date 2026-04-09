@@ -13,7 +13,6 @@ class SRequestsViewBody extends StatefulWidget {
 
 class _RequestsViewState extends State<SRequestsViewBody> {
   final ScrollController controller = ScrollController();
-
   int? selectedStatus;
 
   @override
@@ -21,7 +20,6 @@ class _RequestsViewState extends State<SRequestsViewBody> {
     super.initState();
 
     final cubit = context.read<GetRequestsCubit>();
-
     cubit.loadFirstPage();
 
     controller.addListener(() {
@@ -32,24 +30,27 @@ class _RequestsViewState extends State<SRequestsViewBody> {
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         RequestsFilterBar(
           selectedStatus: selectedStatus,
           onFilterChanged: (status) {
-            selectedStatus = status;
+            setState(() {
+              selectedStatus = status;
+            });
 
             final cubit = context.read<GetRequestsCubit>();
-
             cubit.status = status;
-
             cubit.loadFirstPage();
-
-            setState(() {});
           },
         ),
-
         Expanded(
           child: BlocBuilder<GetRequestsCubit, GetRequestsState>(
             builder: (context, state) {
@@ -62,6 +63,30 @@ class _RequestsViewState extends State<SRequestsViewBody> {
               }
 
               if (state is GetRequestsSuccess) {
+                if (state.requests.isEmpty) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.inbox_outlined,
+                          size: 80,
+                          color: Colors.grey[400],
+                        ),
+                        const SizedBox(height: 16),
+                        Text(
+                          "لا توجد طلبات",
+                          style: TextStyle(
+                            fontSize: 18,
+                            color: Colors.grey[600],
+                            fontFamily: "Tajawal",
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }
+
                 return ListView.builder(
                   controller: controller,
                   itemCount:
@@ -73,7 +98,6 @@ class _RequestsViewState extends State<SRequestsViewBody> {
                         child: Center(child: CircularProgressIndicator()),
                       );
                     }
-
                     return RequestItem(request: state.requests[index]);
                   },
                 );
