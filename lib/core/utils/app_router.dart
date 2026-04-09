@@ -3,6 +3,8 @@ import 'package:flutter/material.dart' show Scaffold, Center, SizedBox;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
+import 'package:grad_project/core/utils/api/api_consumer.dart';
+import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/core/utils/session_manager.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/screens/ResetPasswordScreen.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/screens/forgot_pass_screen.dart';
@@ -27,8 +29,10 @@ import 'package:grad_project/patient/features/home/presentation/views/home_view.
 import 'package:grad_project/service_provider/features/bottom_nav/presentation/views/s_custom_bottom_nav.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/Git_S_P_cubit/git_s_p_cubit.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/add_country.dart';
+import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/cubit/updata_s_p_cubit.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/views/edit_s_p_view.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/views/s_p_profile.dart';
+import 'package:grad_project/service_provider/features/requests/repos/Service_profile_Repo.dart';
 
 abstract class AppRouter {
   static const String kStartNow = "/start_now";
@@ -138,16 +142,11 @@ abstract class AppRouter {
       ),
       GoRoute(
         path: kServiceProviderEditView,
-
         builder: (context, state) {
-          final cubit = state.extra as GitSPCubit?;
-          if (cubit == null) {
-            return const Scaffold(body: SizedBox());
-          }
-
-          return BlocProvider.value(value: cubit, child: const EditSPView());
+          return const EditSPView();
         },
       ),
+
       GoRoute(path: kAChat, builder: (context, state) => AChatView()),
       GoRoute(
         path: kServiceProvider,
@@ -168,9 +167,11 @@ abstract class AppRouter {
       GoRoute(
         path: '/add_country',
         builder: (context, state) {
-          final cubit = state.extra as GitSPCubit?;
-          if (cubit == null) return const Scaffold(body: SizedBox());
-          return BlocProvider.value(value: cubit, child: const AddCountry());
+          final extras = state.extra as Map<String, dynamic>;
+          return AddCountry(
+            gitCubit: extras['gitCubit'] as GitSPCubit,
+            updateCubit: extras['updateCubit'] as UpdataSPCubit,
+          );
         },
       ),
     ],

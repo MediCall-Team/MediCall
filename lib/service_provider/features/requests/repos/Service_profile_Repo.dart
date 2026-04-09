@@ -1,4 +1,5 @@
 // Service_profile_Repo.dart
+import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:grad_project/core/error/failure.dart';
@@ -8,9 +9,12 @@ import 'package:grad_project/service_provider/features/profile_settings/presenta
 
 abstract class SPProfileRepo {
   Future<Either<Failure, ProviderProfileModel>> getProviderProfile();
+
   Future<Either<Failure, ProviderProfileModel>> updateProviderProfile(
     Map<String, dynamic> body,
   );
+
+  Future<Either<Failure, String>> addAreas(List<int> areaIds);
 }
 
 class SPProfileRepoImpl implements SPProfileRepo {
@@ -30,6 +34,7 @@ class SPProfileRepoImpl implements SPProfileRepo {
       );
 
       final Map<String, dynamic> jsonMap;
+
       if (response is Map<String, dynamic>) {
         jsonMap =
             response['data'] != null && response['data'] is Map<String, dynamic>
@@ -48,8 +53,9 @@ class SPProfileRepoImpl implements SPProfileRepo {
     }
   }
 
-  // داخل Service_profile_Repo.dart
-  @override
+  /// ===============================
+  /// UPDATE PROVIDER PROFILE
+  /// ===============================
   Future<Either<Failure, ProviderProfileModel>> updateProviderProfile(
     Map<String, dynamic> body,
   ) async {
@@ -57,9 +63,39 @@ class SPProfileRepoImpl implements SPProfileRepo {
       final user = await CacheHelper.getUser();
       final token = user?.token ?? "";
 
+      /// تحويل البيانات إلى FormData لأن الـ API يستقبل صورة
+      final formData = FormData();
+
+      body.forEach((key, value) {
+        if (value == null) return;
+
+        /// لو الصورة File
+        if (key == "ProfileImage" && value is File) {
+          formData.files.add(
+            MapEntry(key, MultipartFile.fromFileSync(value.path)),
+          );
+        }
+        /// لو الـ Description
+        else if (key == "Description" && value is String) {
+          formData.fields.add(MapEntry("Description", value));
+        }
+        /// لو قائمة المراكز
+        else if (key == "AreaIds" && value is List<int>) {
+          if (value.isNotEmpty) {
+            for (var id in value) {
+              formData.fields.add(MapEntry("AreaIds", id.toString()));
+            }
+          }
+        }
+        /// باقي البيانات
+        else {
+          formData.fields.add(MapEntry(key, value.toString()));
+        }
+      });
+
       final response = await api.put(
         'api/Profile/UpdateProviderProfile',
-        data: body,
+        data: formData,
         queryParameters: {'token': token},
       );
 
@@ -76,15 +112,13 @@ class SPProfileRepoImpl implements SPProfileRepo {
       }
 
       final profile = ProviderProfileModel.fromJson(jsonMap);
+
       return Right(profile);
     } on DioError catch (dioErr) {
-      // استخراج آمن لبيانات الاستجابة
       try {
         final respData = dioErr.response?.data;
 
-        // إذا كانت الاستجابة خريطة JSON
         if (respData is Map<String, dynamic>) {
-          // حالات validation errors
           if (respData.containsKey('errors')) {
             final errors = respData['errors'] as Map<String, dynamic>;
             final messages = errors.values
@@ -96,27 +130,50 @@ class SPProfileRepoImpl implements SPProfileRepo {
             return Left(ServerFailure(messages));
           }
 
-          // title / message
           if (respData.containsKey('title')) {
             return Left(ServerFailure(respData['title'].toString()));
           }
+
           if (respData.containsKey('message')) {
             return Left(ServerFailure(respData['message'].toString()));
           }
 
-          // لو الخريطة تحتوي على حقل واحد نصي
           return Left(ServerFailure(respData.toString()));
         }
 
-        // لو الاستجابة نصية أو null، استخدم رسالة Dio أو toString
         final dioMessage =
             dioErr.message ?? dioErr.error?.toString() ?? dioErr.toString();
+
         return Left(ServerFailure(dioMessage));
       } catch (e) {
         final fallback =
             dioErr.message ?? dioErr.error?.toString() ?? dioErr.toString();
+
         return Left(ServerFailure(fallback));
       }
+    } catch (e) {
+      return Left(ServerFailure(e.toString()));
+    }
+  }
+
+  // ===============================
+  /// ADD AREAS TO PROVIDER
+  /// ===============================
+  @override
+  Future<Either<Failure, String>> addAreas(List<int> areaIds) async {
+    try {
+      final user = await CacheHelper.getUser();
+      final token = user?.token ?? "";
+
+      final response = await api.post(
+        'api/Area/add-areas',
+        data: {"areaIds": areaIds},
+        queryParameters: {'token': token},
+      );
+
+      return Right("تم حفظ المناطق بنجاح");
+    } on DioException catch (dioErr) {
+      return Left(ServerFailure.dioException(dioErr));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
