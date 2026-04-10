@@ -178,6 +178,7 @@ abstract class AppRouter {
         },
       ),
 
+
       GoRoute(path: kAI, builder: (context, state) => AiView()),
 
     ],

@@ -213,36 +213,36 @@ class _RequestItemState extends State<RequestItem> {
                                 screenWidth: screenWidth,
                                 requestId: request.requestId,
                               )
-                            else if (request.status == 2)
-                              Center(
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 32.0,
-                                  ),
-                                  child: SCustomRequestButton(
-                                    onTap: () {
-                                      final createReportCubit = context
-                                          .read<CreateReportCubit>();
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) => ReportDialog(
-                                          screenWidth: screenWidth,
-                                          requestId: request.requestId,
-                                          createReportCubit: createReportCubit,
-                                        ),
-                                      );
-                                      context
-                                          .read<GetRequestsCubit>()
-                                          .loadFirstPage();
-                                    },
-                                    screenWidth: screenWidth,
-                                    text: "كتابة تقرير الحالة",
-                                    icon: Icons.edit_document,
-                                    color: kPrimaryColorB,
-                                    textColor: Colors.white,
-                                  ),
-                                ),
-                              )
+                           // في request_item.dart
+else if (request.status == 2)
+  Center(
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32.0),
+      child: SCustomRequestButton(
+        onTap: () {
+          final createReportCubit = context.read<CreateReportCubit>();
+          final getRequestsCubit = context.read<GetRequestsCubit>();
+          
+          showDialog(
+            context: context,
+            builder: (dialogContext) => ReportDialog(
+              screenWidth: screenWidth,
+              requestId: request.requestId,
+              createReportCubit: createReportCubit,
+              onReportSuccess: () { // ✅ أضف هذا الـ callback
+                getRequestsCubit.removeRequest(request.requestId);
+              },
+            ),
+          );
+        },
+        screenWidth: screenWidth,
+        text: "كتابة تقرير الحالة",
+        icon: Icons.edit_document,
+        color: kPrimaryColorB,
+        textColor: Colors.white,
+      ),
+    ),
+  )
                             else
                               const SizedBox(),
                             const SizedBox(height: 16),

@@ -42,34 +42,62 @@ class _UpdateRequestBottomSheetState extends State<UpdateRequestBottomSheet> {
 
     descriptionController.text = widget.request.description ?? '';
 
-    // تحويل التاريخ من String لـ DateTime (التاريخ الأصلي للطلب)
-    try {
-      final dateFormat = DateFormat('dd-MM-yyyy');
-      selectedDate = dateFormat.parse(widget.request.date);
-    } catch (e) {
-      // لو فشل التحويل، سيبه null
-      selectedDate = null;
+    // ✅ طريقة أكثر أماناً للتعامل مع التاريخ
+    if (widget.request.date != null && widget.request.date.isNotEmpty) {
+      try {
+        // جرب عدة صيغ مختلفة
+        String dateString = widget.request.date;
+
+        // لو التاريخ بصيغة "2026-04-23"
+        if (dateString.contains('-')) {
+          final parts = dateString.split('-');
+          if (parts.length == 3) {
+            final year = int.parse(parts[0]);
+            final month = int.parse(parts[1]);
+            final day = int.parse(parts[2]);
+            selectedDate = DateTime(year, month, day);
+          }
+        } else {
+          // لو بصيغة تانية
+          final dateFormat = DateFormat('yyyy-MM-dd');
+          selectedDate = dateFormat.parse(dateString);
+        }
+      } catch (e) {
+        print("Error parsing date: $e");
+        selectedDate = null;
+      }
     }
 
-    // تحويل الوقت من String لـ TimeOfDay (الوقت الأصلي للطلب)
-    try {
-      final timeParts = widget.request.time.split(' ');
-      final hourMinute = timeParts[0].split(':');
-      int hour = int.parse(hourMinute[0]);
-      final minute = int.parse(hourMinute[1]);
-      final period = timeParts[1].toUpperCase();
+    // ✅ طريقة أكثر أماناً للوقت
+    if (widget.request.time != null && widget.request.time.isNotEmpty) {
+      try {
+        String timeString = widget.request.time;
 
-      if (period == 'PM' && hour != 12) {
-        hour += 12;
-      }
-      if (period == 'AM' && hour == 12) {
-        hour = 0;
-      }
+        // لو الوقت بصيغة "10:30 AM"
+        final RegExp timeRegex = RegExp(
+          r'(\d{1,2}):(\d{2})\s*(AM|PM)',
+          caseSensitive: false,
+        );
+        final match = timeRegex.firstMatch(timeString);
 
-      selectedTime = TimeOfDay(hour: hour, minute: minute);
-    } catch (e) {
-      // لو فشل التحويل، سيبه null
-      selectedTime = null;
+        if (match != null) {
+          int hour = int.parse(match.group(1)!);
+          final minute = int.parse(match.group(2)!);
+          final period = match.group(3)!.toUpperCase();
+
+          if (period == 'PM' && hour != 12) {
+            hour += 12;
+          }
+          if (period == 'AM' && hour == 12) {
+            hour = 0;
+          }
+
+          selectedTime = TimeOfDay(hour: hour, minute: minute);
+        }
+      } catch (e) {
+        print("Error parsing time: $e");
+        selectedTime = null;
+      }
     }
 
     lat = widget.request.latitude;
@@ -120,9 +148,9 @@ class _UpdateRequestBottomSheetState extends State<UpdateRequestBottomSheet> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text("خطأ في تحديد الموقع")),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text("خطأ في تحديد الموقع")));
       }
     } finally {
       if (mounted) {
@@ -141,9 +169,9 @@ class _UpdateRequestBottomSheetState extends State<UpdateRequestBottomSheet> {
         }
 
         if (state is UpdateRequestFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text(state.errorMsg)),
-          );
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.errorMsg)));
         }
       },
       child: Container(
@@ -282,7 +310,6 @@ class _UpdateRequestBottomSheetState extends State<UpdateRequestBottomSheet> {
   void _validateAndUpdate() {
     // التحقق من صحة النموذج
     if (formKey.currentState!.validate()) {
-      
       // التحقق من التاريخ
       if (selectedDate == null) {
         ScaffoldMessenger.of(context).showSnackBar(
