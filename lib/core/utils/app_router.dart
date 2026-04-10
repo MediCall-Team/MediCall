@@ -166,6 +166,7 @@ abstract class AppRouter {
         },
       ),
       GoRoute(path: kSPProfile, builder: (context, state) => SPProfile()),
+
       GoRoute(
         path: '/add_country',
         builder: (context, state) {
@@ -176,6 +177,10 @@ abstract class AppRouter {
           );
         },
       ),
+
+
+      GoRoute(path: kAI, builder: (context, state) => AiView()),
+
     ],
   );
 }
