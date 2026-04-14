@@ -61,4 +61,19 @@ class NotiRepoImp implements NotiRepo {
       return left(ServerFailure(e.toString()));
     }
   }
+  
+  @override
+  Future<Either<Failure, int>> getMyNotificationsChatNumber() async{
+     try {
+      var response = await api.get(
+        "api/Chat/UnreadMessagesCount",
+      );
+
+      return right(response["number"]);
+    } on Failure catch (e) {
+      return left(e);
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
+    }
+  }
 }

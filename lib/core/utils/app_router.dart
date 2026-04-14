@@ -2,6 +2,8 @@ import 'package:dartz/dartz_streaming.dart';
 import 'package:flutter/material.dart' show Scaffold, Center, SizedBox;
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grad_project/common/chat/data/chats_list_model.dart';
+import 'package:grad_project/common/chat/presentation/views/chat_room_view.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/core/utils/api/api_consumer.dart';
 import 'package:grad_project/core/utils/get_it.dart';
@@ -18,7 +20,6 @@ import 'package:grad_project/service_provider/features/auth/presentation/views/s
 import 'package:grad_project/service_provider/features/auth/presentation/views/step3_view.dart';
 import 'package:grad_project/patient/features/bottom_nav/bottom_nav_view.dart';
 import 'package:grad_project/patient/features/bottom_nav/custom_bottom_nav_view.dart';
-import 'package:grad_project/patient/features/chats/a_chat/views/a_chat_view.dart';
 import 'package:grad_project/patient/features/home/categories/view/more_categories_view.dart';
 import 'package:grad_project/patient/features/home/categories/view/service_provider_profile_view.dart';
 import 'package:grad_project/patient/features/home/categories/view/service_provider_view.dart';
@@ -56,7 +57,7 @@ abstract class AppRouter {
   static const String kmoreCategories = "/more_categories_page";
   static const String kSCustomBottomNavPage = "/s_custom_bottom_nav_pag";
   static const String kServiceProviderEditView = "/service_provider_editView";
-  static const String kAChat = '/a_chat_view';
+  static const String kChatRoom = '/a_chat_view';
   static const String kVerifyCodeView = "/verifyCode";
   static const String kSPProfile = '/s_p_profile_view';
   static const String kAI = '/ai_view';
@@ -149,7 +150,13 @@ abstract class AppRouter {
         },
       ),
 
-      GoRoute(path: kAChat, builder: (context, state) => AChatView()),
+      GoRoute(path: kChatRoom, builder: (context, state) {
+        final chatData = state.extra as ChatData;
+        return ChatRoomView(
+       chatData: chatData,
+      );}
+      
+      ),
       GoRoute(
         path: kServiceProvider,
         builder: (context, state) {

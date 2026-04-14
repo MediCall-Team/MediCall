@@ -118,7 +118,14 @@ class PushNotificationServices {
       log("Notification title : ${message.notification?.title}");
       log("Notification body : ${message.notification?.body}");
 
+      final String type = message.data["type"];
+
+      if(type=="general"){
+
       getIt<NotificationNumberCubit>().getMyNotificationsNumber();
+      }else{
+        getIt<NotificationNumberCubit>().getMyChatNotificationsNumber();
+      }
 
       LocalNotificationService.showBasicNotification(message);
     });

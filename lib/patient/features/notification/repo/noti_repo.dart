@@ -9,4 +9,5 @@ abstract class NotiRepo {
  Future<Either<Failure,int>>getMyNotificationsNumber();
 
  Future<Either<Failure,Unit>>readNotifications();
+ Future<Either<Failure,int>>getMyNotificationsChatNumber();
 }
