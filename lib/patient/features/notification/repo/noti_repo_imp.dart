@@ -34,13 +34,14 @@ class NotiRepoImp implements NotiRepo {
    try {
       var response = await api.get(
         "api/Notifications/CountUnreadNotifications",
-       
       );
-
+      log("in repo imp noti number ${response["number"]}");
       return right(response["number"]);
     } on Failure catch (e) {
+        log("in repo imp noti failure");
       return left(e);
     } catch (e) {
+       log("in repo imp noti catch");
       return left(ServerFailure(e.toString()));
     }
   }
@@ -56,6 +57,21 @@ class NotiRepoImp implements NotiRepo {
       return right(unit);
     } on Failure catch (e) {
       log("error in read notification ${e.errorMsg}");
+      return left(e);
+    } catch (e) {
+      return left(ServerFailure(e.toString()));
+    }
+  }
+  
+  @override
+  Future<Either<Failure, int>> getMyNotificationsChatNumber() async{
+     try {
+      var response = await api.get(
+        "api/Chat/UnreadMessagesCount",
+      );
+
+      return right(response["number"]);
+    } on Failure catch (e) {
       return left(e);
     } catch (e) {
       return left(ServerFailure(e.toString()));

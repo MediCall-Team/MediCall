@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:grad_project/common/chat/presentation/view_model/chats_list/chats_lits_cubit.dart';
+import 'package:grad_project/common/chat/repo/chat_repo.dart';
+import 'package:grad_project/common/chat/repo/chat_repo_imp.dart';
 import 'package:grad_project/core/utils/api/api_consumer.dart';
 import 'package:grad_project/core/utils/api/dio_consumer.dart';
 import 'package:grad_project/patient/features/authentication/repo/auth_repo.dart';
@@ -63,5 +66,9 @@ void setupServiceLocator() {
   );
   getIt.registerLazySingleton<NotificationNumberCubit>(
     () => NotificationNumberCubit(getIt<NotiRepo>()),
+  );
+
+    getIt.registerLazySingleton<ChatRepo>(
+    () => ChatRepoImp(api: getIt<ApiConsumer>()),
   );
 }

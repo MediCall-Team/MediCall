@@ -16,6 +16,7 @@ import 'package:grad_project/patient/features/home/presentation/widgets/custom_d
 import 'package:grad_project/patient/features/home/presentation/widgets/custom_header_card.dart';
 import 'package:grad_project/patient/features/home/presentation/widgets/header.dart';
 import 'package:grad_project/patient/features/home/presentation/widgets/specialty_row.dart';
+import 'package:grad_project/patient/features/notification/presentation/view_model/notification_number/notification_number_cubit.dart';
 
 class HomeViewBody extends StatefulWidget {
   HomeViewBody({super.key});
@@ -30,6 +31,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
   @override
   void initState() {
     BlocProvider.of<ServiceProvidersListCubit>(context).init("");
+    // context.read<NotificationNumberCubit>().getMyNotificationsNumber();
     super.initState();
   }
   

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,7 +32,8 @@ class _HeaderState extends State<Header> {
   @override
   void initState() {
     userModel = CacheHelper.getUser()!;
-    context.read<NotificationNumberCubit>().getMyNotificationsNumber();
+  context.read<NotificationNumberCubit>().getMyNotificationsNumber();
+    log("numm ${context.read<NotificationNumberCubit>().number}");
     super.initState();
   }
 

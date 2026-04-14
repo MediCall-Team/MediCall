@@ -9,3 +9,9 @@ final class NotificationNumberSuccess extends NotificationNumberState {
 
   NotificationNumberSuccess({required this.number});
 }
+
+final class NotificationChatNumberSuccess extends NotificationNumberState {
+  final int chatNumber;
+
+  NotificationChatNumberSuccess({required this.chatNumber});
+}

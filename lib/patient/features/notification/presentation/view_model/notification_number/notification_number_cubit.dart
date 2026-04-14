@@ -7,9 +7,10 @@ part 'notification_number_state.dart';
 
 class NotificationNumberCubit extends Cubit<NotificationNumberState> {
   NotificationNumberCubit(this.repo) : super(NotificationNumberInitial());
+
   final NotiRepo repo;
-  int number = 0;
-  bool _isFetching = false;
+  int number = 0,chatNumber=0;
+  bool _isFetching = false,_isChatFetching = false ;
 
   Future<void> getMyNotificationsNumber() async {
     if (_isFetching) return; 
@@ -23,6 +24,7 @@ class NotificationNumberCubit extends Cubit<NotificationNumberState> {
       },
       (num) {
         number = num;
+        log("notifications number ${num}");
         emit(NotificationNumberSuccess(number: num));
       },
     );
@@ -46,4 +48,25 @@ class NotificationNumberCubit extends Cubit<NotificationNumberState> {
       },
     );
   }
+
+
+  Future<void> getMyChatNotificationsNumber() async {
+    if (_isChatFetching) return; 
+
+    _isChatFetching = true;
+    var data = await repo.getMyNotificationsChatNumber();
+
+    data.fold(
+      (failure) {
+        log("can't receive chat notifications ${failure.errorMsg}");
+      },
+      (num) {
+        chatNumber = num;
+        emit(NotificationChatNumberSuccess(chatNumber: num));
+      },
+    );
+    _isChatFetching = false;
+  }
+
+
 }
