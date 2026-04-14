@@ -160,7 +160,7 @@ GButton(
         children: [
           buildIcon(
             "assets/images/live_chat.png",
-            isActive: currentIndex == 0,
+            isActive: currentIndex == 2,
           ),
           if (chatCount > 0)
             Positioned(

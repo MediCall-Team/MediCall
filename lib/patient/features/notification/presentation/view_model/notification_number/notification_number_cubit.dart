@@ -24,6 +24,7 @@ class NotificationNumberCubit extends Cubit<NotificationNumberState> {
       },
       (num) {
         number = num;
+        log("notifications number ${num}");
         emit(NotificationNumberSuccess(number: num));
       },
     );
@@ -52,7 +53,7 @@ class NotificationNumberCubit extends Cubit<NotificationNumberState> {
   Future<void> getMyChatNotificationsNumber() async {
     if (_isChatFetching) return; 
 
-    _isFetching = true;
+    _isChatFetching = true;
     var data = await repo.getMyNotificationsChatNumber();
 
     data.fold(

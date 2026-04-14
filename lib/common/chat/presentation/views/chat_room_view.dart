@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_project/common/chat/data/chats_list_model.dart';
+import 'package:grad_project/common/chat/presentation/view_model/messages_list/messages_list_cubit.dart';
 import 'package:grad_project/common/chat/presentation/widgets/chat_room_view_body.dart';
+import 'package:grad_project/common/chat/repo/chat_repo.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
+import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/core/utils/styles.dart';
 
 class ChatRoomView extends StatelessWidget {
@@ -12,27 +16,31 @@ class ChatRoomView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-  leadingWidth: 40, // 👈 يقلل المسافة من السهم
-  titleSpacing: 5,  // 👈 يقرب العنوان من السهم
-  title: Row(
-    children: [
-      CircleAvatar(
-        radius: 25,
-        backgroundImage:
-           NetworkImage(chatData.otherPersonImage),
+      appBar: AppBar(
+        leadingWidth: 40, // 👈 يقلل المسافة من السهم
+        titleSpacing: 5, // 👈 يقرب العنوان من السهم
+        title: Row(
+          children: [
+            CircleAvatar(
+              radius: 25,
+              backgroundImage: NetworkImage(chatData.otherPersonImage),
+            ),
+            const SizedBox(width: 10),
+            Text(
+              chatData.otherPersonName,
+              style: Styles.textStyle20.copyWith(
+                color: AppTheme.mainContrast(context),
+              ),
+            ),
+          ],
+        ),
       ),
-      const SizedBox(width: 10),
-      Text(
-       chatData.otherPersonName,
-        style: Styles.textStyle20.copyWith(color: AppTheme.mainContrast(context)),
-
+      body: SafeArea(
+        child: BlocProvider(
+          create: (context) => MessagesListCubit(getIt<ChatRepo>()),
+          child: ChatRoomViewBody(chatData:chatData),
+        ),
       ),
-    ],
-  ),
-),
-      body: SafeArea(child: 
-      ChatRoomViewBody()),
     );
   }
 }

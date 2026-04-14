@@ -119,12 +119,15 @@ class PushNotificationServices {
       log("Notification body : ${message.notification?.body}");
 
       final String type = message.data["type"];
+            
+      if(type=="chat_message"){
 
-      if(type=="general"){
-
-      getIt<NotificationNumberCubit>().getMyNotificationsNumber();
+         getIt<NotificationNumberCubit>().getMyChatNotificationsNumber();
+         print("receive chat noti ..push");
       }else{
-        getIt<NotificationNumberCubit>().getMyChatNotificationsNumber();
+
+           getIt<NotificationNumberCubit>().getMyNotificationsNumber();
+      print("receive noti ..push");
       }
 
       LocalNotificationService.showBasicNotification(message);

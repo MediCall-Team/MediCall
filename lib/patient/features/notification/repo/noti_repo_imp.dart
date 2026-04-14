@@ -34,13 +34,14 @@ class NotiRepoImp implements NotiRepo {
    try {
       var response = await api.get(
         "api/Notifications/CountUnreadNotifications",
-       
       );
-
+      log("in repo imp noti number ${response["number"]}");
       return right(response["number"]);
     } on Failure catch (e) {
+        log("in repo imp noti failure");
       return left(e);
     } catch (e) {
+       log("in repo imp noti catch");
       return left(ServerFailure(e.toString()));
     }
   }

@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_project/common/chat/presentation/view_model/chats_list/chats_lits_cubit.dart';
 import 'package:grad_project/constants.dart';
-
 import 'package:grad_project/common/chat/presentation/widgets/ChatItem.dart';
 import 'package:grad_project/core/helper/reusable_shimmer.dart';
-// تأكدي من المسار
 
 class ChatsListViewBody extends StatefulWidget {
   const ChatsListViewBody({super.key});
@@ -20,18 +18,15 @@ class _ChatsListViewBodyState extends State<ChatsListViewBody> {
   @override
   void initState() {
     super.initState();
-    // جلب أول صفحة عند فتح الشاشة
     context.read<ChatsLitsCubit>().loadFirstPage();
-    
-    // إضافة مستمع للـ scroll لتفعيل الـ Pagination
     _scrollController.addListener(_onScroll);
   }
 
-  void _onScroll() { 
-      if (_scrollController.position.pixels >=
-          _scrollController.position.maxScrollExtent - 200) {
-        context.read<ChatsLitsCubit>().loadMore();
-      } 
+  void _onScroll() {
+    if (_scrollController.position.pixels >=
+        _scrollController.position.maxScrollExtent - 200) {
+      context.read<ChatsLitsCubit>().loadMore();
+    }
   }
 
   @override
@@ -48,7 +43,7 @@ class _ChatsListViewBodyState extends State<ChatsListViewBody> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const SizedBox(height: 12),
-          // حقل البحث
+          // --- حقل البحث ---
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: SizedBox(
@@ -56,7 +51,6 @@ class _ChatsListViewBodyState extends State<ChatsListViewBody> {
               child: TextFormField(
                 textAlign: TextAlign.right,
                 onChanged: (value) {
-                  // نداء ميثود البحث (يفضل إضافة Debounce لاحقاً)
                   context.read<ChatsLitsCubit>().searchChats(value.isEmpty ? null : value);
                 },
                 decoration: InputDecoration(
@@ -76,13 +70,61 @@ class _ChatsListViewBodyState extends State<ChatsListViewBody> {
               ),
             ),
           ),
+
+          // --- عداد الرسائل غير المقروءة (التعديل الجديد) ---
+          BlocBuilder<ChatsLitsCubit, ChatsLitsState>(
+            builder: (context, state) {
+              final cubit = context.read<ChatsLitsCubit>();
+              if (state is ChatsLitsSuccess && cubit.unReadChats > 0) {
+                return Padding(
+                  padding: const EdgeInsets.only(top: 12, left: 16, right: 16),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                        decoration: BoxDecoration(
+                          color: kPrimaryColorB.withOpacity(0.1),
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Row(
+                         
+                          children: [
+                            Icon(Icons.mark_chat_unread_rounded, size: 18, color: kPrimaryColorB),
+                            const SizedBox(width: 8),
+                            Text(
+                              "لديك ",
+                              style: TextStyle(fontSize: 14, color: Colors.grey[800]),
+                            ),
+                            Text(
+                              "${cubit.unReadChats}",
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold,
+                                color: kPrimaryColorB,
+                              ),
+                            ),
+                            Text(
+                              " محادثات غير مقروءة",
+                              style: TextStyle(fontSize: 14, color: Colors.grey[800]),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+              return const SizedBox.shrink();
+            },
+          ),
+
           const SizedBox(height: 12),
-          
+
+          // --- قائمة المحادثات ---
           Expanded(
             child: BlocBuilder<ChatsLitsCubit, ChatsLitsState>(
               builder: (context, state) {
                 if (state is ChatsLitsLoading) {
-                  // شيمر في حالة التحميل لأول مرة
                   return ListView.builder(
                     itemCount: 8,
                     itemBuilder: (context, index) => const ReusableShimmer(),
@@ -95,19 +137,18 @@ class _ChatsListViewBodyState extends State<ChatsListViewBody> {
                   }
 
                   return ListView.separated(
-                    controller: _scrollController, // الربط مع الكنترولر
+                    controller: _scrollController,
                     itemCount: chats.length + (state.isLoadingMore ? 1 : 0),
                     separatorBuilder: (context, index) => Divider(
                       color: Colors.grey.shade300,
                       thickness: 0.5,
-                      indent: 70, // المسافة من جهة الصورة
+                      indent: 70,
                       endIndent: 16,
                     ),
                     itemBuilder: (context, index) {
                       if (index < chats.length) {
                         return ChatItem(chatData: chats[index]);
                       } else {
-                        // الشيمر يظهر تحت الليست في حالة تحميل المزيد
                         return const ReusableShimmer();
                       }
                     },

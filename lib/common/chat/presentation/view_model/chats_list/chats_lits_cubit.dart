@@ -15,8 +15,7 @@ class ChatsLitsCubit extends Cubit<ChatsLitsState> {
   final ChatRepo repo;
   late PaginationHelper<ChatData> pagination;
   List<ChatData> _allChats = [];
-  
-  // الاحتفاظ بقيمة البحث الحالية
+  int unReadChats = 0;
   String? _currentSearchQuery;
 
   void initPagination() {
@@ -26,33 +25,34 @@ class ChatsLitsCubit extends Cubit<ChatsLitsState> {
         final result = await repo.getChatsList(
           pageIndex: pageIndex,
           pageSize: pageSize,
-          search: _currentSearchQuery, // تمرير الـ query هنا
+          search: _currentSearchQuery,
         );
 
         return result.fold(
           (failure) => throw failure,
-          (data) => (data.paginatedChats.data, data.paginatedChats.count),
+          (data) {
+            unReadChats = data.totalChatsWithUnreadMessages;
+            return (data.paginatedChats.data, data.paginatedChats.count);
+          },
         );
       },
     );
   }
 
-  // ميثود جديدة للبحث
   Future<void> searchChats(String? query) async {
     _currentSearchQuery = query;
-    // لما نبحث، لازم نرجع نجيب أول صفحة ونمسح القديم
     await loadFirstPage();
   }
 
   Future<void> loadFirstPage() async {
     pagination.reset();
-    _allChats.clear(); 
+    _allChats.clear();
     emit(ChatsLitsLoading());
 
     try {
       await pagination.loadNextPage();
-      _allChats = List.from(pagination.items); 
-      
+      _allChats = List.from(pagination.items);
+
       emit(ChatsLitsSuccess(
         chatsList: _allChats,
         isLoadingMore: false,
@@ -96,8 +96,6 @@ class ChatsLitsCubit extends Cubit<ChatsLitsState> {
       _allChats.removeAt(index);
       _allChats.insert(0, chat);
     } else {
-      // لو في بحث شغال، ممكن نختار منضيفش الشات الجديد إلا لو مطابق للبحث
-      // لكن الأبسط نضفه ولما يعمل ريفريش الدنيا بتظبط
       _allChats.insert(0, chat);
     }
 
