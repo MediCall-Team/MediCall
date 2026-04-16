@@ -6,7 +6,6 @@ import 'package:go_router/go_router.dart';
 import 'package:grad_project/constants.dart';
 import 'package:grad_project/core/helper/image_picker_helper.dart';
 import 'package:grad_project/core/helper/reusable_dialog.dart';
-import 'package:grad_project/core/helper/snakbar.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/custom_botton2.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/photoes.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/steps.dart';
@@ -28,19 +27,20 @@ class _Step3ViewBodyState extends State<Step3ViewBody> {
   Widget build(BuildContext context) {
     return BlocConsumer<SpRegisterCubit, SpRegisterState>(
       listener: (context, state) {
-if (state is SpRegisterSuccess) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text("تم إنشاء الحساب بنجاح")),
-      );
+        if (state is SpRegisterSuccess) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text("سيتم التأكد من بياناتك وسوف تصلك رسالة تأكيد على بريدك الألكتروني")),
+          );
 
-      Navigator.popUntil(context, (route) => route.isFirst);
-    }
+          Navigator.popUntil(context, (route) => route.isFirst);
+        }
 
-    if (state is SpRegisterFailure) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(state.error)),
-      );
-    }      },
+        if (state is SpRegisterFailure) {
+          ScaffoldMessenger.of(
+            context,
+          ).showSnackBar(SnackBar(content: Text(state.error)));
+        }
+      },
       builder: (context, state) {
         return Directionality(
           textDirection: TextDirection.ltr,
@@ -98,28 +98,31 @@ if (state is SpRegisterSuccess) {
                       text: 'رجوع',
                     ),
                     Spacer(),
-                  CustomButton2(
-  onPressed: () {
-    if(photos.isNotEmpty){
-    final files = photos.map((e) => File(e.path)).toList();
+                    CustomButton2(
+                      onPressed: () {
+                        if (photos.isNotEmpty) {
+                          final files = photos
+                              .map((e) => File(e.path))
+                              .toList();
 
-    context.read<SpRegisterCubit>().setCertificates(
-      certificates: files,
-    );
+                          context.read<SpRegisterCubit>().setCertificates(
+                            certificates: files,
+                          );
 
-    context.read<SpRegisterCubit>().register();
-    }else{
-      showDialog(
-  context: context,
-  builder: (context) => ReusableDialog(
-    title: "تنبيه!",
-    content: "يجب ان تقوم برفع ما يثبت احقيتك في العمل",
-  ),
-);
-    }
-  },
-  text: 'إنشاء حساب',
-),
+                          context.read<SpRegisterCubit>().register();
+                        } else {
+                          showDialog(
+                            context: context,
+                            builder: (context) => ReusableDialog(
+                              title: "تنبيه!",
+                              content:
+                                  "يجب ان تقوم برفع ما يثبت احقيتك في العمل",
+                            ),
+                          );
+                        }
+                      },
+                      text: 'إنشاء حساب',
+                    ),
                   ],
                 ),
                 SizedBox(height: 30),

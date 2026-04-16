@@ -38,8 +38,9 @@ class _CustomTextFieldState extends State<CustomTextField1> {
         return "كلمة المرور يجب أن تكون أكثر من 6 أحرف";
       }
 
-      RegExp passwordRegex =
-          RegExp(r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-.]).+$');
+      RegExp passwordRegex = RegExp(
+        r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-.]).+$',
+      );
 
       if (!passwordRegex.hasMatch(value)) {
         return "كلمة المرور يجب أن تحتوي على حرف كبير وصغير ورقم ورمز";
@@ -77,6 +78,7 @@ class _CustomTextFieldState extends State<CustomTextField1> {
                   controller: widget.controller,
                   obscureText: widget.isPassword ? obscure : false,
                   textAlign: TextAlign.right,
+                  style: const TextStyle(color: Colors.grey),
                   onChanged: (value) {
                     field.didChange(value);
                   },
@@ -96,9 +98,7 @@ class _CustomTextFieldState extends State<CustomTextField1> {
                     suffixIcon: widget.isPassword
                         ? IconButton(
                             icon: Icon(
-                              obscure
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
+                              obscure ? Icons.visibility_off : Icons.visibility,
                               color: Colors.grey,
                               size: 18,
                             ),
@@ -112,15 +112,17 @@ class _CustomTextFieldState extends State<CustomTextField1> {
 
                     enabledBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                          color: hasError ? Colors.red : priColor,
-                          width: 1),
+                        color: hasError ? Colors.red : priColor,
+                        width: 1,
+                      ),
                       borderRadius: BorderRadius.circular(14),
                     ),
 
                     focusedBorder: OutlineInputBorder(
                       borderSide: BorderSide(
-                          color: hasError ? Colors.red : priColor,
-                          width: 1.5),
+                        color: hasError ? Colors.red : priColor,
+                        width: 1.5,
+                      ),
                       borderRadius: BorderRadius.circular(14),
                     ),
                   ),
@@ -131,14 +133,10 @@ class _CustomTextFieldState extends State<CustomTextField1> {
             /// رسالة الخطأ خارج الـ shadow
             if (hasError)
               Padding(
-                padding: const EdgeInsets.only(
-                    right: 12, top: 6),
+                padding: const EdgeInsets.only(right: 12, top: 6),
                 child: Text(
                   field.errorText ?? "",
-                  style: const TextStyle(
-                    color: Colors.red,
-                    fontSize: 11,
-                  ),
+                  style: const TextStyle(color: Colors.red, fontSize: 11),
                   textAlign: TextAlign.right,
                 ),
               ),

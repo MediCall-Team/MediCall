@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grad_project/patient/features/authentication/presentation/widgets/upload_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:grad_project/core/utils/api/api_consumer.dart';
 import 'package:grad_project/core/utils/get_it.dart';
@@ -202,36 +203,11 @@ class _EditSPContentState extends State<_EditSPContent> {
                   child: Column(
                     children: [
                       const SizedBox(height: 10),
-                      Stack(
-                        children: [
-                          CircleAvatar(
-                            radius: 45,
-                            backgroundImage: _pickedImage != null
-                                ? FileImage(_pickedImage!)
-                                : (profile.image != null
-                                      ? NetworkImage(profile.image!)
-                                      : const AssetImage(
-                                          'assets/images/tempphoto.png',
-                                        )),
-                          ),
-                          Positioned(
-                            bottom: 0,
-                            right: 0,
-                            child: GestureDetector(
-                              onTap: _pickFromGallery,
-                              child: const CircleAvatar(
-                                radius: 12,
-                                backgroundColor: Color(0xFF35AAD5),
-                                child: Icon(
-                                  Icons.camera_alt_outlined,
-                                  size: 14,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
+                      UploadImageButton(
+                  onImageSelected: (image) {
+                    _pickedImage = image;
+                  },
+                ),
                       const SizedBox(height: 12),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
