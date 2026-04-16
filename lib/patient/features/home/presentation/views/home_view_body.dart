@@ -3,20 +3,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grad_project/constants.dart';
-import 'package:grad_project/core/helper/reusable_shimmer.dart';
 import 'package:grad_project/core/utils/app_router.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
-import 'package:grad_project/core/utils/get_it.dart';
-import 'package:grad_project/patient/features/home/categories/repo/categories_repo.dart';
 import 'package:grad_project/patient/features/home/categories/view_model/service_providers_list_cubit/service_providers_list_cubit.dart';
 import 'package:grad_project/patient/features/home/data/models/category_model.dart';
-import 'package:grad_project/patient/features/home/data/models/doctor_model.dart';
 import 'package:grad_project/patient/features/home/presentation/widgets/categories_grid.dart';
 import 'package:grad_project/patient/features/home/presentation/widgets/custom_doctor_card.dart';
 import 'package:grad_project/patient/features/home/presentation/widgets/custom_header_card.dart';
 import 'package:grad_project/patient/features/home/presentation/widgets/header.dart';
 import 'package:grad_project/patient/features/home/presentation/widgets/specialty_row.dart';
-import 'package:grad_project/patient/features/notification/presentation/view_model/notification_number/notification_number_cubit.dart';
 
 class HomeViewBody extends StatefulWidget {
   HomeViewBody({super.key});
@@ -34,7 +29,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
     // context.read<NotificationNumberCubit>().getMyNotificationsNumber();
     super.initState();
   }
-  
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -42,16 +37,16 @@ class _HomeViewBodyState extends State<HomeViewBody> {
     double fontSize = width * 0.04;
 
     return Scaffold(
-    floatingActionButton: FloatingActionButton(onPressed: (){
-    GoRouter.of(context).push(AppRouter.kAI);
-    },
-    backgroundColor: AppTheme.customHeaderCard(context), // لون الخلفية الدائرية
-      shape: const CircleBorder(), // لجعل الخلفية دائرية تماماً
-      child: SvgPicture.asset("assets/images/chatbot.svg",
-      width: 30,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          GoRouter.of(context).push(AppRouter.kAI);
+        },
+        backgroundColor: AppTheme.customHeaderCard(
+          context,
+        ), // لون الخلفية الدائرية
+        shape: const CircleBorder(), // لجعل الخلفية دائرية تماماً
+        child: SvgPicture.asset("assets/images/chatbot.svg", width: 30),
       ),
-      
-    ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 0),
         child: CustomScrollView(
@@ -64,7 +59,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                 screenWidth: width,
               ),
             ),
-      
+
             SliverToBoxAdapter(child: SizedBox(height: 50)),
             SliverToBoxAdapter(
               child: CustomHeaderCard(fontSize: fontSize, screenWidth: width),
@@ -72,7 +67,7 @@ class _HomeViewBodyState extends State<HomeViewBody> {
             SliverToBoxAdapter(child: SizedBox(height: 18)),
             SliverToBoxAdapter(child: SpecialtyRow(fontSize: fontSize)),
             SliverToBoxAdapter(child: SizedBox(height: 12)),
-      
+
             /// ⬇ هنا التعديل:
             SliverToBoxAdapter(
               child: CategoriesGrid(
@@ -91,13 +86,13 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                   // Navigator.push(context, MaterialPageRoute(
                   //   builder: (context) => CategoryDetailsPage(category: categories[index])
                   // ));
-      
+
                   // أو عرض dialog
                   // showDialog(...);
                 },
               ),
             ),
-      
+
             SliverToBoxAdapter(
               child: Padding(
                 padding: const EdgeInsets.symmetric(
@@ -118,39 +113,52 @@ class _HomeViewBodyState extends State<HomeViewBody> {
                 ),
               ),
             ),
-      
-            SliverToBoxAdapter(
-              child: SizedBox(
-                // الارتفاع سيكون 40% من عرض الشاشة أو قيمة محددة بين حدين
-                height: (width * 0.5).clamp(250, 380),
-                child: BlocBuilder<ServiceProvidersListCubit, ServiceProvidersListState>(
-                  builder: (context, state) {
-                    return 
-                    state is ServiceProvidersListSuccess?
-                    ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: state.doctorSModelList.length,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      itemBuilder: (context, index) {
+
+            BlocBuilder<ServiceProvidersListCubit, ServiceProvidersListState>(
+              builder: (context, state) {
+                if (state is ServiceProvidersListSuccess) {
+                  return SliverPadding(
+                    padding: const EdgeInsets.symmetric(horizontal: 2),
+                    sliver: SliverGrid(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2, // اتنين في كل صف
+                            crossAxisSpacing: 4,
+                            mainAxisSpacing: 6,
+                            childAspectRatio: 0.76,
+                          ),
+                      delegate: SliverChildBuilderDelegate((context, index) {
                         return GestureDetector(
-                          onTap: (){
-                             GoRouter.of(context).push(AppRouter.kServiceProviderProfile,extra:state.doctorSModelList[index].id );
+                          onTap: () {
+                            GoRouter.of(context).push(
+                              AppRouter.kServiceProviderProfile,
+                              extra: state.doctorSModelList[index].id,
+                            );
                           },
                           child: CustomDoctorCard(
                             iconSize: iconSize,
                             doctorModel: state.doctorSModelList[index],
                             fontSize: fontSize,
-                            // نمرر عرض الكارت ليكون متناسباً
-                            cardWidth: (width * 0.50).clamp(160, 240),
+                            cardWidth: width * 0.45,
                           ),
                         );
-                      },
-                    ):   state is ServiceProvidersListFaliure ?
-                    Center(child: Text("not found"),):
-                   Center(child: CircularProgressIndicator(color: AppTheme.brandColor(context),),);
-                  },
-                ),
-              ),
+                      }, childCount: state.doctorSModelList.length),
+                    ),
+                  );
+                } else if (state is ServiceProvidersListFaliure) {
+                  return const SliverToBoxAdapter(
+                    child: Center(child: Text("not found")),
+                  );
+                } else {
+                  return SliverToBoxAdapter(
+                    child: Center(
+                      child: CircularProgressIndicator(
+                        color: AppTheme.brandColor(context),
+                      ),
+                    ),
+                  );
+                }
+              },
             ),
           ],
         ),
