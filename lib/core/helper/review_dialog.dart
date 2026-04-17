@@ -100,7 +100,7 @@ class _ReviewDialogState extends State<ReviewDialog> {
         ),
         ElevatedButton(
           style: ElevatedButton.styleFrom(
-            backgroundColor: AppTheme.mainContrast(context),
+            backgroundColor: AppTheme.brandColor(context),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
           ),
           onPressed: () {
