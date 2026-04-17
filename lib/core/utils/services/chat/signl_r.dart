@@ -85,7 +85,7 @@ class SignalRService {
       final message = MessageModel.fromJson(json);
 
       final myId = CacheHelper.getUser()?.id;
-      log("message.senderId ${message.senderId} signlR");
+      log("message.senderId ${message.senderId} signlR , myId $myId");
 
       // تحديث الرسالة الأخيرة في قائمة المحادثات (سواء مبعوتة أو مستلمة)
       getIt<ChatsLitsCubit>().handleChatSummaryUpdate(
@@ -97,7 +97,7 @@ class SignalRService {
             : 1, // لو مش فاتحة الشات نزود الـ unread (الباك هيبعت التحديث الأدق لاحقاً)
       );
 
-      if (message.senderId == myId) {
+      if (message.senderId ==int.parse(myId!)) {
         getIt<MessagesListCubit>().confirmLastPendingMessage(message);
       } else {
         getIt<MessagesListCubit>().addIncomingMessage(message);
