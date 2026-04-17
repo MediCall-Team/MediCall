@@ -12,18 +12,16 @@ class ChatsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  BlocProvider(
-      create: (context)=>ChatsLitsCubit(getIt<ChatRepo>()),
-      child: Scaffold(
-        appBar: AppBar(
-            //surfaceTintColor: Colors.transparent,
-            title: Text(
-              "المحادثات",
-              style: Styles.textStyle25.copyWith(
-                color: AppTheme.mainContrast(context),
-              ),
+    return  Scaffold(
+      appBar: AppBar(
+          //surfaceTintColor: Colors.transparent,
+          title: Text(
+            "المحادثات",
+            style: Styles.textStyle25.copyWith(
+              color: AppTheme.mainContrast(context),
             ),
           ),
-        body: SafeArea(child: ChatsListViewBody())));
+        ),
+      body: SafeArea(child: ChatsListViewBody()));
   }
 }

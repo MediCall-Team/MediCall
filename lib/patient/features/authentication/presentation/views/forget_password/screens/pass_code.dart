@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grad_project/core/helper/snakbar.dart';
 import 'package:grad_project/patient/features/authentication/presentation/view_model/foget_passcupit/forget_password_cubit_cubit.dart';
 import 'package:grad_project/patient/features/authentication/presentation/view_model/foget_passcupit/forget_password_cubit_state.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/screens/ResetPasswordScreen.dart';
@@ -52,9 +53,10 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
         }
 
         if (state is ForgetPasswordFailure) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.errorMsg)));
+          snackBarMethod(context, state.errorMsg);
+          // ScaffoldMessenger.of(
+          //   context,
+          // ).showSnackBar(SnackBar(content: Text(state.errorMsg)));
         }
       },
       builder: (context, state) {
@@ -179,11 +181,14 @@ class _VerificationCodeScreenState extends State<VerificationCodeScreen> {
                               code: code,
                             );
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(
-                                content: Text("من فضلك أدخل الرمز كامل"),
-                              ),
-                            );
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //   const SnackBar(
+                            //     content: Text("من فضلك أدخل الرمز كامل"),
+                            //   ),
+
+                            // );
+
+                            snackBarMethod(context, "من فضلك أدخل الرمز كامل");
                           }
                         },
                       ),

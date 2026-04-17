@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/helper/snakbar.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/custom_botton.dart';
 import 'package:grad_project/common/onboarding/presentation/widgets/custom_button_choice.dart';
 import 'package:grad_project/core/utils/app_router.dart';
@@ -116,11 +117,5 @@ class _ChoicePageViewState extends State<ChoicePageView> {
       ),
     );
   }
-    void snackBarMethod(BuildContext context,String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-      ),
-    );
-  }
+  
 }

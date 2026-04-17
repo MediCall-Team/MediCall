@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grad_project/core/helper/snakbar.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/patient/features/home/categories/repo/categories_repo.dart';
@@ -43,12 +44,13 @@ class _MedicalRecordViewState extends State<MedicalRecordView> {
               body: BlocListener<AddReviewCubit, AddReviewState>(
                 listener: (context, state) {
                   if (state is AddReviewSuccess) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('تم إضافة التقييم بنجاح'),
-                        backgroundColor: Colors.green,
-                      ),
-                    );
+                    // ScaffoldMessenger.of(context).showSnackBar(
+                    //   const SnackBar(
+                    //     content: Text('تم إضافة التقييم بنجاح'),
+                    //     backgroundColor: Colors.green,
+                    //   ),
+                    // );
+                     snackBarMethod(context, 'تم إضافة التقييم بنجاح');
 
                     /// 🔥 إعادة تحميل الداتا
                     context.read<GetReportsCubit>().getReports();

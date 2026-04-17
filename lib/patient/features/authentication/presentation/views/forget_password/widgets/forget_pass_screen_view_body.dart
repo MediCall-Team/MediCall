@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grad_project/core/helper/snakbar.dart';
 import 'package:grad_project/patient/features/authentication/presentation/view_model/foget_passcupit/forget_password_cubit_cubit.dart';
 import 'package:grad_project/patient/features/authentication/presentation/view_model/foget_passcupit/forget_password_cubit_state.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/screens/pass_code.dart';
@@ -16,9 +17,11 @@ class ForgetPassScreenViewBody extends StatelessWidget {
     return BlocConsumer<ForgetPasswordCubit, ForgetPasswordState>(
       listener: (context, state) {
         if (state is ForgetPasswordSuccess) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.msg)));
+          // ScaffoldMessenger.of(
+          //   context,
+          // ).showSnackBar(SnackBar(content: Text(state.msg)));
+
+          snackBarMethod(context, state.msg);
 
           // نمرر البريد الإلكتروني للشاشة التالية
           // Navigator.push(

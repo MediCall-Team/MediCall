@@ -112,7 +112,7 @@ class _ReviewDialogState extends State<ReviewDialog> {
               Navigator.pop(context);
             }
           },
-          child:  Text("حفظ", style: TextStyle(color: AppTheme.brandColor(context), fontFamily: "Tajawal")),
+          child:  Text("حفظ", style: TextStyle(color: Colors.white, fontFamily: "Tajawal")),
         ),
       ],
     );

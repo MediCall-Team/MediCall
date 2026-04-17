@@ -4,6 +4,8 @@ import 'package:grad_project/common/chat/presentation/view_model/chats_list/chat
 import 'package:grad_project/constants.dart';
 import 'package:grad_project/common/chat/presentation/widgets/ChatItem.dart';
 import 'package:grad_project/core/helper/reusable_shimmer.dart';
+import 'package:grad_project/core/utils/get_it.dart';
+import 'package:grad_project/core/utils/services/chat/signl_r.dart';
 
 class ChatsListViewBody extends StatefulWidget {
   const ChatsListViewBody({super.key});
@@ -18,6 +20,12 @@ class _ChatsListViewBodyState extends State<ChatsListViewBody> {
   @override
   void initState() {
     super.initState();
+    
+    getIt<SignalRService>().shouldReconnect = true;
+    getIt<SignalRService>().init();
+    getIt<SignalRService>().isInChat = false;
+    getIt<SignalRService>().currentChatId = null;
+
     context.read<ChatsLitsCubit>().loadFirstPage();
     _scrollController.addListener(_onScroll);
   }
@@ -29,11 +37,13 @@ class _ChatsListViewBodyState extends State<ChatsListViewBody> {
     }
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    super.dispose();
-  }
+@override
+void dispose() {
+  getIt<SignalRService>().shouldReconnect = false;
+getIt<SignalRService>().disconnect();
+  _scrollController.dispose();
+  super.dispose();
+}
 
   @override
   Widget build(BuildContext context) {
