@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grad_project/core/helper/snakbar.dart';
 import 'package:grad_project/core/utils/app_router.dart';
 import 'package:grad_project/patient/features/authentication/presentation/view_model/register_patient/register_patient_cubit.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/widgets/CustomTextField.dart';
@@ -31,17 +32,21 @@ class _PatientSignUpViewBodyState extends State<PatientSignUpViewBody> {
     return BlocConsumer<RegisterPatientCubit, RegisterPatientState>(
       listener: (context, state) {
         if (state is RegisterPatientSuccess) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.msg)));
+          // ScaffoldMessenger.of(
+          //   context,
+          // ).showSnackBar(SnackBar(content: Text(state.msg)));
+
+          snackBarMethod(context, state.msg);
 
           GoRouter.of(context).push(AppRouter.kLoginPage);
         }
 
         if (state is RegisterPatientFailure) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.errorMsg)));
+          // ScaffoldMessenger.of(
+          //   context,
+          // ).showSnackBar(SnackBar(content: Text(state.errorMsg)));
+
+          snackBarMethod(context, state.errorMsg);
         }
       },
       builder: (context, state) {

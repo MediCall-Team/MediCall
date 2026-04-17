@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grad_project/core/helper/snakbar.dart';
 import 'package:grad_project/patient/features/requests/presentation/view_model/cancel_reqest_cubit/cancel_request_cubit.dart';
 import 'package:grad_project/patient/features/requests/presentation/view_model/update_request_cubit/update_request_cubit.dart';
 import 'package:grad_project/patient/features/requests/presentation/view_model/p_get_requests_cubit/p_get_requests_cubit.dart';
@@ -16,15 +17,20 @@ class RequestsViewBody extends StatelessWidget {
         BlocListener<UpdateRequestCubit, UpdateRequestState>(
           listener: (context, state) {
             if (state is UpdateRequestSuccess) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("تم تعديل الطلب بنجاح")),
-              );
+              // ScaffoldMessenger.of(context).showSnackBar(
+              //   const SnackBar(content: Text("تم تعديل الطلب بنجاح")),
+              // );
+
+              snackBarMethod(context, "تم تعديل الطلب بنجاح");
+
               context.read<PGetRequestsCubit>().loadFirstPage();
             }
             if (state is UpdateRequestFailure) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text(state.errorMsg)),
-              );
+              // ScaffoldMessenger.of(context).showSnackBar(
+              //   SnackBar(content: Text(state.errorMsg)),
+              // );
+              snackBarMethod(context, state.errorMsg);
+
             }
           },
         ),

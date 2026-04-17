@@ -58,17 +58,19 @@ class _ProfileViewBodyState extends State<ProfileViewBody> {
         } else if (state is UpdateProfileSuccess) {
           Navigator.pop(context);
 
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(const SnackBar(content: Text("تم التعديل بنجاح")));
+          // ScaffoldMessenger.of(
+          //   context,
+          // ).showSnackBar(const SnackBar(content: Text("تم التعديل بنجاح")));
+          snackBarMethod(context, "تم التعديل بنجاح");
 
           context.read<GetProfileCubit>().getPatProfile();
         } else if (state is UpdateProfilefailure) {
           Navigator.pop(context);
 
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(const SnackBar(content: Text("حصل خطأ")));
+          // ScaffoldMessenger.of(
+          //   context,
+          // ).showSnackBar(const SnackBar(content: Text("حصل خطأ")));
+        snackBarMethod(context, "حصل خطأ");
         }
       },
       child: BlocBuilder<GetProfileCubit, GetProfileState>(

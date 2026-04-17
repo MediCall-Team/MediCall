@@ -1,4 +1,4 @@
-class MessageModel {
+class SignalrMessageModel {
   final int id;
   final int chatId;
   final int senderId;
@@ -8,7 +8,7 @@ class MessageModel {
   final bool isRead;
   final bool isPending;
 
-  MessageModel({
+  SignalrMessageModel({
     required this.id,
     required this.chatId,
     required this.senderId,
@@ -19,7 +19,7 @@ class MessageModel {
     this.isPending = false,
   });
 
-  factory MessageModel.fromJson(Map<String, dynamic> json) {
+  factory SignalrMessageModel.fromJson(Map<String, dynamic> json) {
     // ميثود ذكية جداً: بتحول كل الـ Keys لـ lowercase وبتبحث فيها
     // كدة لو جالك "ChatId" أو "chatid" أو "chatID" هتمسكها
     T? readValue<T>(String key) {
@@ -32,10 +32,10 @@ class MessageModel {
       return null;
     }
 
-    return MessageModel(
+    return SignalrMessageModel(
       id: readValue<int>('id') ?? 0,
       chatId: readValue<int>('chatId') ?? 0,
-      senderId: readValue<int>('senderId') ?? readValue<int>('userId') ?? 0,
+      senderId: readValue<int>('userId') ?? 0,
       receiverId: readValue<int>('receiverId') ?? 0,
       content: readValue<String>('content') ?? "",
       sentAt: readValue<String>('sentAt') != null 
@@ -51,7 +51,7 @@ class MessageModel {
     return {
       'id': id,
       'chatId': chatId,
-      'senderId': senderId,
+      'userId': senderId,
       'receiverId': receiverId,
       'content': content,
       'sentAt': sentAt.toIso8601String(),
@@ -59,7 +59,7 @@ class MessageModel {
     };
   }
 
-  MessageModel copyWith({
+  SignalrMessageModel copyWith({
     int? id,
     int? chatId,
     int? senderId,
@@ -69,7 +69,7 @@ class MessageModel {
     bool? isRead,
     bool? isPending,
   }) {
-    return MessageModel(
+    return SignalrMessageModel(
       id: id ?? this.id,
       chatId: chatId ?? this.chatId,
       senderId: senderId ?? this.senderId,

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:bloc/bloc.dart';
 import 'package:grad_project/common/chat/data/chats_list_model.dart';
 import 'package:grad_project/common/chat/repo/chat_repo.dart';
@@ -32,7 +34,7 @@ class ChatsLitsCubit extends Cubit<ChatsLitsState> {
           (failure) => throw failure,
           (data) {
             unReadChats = data.totalChatsWithUnreadMessages;
-            return (data.paginatedChats.data, data.paginatedChats.count);
+            return (data.paginatedChats!.data, data.paginatedChats!.count);
           },
         );
       },
@@ -104,4 +106,111 @@ class ChatsLitsCubit extends Cubit<ChatsLitsState> {
       isLoadingMore: false,
     ));
   }
+
+void markChatAsRead(int chatId) {
+  final index = _allChats.indexWhere((c) => c.chatId == chatId);
+
+  if (index == -1) return;
+
+  final updatedChat = _allChats[index].copyWith(
+    unreadCount: 0,
+  );
+
+  _allChats[index] = updatedChat;
+
+  log("Current list length: ${_allChats.length}");
+if (_allChats.isNotEmpty) {
+  log("First Chat Last Message: ${_allChats.first.lastMessage}");
+}
+
+  emit(ChatsLitsSuccess(
+    chatsList: List.from(_allChats),
+    isLoadingMore: false,
+  ));
+}
+
+void handleChatSummaryUpdate({
+  required int chatId,
+  String? lastMessage,
+   DateTime? updatedAt,
+  required int unreadCount,
+}) async {
+  final index = _allChats.indexWhere((c) => c.chatId == chatId);
+ 
+//
+  log("Current list length: ${_allChats.length}");
+if (_allChats.isNotEmpty) {
+  log("First Chat Last Message: ${_allChats.first.lastMessage}");
+}
+//
+    final old = _allChats[index];
+  // 🟢 الحالة 1: موجود
+  if (index != -1) {
+   // final old = _allChats[index];
+
+    final updated = old.copyWith(
+      lastMessage: lastMessage ?? old.lastMessage,
+      lastMessageDate: updatedAt ?? old.lastMessageDate,
+      unreadCount: unreadCount,
+    );
+
+    _allChats[index] = updated;
+
+    // 🔝 reorder (آخر رسالة تطلع فوق)
+    _allChats.removeAt(index);
+    _allChats.insert(0, updated);
+
+    emit(ChatsLitsSuccess(
+      chatsList: List.from(_allChats),
+      isLoadingMore: false,
+    ));
+
+    return;
+  }
+
+  // 🔴 الحالة 2: مش موجود → نجيب من API
+  try {
+    final result = await repo.getChatById(chatId:chatId);
+
+    result.fold(
+      (failure) {
+        // ممكن ignore أو log
+        log("error when try getChatById");
+      },
+      (chatById) {
+        final newChat = ChatData(
+          chatId: chatById.chatId,
+          otherPersonId: chatById.otherPersonId,
+          otherPersonName: chatById.otherPersonName,
+          otherPersonImage: chatById.otherPersonImage ?? "",
+          lastMessage: lastMessage ?? old.lastMessage,
+          lastMessageDate: updatedAt ?? old.lastMessageDate,
+          unreadCount: unreadCount,
+        );
+
+        _allChats.insert(0, newChat);
+
+        emit(ChatsLitsSuccess(
+          chatsList: List.from(_allChats),
+          isLoadingMore: false,
+        ));
+      },
+    );
+  } catch (e) {
+    await loadFirstPage();
+  }
+
+  
+
+}
+
+void updateUnreadChatsBadge(int value) {
+  unReadChats = value;
+
+  emit(ChatsLitsSuccess(
+    chatsList: List.from(_allChats),
+    isLoadingMore: false,
+  ));
+}
+
 }

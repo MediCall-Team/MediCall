@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grad_project/core/helper/snakbar.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/upload_image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:grad_project/core/utils/api/api_consumer.dart';
@@ -158,9 +159,11 @@ class _EditSPContentState extends State<_EditSPContent> {
     return BlocConsumer<UpdataSPCubit, UpdataSPState>(
       listener: (context, updateState) {
         if (updateState is UpdataSPSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('تم تحديث البيانات بنجاح')),
-          );
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   const SnackBar(content: Text('تم تحديث البيانات بنجاح')),
+          // );
+
+          snackBarMethod(context, 'تم تحديث البيانات بنجاح');
 
           // ✅ استدعاء الجيت عشان يعمل refresh للبيانات
           context.read<GitSPCubit>().getProviderProfile();
@@ -168,9 +171,11 @@ class _EditSPContentState extends State<_EditSPContent> {
           // ✅ رجوع للصفحة السابقة (البروفايل)
           Navigator.pop(context);
         } else if (updateState is UpdataSPFailure) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(updateState.errMessage)));
+          // ScaffoldMessenger.of(
+          //   context,
+          // ).showSnackBar(SnackBar(content: Text(updateState.errMessage)));
+
+          snackBarMethod(context, updateState.errMessage);
         }
       },
 

@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:grad_project/constants.dart';
 import 'package:grad_project/core/helper/image_picker_helper.dart';
 import 'package:grad_project/core/helper/reusable_dialog.dart';
+import 'package:grad_project/core/helper/snakbar.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/custom_botton2.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/photoes.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/steps.dart';
@@ -28,17 +29,20 @@ class _Step3ViewBodyState extends State<Step3ViewBody> {
     return BlocConsumer<SpRegisterCubit, SpRegisterState>(
       listener: (context, state) {
         if (state is SpRegisterSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text("سيتم التأكد من بياناتك وسوف تصلك رسالة تأكيد على بريدك الألكتروني")),
-          );
+          // ScaffoldMessenger.of(context).showSnackBar(
+          //   const SnackBar(content: Text("سيتم التأكد من بياناتك وسوف تصلك رسالة تأكيد على بريدك الألكتروني")),
+          // );
+
+          snackBarMethod(context, "سيتم التأكد من بياناتك وسوف تصلك رسالة تأكيد على بريدك الألكتروني");
 
           Navigator.popUntil(context, (route) => route.isFirst);
         }
 
         if (state is SpRegisterFailure) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.error)));
+          // ScaffoldMessenger.of(
+          //   context,
+          // ).showSnackBar(SnackBar(content: Text(state.error)));
+          snackBarMethod(context, state.error);
         }
       },
       builder: (context, state) {

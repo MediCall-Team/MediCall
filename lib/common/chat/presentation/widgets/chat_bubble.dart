@@ -7,13 +7,14 @@ class ChatBubble extends StatelessWidget {
   final bool isMe;
   final bool isFirst;
   final bool isRead;
+  final bool isPending;
 
   const ChatBubble({
     super.key,
     required this.message,
     required this.time,
     required this.isMe,
-    required this.isFirst, required this.isRead,
+    required this.isFirst, required this.isRead, required this.isPending,
   });
 
   @override
@@ -53,12 +54,16 @@ class ChatBubble extends StatelessWidget {
     Row(
       mainAxisSize: MainAxisSize.min, // السطر ده هو "السحر" اللي هيلم العرض
       children: [
-        if (isMe) 
-          Icon(
-            isRead ? Icons.done_all : Icons.done_all, 
-            color: isRead ? kPrimaryColorC : Colors.white70,
-            size: 16, // صغرت الحجم شوية عشان يليق مع الوقت
-          ),
+      if (isMe)
+  Icon(
+    isPending
+        ? Icons.access_time // ⏳ لسه مبعتتش
+        : (isRead ? Icons.done_all : Icons.done), // ✔ أو ✔✔
+    color: isPending
+        ? Colors.white70
+        : (isRead ? kPrimaryColorC : Colors.white70),
+    size: 16,
+  ),
         const SizedBox(width: 4), // مسافة بسيطة بين الأيقونة والوقت
         Text(
           time,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_project/core/helper/reusable_dialog.dart';
+import 'package:grad_project/core/helper/snakbar.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/map/location_services.dart';
 import 'package:grad_project/patient/features/home/categories/data/create_request_model.dart';
@@ -208,16 +209,18 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
                           
                           // 2. التحقق من التاريخ والوقت والموقع يدوياً
                           if (selectedDate == null || selectedTime == null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("يرجى اختيار التاريخ والوقت")),
-                            );
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //   const SnackBar(content: Text("يرجى اختيار التاريخ والوقت")),
+                            // );
+                            snackBarMethod(context, "يرجى اختيار التاريخ والوقت");
                             return;
                           }
 
                           if (lat == null || long == null) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              const SnackBar(content: Text("يرجى تحديد موقعك أولاً")),
-                            );
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //   const SnackBar(content: Text("يرجى تحديد موقعك أولاً")),
+                            // );
+                            snackBarMethod(context, "يرجى تحديد موقعك أولاً");
                             return;
                           }
 

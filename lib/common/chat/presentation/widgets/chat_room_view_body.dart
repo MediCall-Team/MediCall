@@ -1,7 +1,10 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
+import 'package:grad_project/core/utils/services/chat/signl_r.dart';
 import 'package:grad_project/patient/features/authentication/data/patient_user_model.dart';
 import 'package:intl/intl.dart';
 import 'package:grad_project/common/chat/data/chats_list_model.dart';
@@ -25,14 +28,26 @@ class _ChatRoomViewBodyState extends State<ChatRoomViewBody> {
   late PatientUserModel me;
   @override
   void initState() {
+
+    // getIt<SignalRService>().enterChat(widget.chatData.chatId);
+    // getIt<SignalRService>().isInChat = true;
+    // getIt<SignalRService>().currentChatId = widget.chatData.chatId;
+    getIt<SignalRService>().scheduleMarkAsRead(widget.chatData.chatId);
+
+    getIt<SignalRService>().enterChat(widget.chatData.chatId);
+
     BlocProvider.of<MessagesListCubit>(
       context,
     ).getChatMessages(chatId: widget.chatData.chatId);
+
     getIt<NotificationNumberCubit>().getMyChatNotificationsNumber();
+
+   
 
     me = CacheHelper.getUser()!;
     super.initState();
   }
+
 
   // دالة لتحريك القائمة لآخر رسالة
   void _scrollToBottom() {
@@ -49,12 +64,16 @@ class _ChatRoomViewBodyState extends State<ChatRoomViewBody> {
 
   @override
   void dispose() {
+     getIt<SignalRService>().leaveChat();
     _scrollController.dispose(); // تنظيف الـ controller عند الخروج
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    
+    log("🆔 Cubit HashCode in UI: ${context.read<MessagesListCubit>().hashCode}");
+    
     return Column(
       children: [
         Expanded(
@@ -71,14 +90,14 @@ class _ChatRoomViewBodyState extends State<ChatRoomViewBody> {
                   itemBuilder: (context, index) {
                     final message = state.messagesList[index];
 
-                    if (index > 0) {
-                      print("INDEX: $index");
-                      print("current: ${message.senderId}");
-                      print(
-                        "previous: ${state.messagesList[index - 1].senderId}",
-                      );
-                      print("me.id ${me.id}");
-                    }
+                    // if (index > 0) {
+                    //   print("INDEX: $index");
+                    //   print("current: ${message.senderId}");
+                    //   print(
+                    //     "previous: ${state.messagesList[index - 1].senderId}",
+                    //   );
+                    //   print("me.id ${me.id}");
+                    // }
 
                     bool showDateSeparator = false;
                     if (index == 0) {
@@ -109,6 +128,7 @@ class _ChatRoomViewBodyState extends State<ChatRoomViewBody> {
                               state.messagesList[index - 1].senderId !=
                                   message.senderId,
                                 isRead: message.isRead,
+                                isPending: message.isPending,
                         ),
                       ],
                     );
@@ -126,7 +146,7 @@ class _ChatRoomViewBodyState extends State<ChatRoomViewBody> {
             },
           ),
         ),
-        const WriteMessage(),
+         WriteMessage(chatData:widget.chatData),
         const SizedBox(height: 10),
       ],
     );

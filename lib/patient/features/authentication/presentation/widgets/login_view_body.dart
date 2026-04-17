@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:grad_project/constants.dart';
+import 'package:grad_project/core/helper/snakbar.dart';
 import 'package:grad_project/patient/features/authentication/presentation/view_model/login/login_cubit.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/custom_botton.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/custom_loading_indecator.dart';
@@ -55,9 +56,10 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                   // setState(() {
                   //   Loading = false;
                   // });
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(const SnackBar(content: Text("مرحبا بك")));
+                  // ScaffoldMessenger.of(
+                  //   context,
+                  // ).showSnackBar(const SnackBar(content: Text("مرحبا بك")));
+
                   if(state.userModel.role=="Patient"){
                   GoRouter.of(context).go(AppRouter.kBottomNavPage);}
                   else{
@@ -69,9 +71,11 @@ class _LoginViewBodyState extends State<LoginViewBody> {
                 //     Loading = false;
                 //   }); 
 
-                  ScaffoldMessenger.of(
-                    context,
-                  ).showSnackBar(SnackBar(content: Text(state.errorMsg)));
+                  // ScaffoldMessenger.of(
+                  //   context,
+                  // ).showSnackBar(SnackBar(content: Text(state.errorMsg)));
+
+                  snackBarMethod(context, state.errorMsg);
                 }
               },
               builder: (context, state) {

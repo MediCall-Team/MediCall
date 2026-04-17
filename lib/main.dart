@@ -3,6 +3,9 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:grad_project/common/chat/presentation/view_model/chats_list/chats_lits_cubit.dart';
+import 'package:grad_project/common/chat/presentation/view_model/messages_list/messages_list_cubit.dart';
+import 'package:grad_project/common/chat/repo/chat_repo.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/get_it.dart';
@@ -35,6 +38,13 @@ void main() async {
           BlocProvider(
             create: (context) => LogoutCubit(getIt<PatienAuthRepo>()),
           ),
+      
+      BlocProvider<MessagesListCubit>(
+      create: (context) => getIt<MessagesListCubit>(), // استخدمي getIt هنا
+    ),
+    BlocProvider<ChatsLitsCubit>(
+      create: (context) => getIt<ChatsLitsCubit>(), // واستخدمي getIt هنا كمان
+    ),
         ],
         child: const MediApp(),
       ),

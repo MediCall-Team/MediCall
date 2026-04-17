@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grad_project/core/helper/snakbar.dart';
 import 'package:grad_project/core/utils/app_router.dart';
 import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/patient/features/authentication/presentation/view_model/cubit/reset_pass_cu_cubit.dart';
@@ -54,15 +55,19 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     return BlocConsumer<ResetPassCuCubit, ResetPassCuState>(
       listener: (context, state) {
         if (state is ResetPassCuSuccess) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.msg)));
+          // ScaffoldMessenger.of(
+          //   context,
+          // ).showSnackBar(SnackBar(content: Text(state.msg)));
+        snackBarMethod(context, state.msg);
+
           context.go(AppRouter.kLoginPage);
         }
         if (state is ResetPassCuFailure) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.errorMsg)));
+          // ScaffoldMessenger.of(
+          //   context,
+          // ).showSnackBar(SnackBar(content: Text(state.errorMsg)));
+
+          snackBarMethod(context, state.errorMsg);
         }
       },
       builder: (context, state) {
@@ -123,20 +128,23 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         String confirm = confirmController.text.trim();
 
                         if (pass.isEmpty || confirm.isEmpty) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("من فضلك أدخل كلمة المرور"),
-                            ),
-                          );
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //   const SnackBar(
+                          //     content: Text("من فضلك أدخل كلمة المرور"),
+                          //   ),
+                          // );
+                          snackBarMethod(context, "من فضلك أدخل كلمة المرور");
                           return;
                         }
 
                         if (pass != confirm) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text("كلمة المرور غير متطابقة"),
-                            ),
-                          );
+                          // ScaffoldMessenger.of(context).showSnackBar(
+                          //   const SnackBar(
+                          //     content: Text("كلمة المرور غير متطابقة"),
+                          //   ),
+                          // );
+                         snackBarMethod(context, "كلمة المرور غير متطابقة");
+
                           return;
                         }
 

@@ -36,10 +36,7 @@ class ChatRoomView extends StatelessWidget {
         ),
       ),
       body: SafeArea(
-        child: BlocProvider(
-          create: (context) => MessagesListCubit(getIt<ChatRepo>()),
-          child: ChatRoomViewBody(chatData:chatData),
-        ),
+        child: ChatRoomViewBody(chatData:chatData),
       ),
     );
   }
