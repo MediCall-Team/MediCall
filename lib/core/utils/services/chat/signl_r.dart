@@ -188,13 +188,23 @@ class SignalRService {
     });
 
 
-    _connection?.on("ChatClosedEvent", (data) {
-      log("🚫 Chat Closed: ${data?[0]}");
-    });
+ _connection?.on("ChatClosedEvent", (data) {
+  final chatId = data?[0];
 
-    _connection?.on("ChatOpenedEvent", (data) {
-      log("📂 Chat Opened: ${data?[0]}");
-    });
+  getIt<ChatsLitsCubit>().updateChatStatusFromSocket(
+    chatId:  int.parse(chatId.toString()),
+    isClosed: true,
+  );
+});
+
+_connection?.on("ChatOpenedEvent", (data) {
+  final chatId = data?[0];
+
+  getIt<ChatsLitsCubit>().updateChatStatusFromSocket(
+    chatId:  int.parse(chatId.toString()),
+    isClosed: false,
+  );
+});
   }
 
   /// ================= ACTIONS =================

@@ -14,5 +14,6 @@ abstract class ChatRepo {
   Future<Either<Failure,List<MessageModel>>> getChatMessages({required int chatId});
 
 Future<Either<Failure,ChatModelById>> getChatById({required int chatId});
-  
+  Future<Either<Failure, Unit>> closeChat({required int chatId});
+Future<Either<Failure, Unit>> openChat({required int chatId});
 }
