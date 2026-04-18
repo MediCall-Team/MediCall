@@ -7,8 +7,9 @@ import 'package:image_picker/image_picker.dart';
 
 class UploadImageButton extends StatefulWidget {
   final Function(File) onImageSelected;
+  final String? image;
 
-  const UploadImageButton({super.key, required this.onImageSelected});
+  const UploadImageButton({super.key, required this.onImageSelected,  this.image});
 
   @override
   State<UploadImageButton> createState() => _UploadImageButtonState();
@@ -118,13 +119,16 @@ class _UploadImageButtonState extends State<UploadImageButton> {
                       width: 100,
                       height: 100,
                     )
-                  : Center(
-                      child: Image.asset(
-                        'assets/images/image6.png',
-                        width: 60,
-                        height: 60,
-                      ),
-                    ),
+                  :
+                   CircleAvatar(
+                    radius: (100 * 0.18).clamp(40, 140),
+                    backgroundColor: Colors.grey[200],
+                    backgroundImage:
+                        (widget.image != null && widget.image!.isNotEmpty)
+                        ? NetworkImage(widget.image!)
+                        : const AssetImage('assets/images/image6.png')
+                              as ImageProvider,
+                  )
             ),
           ),
           const SizedBox(height: 5),

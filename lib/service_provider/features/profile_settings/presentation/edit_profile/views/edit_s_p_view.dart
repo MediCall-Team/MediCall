@@ -29,11 +29,11 @@ class _EditSPViewState extends State<EditSPView> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) =>
-              GitSPCubit(SPProfileRepoImpl(getIt<ApiConsumer>()))
-                ..getProviderProfile(),
-        ),
+        // BlocProvider(
+        //   create: (context) =>
+        //       GitSPCubit(SPProfileRepoImpl(getIt<ApiConsumer>()))
+        //         ..getProviderProfile(),
+        // ),
         BlocProvider(
           create: (context) =>
               UpdataSPCubit(SPProfileRepoImpl(getIt<ApiConsumer>())),
@@ -157,7 +157,7 @@ class _EditSPContentState extends State<_EditSPContent> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UpdataSPCubit, UpdataSPState>(
-      listener: (context, updateState) {
+      listener: (context, updateState) async{
         if (updateState is UpdataSPSuccess) {
           // ScaffoldMessenger.of(context).showSnackBar(
           //   const SnackBar(content: Text('تم تحديث البيانات بنجاح')),
@@ -166,7 +166,7 @@ class _EditSPContentState extends State<_EditSPContent> {
           snackBarMethod(context, 'تم تحديث البيانات بنجاح');
 
           // ✅ استدعاء الجيت عشان يعمل refresh للبيانات
-          context.read<GitSPCubit>().getProviderProfile();
+         await context.read<GitSPCubit>().getProviderProfile();
 
           // ✅ رجوع للصفحة السابقة (البروفايل)
           Navigator.pop(context);
@@ -209,6 +209,7 @@ class _EditSPContentState extends State<_EditSPContent> {
                     children: [
                       const SizedBox(height: 10),
                       UploadImageButton(
+                    image:profile.image,
                   onImageSelected: (image) {
                     _pickedImage = image;
                   },
@@ -348,6 +349,9 @@ class _EditSPContentState extends State<_EditSPContent> {
                                         .toList() ??
                                     [];
 
+                                context.read<UpdataSPCubit>().setAreas(selectedAreaIds);
+                                    
+
                                 context.read<UpdataSPCubit>().updateProfile(
                                   firstName: firstName,
                                   lastName: lastName,
@@ -359,6 +363,7 @@ class _EditSPContentState extends State<_EditSPContent> {
                                   bio: bio,
                                   image: _pickedImage,
                                 );
+                                
                               },
                         style: _buttonStyle(),
                         child: updateState is UpdataSPLoading
