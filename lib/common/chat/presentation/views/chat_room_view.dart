@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_project/common/chat/data/chats_list_model.dart';
@@ -6,6 +8,7 @@ import 'package:grad_project/common/chat/presentation/view_model/messages_list/m
 import 'package:grad_project/common/chat/presentation/widgets/chat_room_view_body.dart';
 import 'package:grad_project/common/chat/presentation/widgets/medical_queck_actions.dart';
 import 'package:grad_project/common/chat/repo/chat_repo.dart';
+import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/core/utils/styles.dart';
@@ -42,6 +45,7 @@ class ChatRoomView extends StatelessWidget {
                 late bool isClosed;
 
                 if (state is ChatsLitsSuccess) {
+                  log("change chat state success");
                   final chat = state.chatsList.firstWhere(
                     (c) => c.chatId == chatData.chatId,
                     orElse: () => chatData,
@@ -50,7 +54,7 @@ class ChatRoomView extends StatelessWidget {
                   isClosed = chat.isClosed;
                 }
 
-                return IconButton(
+                return CacheHelper.getUser()!.role != "Patient"?  IconButton(
                   onPressed: () {
                     //final chatsCubit = context.read<ChatsLitsCubit>();
 
@@ -65,7 +69,7 @@ class ChatRoomView extends StatelessWidget {
                     );
                   },
                   icon: const Icon(Icons.more_vert),
-                );
+                ):SizedBox() ;
               },
             ),
           ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_project/common/chat/presentation/view_model/chats_list/chats_lits_cubit.dart';
+import 'package:grad_project/core/utils/get_it.dart';
 
 class MedicalQuickActions extends StatelessWidget {
   const MedicalQuickActions({
@@ -28,7 +29,7 @@ class MedicalQuickActions extends StatelessWidget {
             label: isClosed ? 'فتح الشات' : 'إغلاق الشات',
             color: Colors.blue,
             onTap: () {
-              context.read<ChatsLitsCubit>().toggleChat(
+              getIt<ChatsLitsCubit>().toggleChat(
                     chatId: chatId,
                     isClosed: isClosed,
                   );

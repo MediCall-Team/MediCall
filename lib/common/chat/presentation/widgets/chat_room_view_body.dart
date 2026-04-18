@@ -144,20 +144,60 @@ class _ChatRoomViewBodyState extends State<ChatRoomViewBody> {
             },
           ),
         ),
+        // BlocBuilder<ChatsLitsCubit, ChatsLitsState>(
+        //   builder: (context, state) {
+        //     if (state is! ChatsLitsSuccess) {
+        //       return WriteMessage(chatData: widget.chatData);
+        //     }
+
+        //     final chat = state.chatsList.firstWhere(
+        //       (c) => c.chatId == widget.chatData.chatId,
+        //       orElse: () => widget.chatData,
+        //     );
+
+        //     final isClosed = chat.isClosed;
+
+        //     if (isClosed) {
+        //       return Container(
+        //         width: double.infinity,
+        //         padding: const EdgeInsets.all(16),
+        //         margin: const EdgeInsets.symmetric(horizontal: 12),
+        //         decoration: BoxDecoration(
+        //           color: Colors.red.withOpacity(0.08),
+        //           borderRadius: BorderRadius.circular(12),
+        //         ),
+        //         child: const Center(
+        //           child: Text(
+        //             "تم إغلاق المحادثة",
+        //             style: TextStyle(color: Colors.red),
+        //           ),
+        //         ),
+        //       );
+        //     }
+
+        //     return WriteMessage(chatData: widget.chatData);
+        //   },
+        // ),
+
         BlocBuilder<ChatsLitsCubit, ChatsLitsState>(
           builder: (context, state) {
-            if (state is! ChatsLitsSuccess) {
-              return WriteMessage(chatData: widget.chatData);
+            // 1. القيمة المبدئية هناخدها من الـ widget (عشان أول ما نفتح الشاشة)
+            bool isClosedLocal = widget.chatData.isClosed;
+
+            // 2. لو الـ Cubit عنده بيانات ناجحة، هندور فيها على الحالة "اللحظية"
+            if (state is ChatsLitsSuccess) {
+              final index = state.chatsList.indexWhere(
+                (c) => c.chatId == widget.chatData.chatId,
+              );
+              
+              // لو لقينا الشات في القائمة، ناخد القيمة منه (لأنه هو اللي اتحدث من الـ Socket)
+              if (index != -1) {
+                isClosedLocal = state.chatsList[index].isClosed;
+              }
             }
 
-            final chat = state.chatsList.firstWhere(
-              (c) => c.chatId == widget.chatData.chatId,
-              orElse: () => widget.chatData,
-            );
-
-            final isClosed = chat.isClosed;
-
-            if (isClosed) {
+            // 3. بناء الـ UI بناءً على النتيجة النهائية
+            if (isClosedLocal) {
               return Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(16),
@@ -169,12 +209,13 @@ class _ChatRoomViewBodyState extends State<ChatRoomViewBody> {
                 child: const Center(
                   child: Text(
                     "تم إغلاق المحادثة",
-                    style: TextStyle(color: Colors.red),
+                    style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
                   ),
                 ),
               );
             }
 
+            // لو مش مغلقة، يظهر مربع الكتابة عادي
             return WriteMessage(chatData: widget.chatData);
           },
         ),

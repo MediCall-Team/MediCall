@@ -189,19 +189,27 @@ class SignalRService {
 
 
  _connection?.on("ChatClosedEvent", (data) {
-  final chatId = data?[0];
+   final json = _parseData(data);
+      if (json == null) return;
+      final chatId = json["chatId"] ?? json["ChatId"];
+  log("closed chat ${chatId}");
 
   getIt<ChatsLitsCubit>().updateChatStatusFromSocket(
-    chatId:  int.parse(chatId.toString()),
+    chatId: chatId,
     isClosed: true,
   );
+
 });
 
 _connection?.on("ChatOpenedEvent", (data) {
-  final chatId = data?[0];
+    final json = _parseData(data);
+      if (json == null) return;
+      final chatId = json["chatId"] ?? json["ChatId"];
+ 
+  log("open chat ${chatId}");
 
   getIt<ChatsLitsCubit>().updateChatStatusFromSocket(
-    chatId:  int.parse(chatId.toString()),
+    chatId: chatId,
     isClosed: false,
   );
 });
@@ -219,15 +227,34 @@ _connection?.on("ChatOpenedEvent", (data) {
     }
   }
 
-  Future<void> leaveChat() async {
+  // Future<void> leaveChat() async {
+  //   if (_connection?.state == HubConnectionState.Connected) {
+  //     await _connection?.invoke("LeaveChat");
+  //   }
+  //   isInChat = false;
+  //   currentChatId = null;
+  //   log("Left Chat");
+  // }
+
+Future<void> leaveChat() async {
+  try {
+    // 1. نفحص إذا كان الاتصال قائماً فعلاً
     if (_connection?.state == HubConnectionState.Connected) {
+      // 2. نضع timeout أو نكتفي بالـ try catch لحمايتها
       await _connection?.invoke("LeaveChat");
     }
+  } catch (e) {
+    // 3. لو حصل خطأ (نت فصل مثلاً) بنعمل log ونكمل عادي
+    // لأننا في النهاية عايزين نصفر الـ Variables المحلية
+    log("⚠️ Error while invoking LeaveChat (Network issue): $e");
+  } finally {
+    // 4. السطرين دول لازم يتنفذوا مهما حصل (سواء الطلب نجح أو فشل)
+    // عشان نضمن إن حالة التطبيق المحلية رجعت لوضعها الطبيعي
     isInChat = false;
     currentChatId = null;
-    log("Left Chat");
+    log("Left Chat (Local state cleared)");
   }
-
+}
 
   Future<void> sendMessage(Map<String, dynamic> dto) async {
     // 1. لو مفيش اتصال حالياً، ضيفيها للطابور فوراً
