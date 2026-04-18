@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:grad_project/common/chat/data/chat_model_by_id.dart';
 import 'package:grad_project/common/chat/data/chats_list_model.dart';
@@ -64,5 +66,30 @@ class ChatRepoImp implements ChatRepo{
     }
   }
 
-  
+  @override
+Future<Either<Failure, Unit>> closeChat({required int chatId}) async {
+  try {
+   var response= await api.put("api/Chat/$chatId/close");
+
+log("STATUS CODE: ${response.statusCode}");
+log("RESPONSE: ${response.data}");
+    return right(unit);
+  } on Failure catch (e) {
+    return left(e);
+  } catch (e) {
+    return left(ServerFailure(e.toString()));
+  }
+}
+
+@override
+Future<Either<Failure, Unit>> openChat({required int chatId}) async {
+  try {
+    await api.put("api/Chat/$chatId/open"); // لو عندك endpoint تاني
+    return right(unit);
+  } on Failure catch (e) {
+    return left(e);
+  } catch (e) {
+    return left(ServerFailure(e.toString()));
+  }
+}
 }

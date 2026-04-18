@@ -61,6 +61,7 @@ class PaginatedChats {
 
 class ChatData {
   final int chatId;
+  final bool isClosed;
   final int otherPersonId;
   final String otherPersonName;
   final String otherPersonImage;
@@ -68,8 +69,9 @@ class ChatData {
   final DateTime lastMessageDate;
   final int unreadCount;
 
-  ChatData({
+  ChatData( {
     required this.chatId,
+    required this.isClosed,
     required this.otherPersonId,
     required this.otherPersonName,
     required this.otherPersonImage,
@@ -89,6 +91,7 @@ class ChatData {
 
     return ChatData(
       chatId: readValue<int>('chatId') ?? 0,
+       isClosed: readValue<bool>('isClosed') ?? false, 
       otherPersonId: readValue<int>('otherPersonId') ?? readValue<int>('otherId') ?? 0,
       otherPersonName: readValue<String>('otherPersonName') ?? readValue<String>('name') ?? '',
       otherPersonImage: readValue<String>('otherPersonImage') ?? readValue<String>('image') ?? '',
@@ -102,6 +105,7 @@ class ChatData {
 
   ChatData copyWith({
     int? chatId,
+    bool? isClosed, 
     int? otherPersonId,
     String? otherPersonName,
     String? otherPersonImage,
@@ -111,6 +115,7 @@ class ChatData {
   }) {
     return ChatData(
       chatId: chatId ?? this.chatId,
+      isClosed: isClosed??this.isClosed ,
       otherPersonId: otherPersonId ?? this.otherPersonId,
       otherPersonName: otherPersonName ?? this.otherPersonName,
       otherPersonImage: otherPersonImage ?? this.otherPersonImage,

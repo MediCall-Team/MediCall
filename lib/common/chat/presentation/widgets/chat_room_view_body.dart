@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grad_project/common/chat/presentation/view_model/chats_list/chats_lits_cubit.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/services/chat/signl_r.dart';
@@ -28,7 +29,6 @@ class _ChatRoomViewBodyState extends State<ChatRoomViewBody> {
   late PatientUserModel me;
   @override
   void initState() {
-
     // getIt<SignalRService>().enterChat(widget.chatData.chatId);
     // getIt<SignalRService>().isInChat = true;
     // getIt<SignalRService>().currentChatId = widget.chatData.chatId;
@@ -42,12 +42,9 @@ class _ChatRoomViewBodyState extends State<ChatRoomViewBody> {
 
     getIt<NotificationNumberCubit>().getMyChatNotificationsNumber();
 
-   
-
     me = CacheHelper.getUser()!;
     super.initState();
   }
-
 
   // دالة لتحريك القائمة لآخر رسالة
   void _scrollToBottom() {
@@ -64,16 +61,17 @@ class _ChatRoomViewBodyState extends State<ChatRoomViewBody> {
 
   @override
   void dispose() {
-     getIt<SignalRService>().leaveChat();
+    getIt<SignalRService>().leaveChat();
     _scrollController.dispose(); // تنظيف الـ controller عند الخروج
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    
-    log("🆔 Cubit HashCode in UI: ${context.read<MessagesListCubit>().hashCode}");
-    
+    log(
+      "🆔 Cubit HashCode in UI: ${context.read<MessagesListCubit>().hashCode}",
+    );
+
     return Column(
       children: [
         Expanded(
@@ -127,8 +125,8 @@ class _ChatRoomViewBodyState extends State<ChatRoomViewBody> {
                               index == 0 ||
                               state.messagesList[index - 1].senderId !=
                                   message.senderId,
-                                isRead: message.isRead,
-                                isPending: message.isPending,
+                          isRead: message.isRead,
+                          isPending: message.isPending,
                         ),
                       ],
                     );
@@ -146,7 +144,40 @@ class _ChatRoomViewBodyState extends State<ChatRoomViewBody> {
             },
           ),
         ),
-         WriteMessage(chatData:widget.chatData),
+        BlocBuilder<ChatsLitsCubit, ChatsLitsState>(
+          builder: (context, state) {
+            if (state is! ChatsLitsSuccess) {
+              return WriteMessage(chatData: widget.chatData);
+            }
+
+            final chat = state.chatsList.firstWhere(
+              (c) => c.chatId == widget.chatData.chatId,
+              orElse: () => widget.chatData,
+            );
+
+            final isClosed = chat.isClosed;
+
+            if (isClosed) {
+              return Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(16),
+                margin: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: BoxDecoration(
+                  color: Colors.red.withOpacity(0.08),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: const Center(
+                  child: Text(
+                    "تم إغلاق المحادثة",
+                    style: TextStyle(color: Colors.red),
+                  ),
+                ),
+              );
+            }
+
+            return WriteMessage(chatData: widget.chatData);
+          },
+        ),
         const SizedBox(height: 10),
       ],
     );

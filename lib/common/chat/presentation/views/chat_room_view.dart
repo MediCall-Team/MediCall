@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_project/common/chat/data/chats_list_model.dart';
+import 'package:grad_project/common/chat/presentation/view_model/chats_list/chats_lits_cubit.dart';
 import 'package:grad_project/common/chat/presentation/view_model/messages_list/messages_list_cubit.dart';
 import 'package:grad_project/common/chat/presentation/widgets/chat_room_view_body.dart';
+import 'package:grad_project/common/chat/presentation/widgets/medical_queck_actions.dart';
 import 'package:grad_project/common/chat/repo/chat_repo.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/get_it.dart';
@@ -17,8 +19,8 @@ class ChatRoomView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leadingWidth: 40, // 👈 يقلل المسافة من السهم
-        titleSpacing: 5, // 👈 يقرب العنوان من السهم
+        leadingWidth: 40,
+        titleSpacing: 5,
         title: Row(
           children: [
             CircleAvatar(
@@ -32,12 +34,44 @@ class ChatRoomView extends StatelessWidget {
                 color: AppTheme.mainContrast(context),
               ),
             ),
+            const Spacer(),
+
+            /// 🔥 ده المهم
+            BlocBuilder<ChatsLitsCubit, ChatsLitsState>(
+              builder: (context, state) {
+                late bool isClosed;
+
+                if (state is ChatsLitsSuccess) {
+                  final chat = state.chatsList.firstWhere(
+                    (c) => c.chatId == chatData.chatId,
+                    orElse: () => chatData,
+                  );
+
+                  isClosed = chat.isClosed;
+                }
+
+                return IconButton(
+                  onPressed: () {
+                    //final chatsCubit = context.read<ChatsLitsCubit>();
+
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (_) {
+                        return MedicalQuickActions(
+                          chatId: chatData.chatId,
+                          isClosed: isClosed, // ✅ الصح
+                        );
+                      },
+                    );
+                  },
+                  icon: const Icon(Icons.more_vert),
+                );
+              },
+            ),
           ],
         ),
       ),
-      body: SafeArea(
-        child: ChatRoomViewBody(chatData:chatData),
-      ),
+      body: SafeArea(child: ChatRoomViewBody(chatData: chatData)),
     );
   }
 }
