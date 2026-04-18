@@ -15,3 +15,4 @@ final class MessagesListFailure extends MessagesListState {
 
   MessagesListFailure({required this.errorMsg});
 }
+
