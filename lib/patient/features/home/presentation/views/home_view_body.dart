@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
@@ -12,6 +14,7 @@ import 'package:grad_project/patient/features/home/presentation/widgets/custom_d
 import 'package:grad_project/patient/features/home/presentation/widgets/custom_header_card.dart';
 import 'package:grad_project/patient/features/home/presentation/widgets/header.dart';
 import 'package:grad_project/patient/features/home/presentation/widgets/specialty_row.dart';
+import 'package:lottie/lottie.dart';
 
 class HomeViewBody extends StatefulWidget {
   HomeViewBody({super.key});
@@ -21,14 +24,30 @@ class HomeViewBody extends StatefulWidget {
 }
 
 class _HomeViewBodyState extends State<HomeViewBody> {
+  bool showGreeting = true;
   final List<CategoryModel> categories = categoriesList;
 
   @override
   void initState() {
     BlocProvider.of<ServiceProvidersListCubit>(context).init("");
+    
     // context.read<NotificationNumberCubit>().getMyNotificationsNumber();
-    super.initState();
+
+   Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) setState(() => showGreeting = true);
+    });
+
+    // 2. بعد 5 ثواني تانية (إجمالي 6) اخفيها
+    Timer(const Duration(seconds: 6), () {
+      if (mounted) setState(() => showGreeting = false);
+    });
+  
+  
+     super.initState();
   }
+
+
+  
 
   @override
   Widget build(BuildContext context) {
@@ -37,16 +56,83 @@ class _HomeViewBodyState extends State<HomeViewBody> {
     double fontSize = width * 0.04;
 
     return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          GoRouter.of(context).push(AppRouter.kAI);
-        },
-        backgroundColor: AppTheme.customHeaderCard(
-          context,
-        ), // لون الخلفية الدائرية
-        shape: const CircleBorder(), // لجعل الخلفية دائرية تماماً
-        child: SvgPicture.asset("assets/images/chatbot.svg", width: 30),
+      
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+      floatingActionButton: 
+      Stack(
+  alignment: Alignment.bottomLeft,
+  clipBehavior: Clip.none, // عشان النص يقدر يطلع بره حدود الـ Container
+  children: [
+    // الـ Animation بتاعك
+    Container(
+      width: 100,
+      height: 100,
+ color: Colors.transparent,
+ 
+      child: FloatingActionButton(
+        
+        onPressed: () => GoRouter.of(context).push(AppRouter.kAI),
+        backgroundColor: Colors.transparent,
+  elevation: 0,
+  focusElevation: 0,
+  highlightElevation: 0, // هذا السطر يمسح الظل الذي يظهر عند الضغط المطول
+  hoverElevation: 0,
+  splashColor: Colors.transparent,
+  focusColor: Colors.transparent,
+  hoverColor: Colors.transparent,
+        child: Lottie.asset(
+          "assets/animation/eve.json",
+          fit: BoxFit.cover,
+        ),
       ),
+    ),
+
+    // نص "مرحباً" اللي بيظهر ويختفي
+    if (showGreeting)
+      Positioned(
+        top: -20, // ارفعيه فوق الانيميشن
+        left: 20,
+        child: AnimatedPadding(
+          duration: const Duration(milliseconds: 1000),
+    padding: EdgeInsets.only(bottom: showGreeting ? 10 : 0),
+          child: AnimatedOpacity(
+            duration: const Duration(milliseconds: 1500), // هنا زودنا وقت الظهور نفسه
+            opacity: showGreeting ? 1.0 : 0.0,
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: AppTheme.brandColor(context), // أو أي لون مناسب
+                borderRadius: BorderRadius.circular(8),
+                boxShadow: [
+                  BoxShadow(color: Colors.black26, blurRadius: 4),
+                ],
+              ),
+              child: const Text(
+                "مرحباً",
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  fontFamily: "Poppins",
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+  ],
+),
+      // FloatingActionButton(
+      //   onPressed: () {
+      //     GoRouter.of(context).push(AppRouter.kAI);
+      //   },
+      //   backgroundColor: Colors.transparent,
+      //  // AppTheme.customHeaderCard(context,), // لون الخلفية الدائرية
+      //   shape: const CircleBorder(), // لجعل الخلفية دائرية تماماً
+      //   child:Lottie.asset("assets/animation/eve.json")  ,//SvgPicture.asset("assets/images/chatbot.svg", width: 30),
+      // ),
+
+      
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 0),
         child: CustomScrollView(
