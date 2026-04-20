@@ -40,7 +40,11 @@ class _ChatRoomViewBodyState extends State<ChatRoomViewBody> {
       context,
     ).getChatMessages(chatId: widget.chatData.chatId);
 
+  Future.delayed(Duration(seconds: 1),(){
     getIt<NotificationNumberCubit>().getMyChatNotificationsNumber();
+  });
+  
+   // getIt<NotificationNumberCubit>().getMyChatNotificationsNumber();
 
     me = CacheHelper.getUser()!;
     super.initState();

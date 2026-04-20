@@ -62,6 +62,7 @@ class NotificationNumberCubit extends Cubit<NotificationNumberState> {
       },
       (num) {
         chatNumber = num;
+        log("notifications chat number ${num}");
         emit(NotificationChatNumberSuccess(chatNumber: num));
       },
     );
