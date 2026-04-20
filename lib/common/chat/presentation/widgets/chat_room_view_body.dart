@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_project/common/chat/presentation/view_model/chats_list/chats_lits_cubit.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
+import 'package:grad_project/core/utils/current_screen.dart';
 import 'package:grad_project/core/utils/services/chat/signl_r.dart';
 import 'package:grad_project/patient/features/authentication/data/patient_user_model.dart';
 import 'package:intl/intl.dart';
@@ -32,6 +33,8 @@ class _ChatRoomViewBodyState extends State<ChatRoomViewBody> {
     // getIt<SignalRService>().enterChat(widget.chatData.chatId);
     // getIt<SignalRService>().isInChat = true;
     // getIt<SignalRService>().currentChatId = widget.chatData.chatId;
+     CurrentScreen.chatId = widget.chatData.chatId;
+     
     getIt<SignalRService>().scheduleMarkAsRead(widget.chatData.chatId);
 
     getIt<SignalRService>().enterChat(widget.chatData.chatId);
@@ -65,6 +68,7 @@ class _ChatRoomViewBodyState extends State<ChatRoomViewBody> {
 
   @override
   void dispose() {
+     CurrentScreen.chatId = null;
     getIt<SignalRService>().leaveChat();
     _scrollController.dispose(); // تنظيف الـ controller عند الخروج
     super.dispose();

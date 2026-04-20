@@ -251,4 +251,8 @@ class ChatsLitsCubit extends Cubit<ChatsLitsState> {
       ChatsLitsSuccess(chatsList: List.from(_allChats), isLoadingMore: false),
     );
   }
+
+  Future<void> refreshChatSummary() async {
+  await loadFirstPage();
+}
 }

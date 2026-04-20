@@ -5,6 +5,8 @@ import 'package:grad_project/core/helper/review_dialog.dart';
 import 'package:grad_project/core/helper/snakbar.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/home/categories/view_model/add_review/add_review_cubit.dart';
+import 'package:grad_project/patient/features/home/categories/view_model/service_provider_profile/service_provider_profile_cubit.dart';
+import 'package:grad_project/patient/features/home/categories/view_model/when_add_review/when_add_review_cubit.dart';
 
 class AddReviewField extends StatelessWidget {
   const AddReviewField({
@@ -24,6 +26,8 @@ class AddReviewField extends StatelessWidget {
         }
         else if(state is AddReviewSuccess){
           snackBarMethod(context, "تم اضافه تقييمك");
+
+          context.read<WhenAddReviewCubit>().getReviewsAfterAdd(spId: id);
         }
       },
       builder: (context, state) {
