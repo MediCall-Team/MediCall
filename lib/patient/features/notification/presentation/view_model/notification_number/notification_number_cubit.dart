@@ -69,5 +69,10 @@ class NotificationNumberCubit extends Cubit<NotificationNumberState> {
     _isChatFetching = false;
   }
 
+  Future<void> refreshAllBadges() async {
+  await getMyNotificationsNumber();
+  await getMyChatNotificationsNumber();
+}
+
 
 }

@@ -76,4 +76,9 @@ void markAllAsReadInChat() {
   emit(MessagesListSuccess(messagesList: List.from(allMessages)));
 }
 
+Future<void> refreshIfActive(int? currentChatId) async {
+  if (currentChatId == null) return;
+  await getChatMessages(chatId: currentChatId);
+}
+
 }
