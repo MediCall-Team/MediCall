@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
+import 'package:lottie/lottie.dart';
 
 class AiViewBody extends StatelessWidget {
   const AiViewBody({super.key});
@@ -25,23 +26,10 @@ class AiViewBody extends StatelessWidget {
             Center(
               child: Container(
                 padding: const EdgeInsets.all(2), // للإطار الخارجي إذا أردت
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withOpacity(0.1),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
-                  ],
-                ),
-                child: CircleAvatar(
-                  radius: screenWidth * 0.12, // يتغير حسب حجم الشاشة
-                  backgroundColor: AppTheme.customHeaderCard(context),
-                  child: SvgPicture.asset(
-                    "assets/images/chatbot.svg",
-                    width: screenWidth * 0.12, // حجم الأيقونة متناسب
-                  ),
+               
+                child: LottieBuilder.asset(
+                  "assets/animation/eve.json",
+                  width: screenWidth * 0.4, // حجم الأيقونة متناسب
                 ),
               ),
             ),
