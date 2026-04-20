@@ -58,7 +58,12 @@ class RequestsViewBody extends StatelessWidget {
           },
         ),
       ],
-      child: const PRequestsListView(),
+      child: RefreshIndicator(
+          onRefresh: () async {
+    context.read<PGetRequestsCubit>().loadFirstPage();
+  },
+        
+        child: const PRequestsListView()),
     );
   }
 }

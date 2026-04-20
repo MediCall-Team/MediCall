@@ -5,6 +5,7 @@ import 'package:grad_project/common/chat/presentation/view_model/chats_list/chat
 import 'package:grad_project/common/chat/presentation/view_model/messages_list/messages_list_cubit.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/core/utils/get_it.dart';
+import 'package:grad_project/patient/features/notification/presentation/view_model/notification_number/notification_number_cubit.dart';
 import 'package:signalr_netcore/signalr_client.dart';
 
 class SignalRService {
@@ -184,6 +185,7 @@ class SignalRService {
       if (currentChatId == chatId && isInChat) {
         getIt<MessagesListCubit>().markAllAsReadInChat();
       }
+   //   getIt<NotificationNumberCubit>().getMyChatNotificationsNumber();
        log("MessagesMarkedAsReadd");
     });
 
