@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/cubit/updata_s_p_state.dart';
@@ -40,6 +41,14 @@ class UpdataSPCubit extends Cubit<UpdataSPState> {
       "ProfileImage": image,
       "AreaIds": _areaIds, // ✅ استخدم اللي اتخزن
     };
+
+  if(_areaIds.isNotEmpty){
+  log("areas is not empty");
+  }
+  else{
+     log("areas is empty");
+  }
+    
 
     final result = await repo.updateProviderProfile(body);
 

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 class ProviderProfileModel {
   final String firstName;
   final String lastName;
@@ -31,7 +33,9 @@ class ProviderProfileModel {
             ?.map((e) => DoctorServiceArea.fromJson(e as Map<String, dynamic>))
             .toList() ??
         [];
-
+      
+      log("doctorAreas in model ${doctorAreas.length}");
+      
     return ProviderProfileModel(
       firstName: json['firstName']?.toString() ?? '',
       lastName: json['lastName']?.toString() ?? '',

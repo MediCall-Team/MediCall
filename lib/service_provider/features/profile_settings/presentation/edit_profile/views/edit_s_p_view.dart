@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -195,6 +196,13 @@ class _EditSPContentState extends State<_EditSPContent> {
                 _phoneController.text = profile.phoneNumber ?? '';
                 _priceController.text = profile.price?.toString() ?? '';
                 _bioController.text = profile.bio ?? '';
+
+                 final selectedAreaIds =
+                                    profile.doctorServiceAreas
+                                        ?.map((area) => area.id)
+                                        .toList() ??
+                                    [];
+                context.read<UpdataSPCubit>().setAreas(selectedAreaIds);
               }
 
               return Scaffold(
@@ -343,13 +351,16 @@ class _EditSPContentState extends State<_EditSPContent> {
                                     profile.price ??
                                     0;
                                 final bio = _bioController.text.trim();
-                                final selectedAreaIds =
-                                    profile.doctorServiceAreas
-                                        ?.map((area) => area.id)
-                                        .toList() ??
-                                    [];
+                                // final selectedAreaIds =
+                                //     profile.doctorServiceAreas
+                                //         ?.map((area) => area.id)
+                                //         .toList() ??
+                                //     [];
 
-                                context.read<UpdataSPCubit>().setAreas(selectedAreaIds);
+                                // log("selectedAreaIds.length ${selectedAreaIds.length}");
+                                log("profile.doctorServiceAreas ${profile.doctorServiceAreas.length}");
+
+                              //  context.read<UpdataSPCubit>().setAreas(selectedAreaIds);
                                     
 
                                 context.read<UpdataSPCubit>().updateProfile(

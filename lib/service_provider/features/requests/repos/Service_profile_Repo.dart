@@ -1,4 +1,5 @@
 // Service_profile_Repo.dart
+import 'dart:developer';
 import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
@@ -47,6 +48,7 @@ class SPProfileRepoImpl implements SPProfileRepo {
       }
 
       final profile = ProviderProfileModel.fromJson(jsonMap);
+      log("sp profile in repo ${profile.doctorServiceAreas.length}");
       return Right(profile);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
