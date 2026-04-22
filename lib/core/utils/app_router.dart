@@ -1,24 +1,16 @@
-import 'package:dartz/dartz_streaming.dart';
-import 'package:flutter/material.dart' show Scaffold, Center, SizedBox;
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:grad_project/common/apout_app.dart';
 import 'package:grad_project/common/chat/data/chats_list_model.dart';
 import 'package:grad_project/common/chat/presentation/views/chat_room_view.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
-import 'package:grad_project/core/utils/api/api_consumer.dart';
-import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/core/utils/session_manager.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/screens/ResetPasswordScreen.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/screens/forgot_pass_screen.dart';
-import 'package:grad_project/patient/features/authentication/presentation/views/forget_password/screens/pass_code.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/login_view.dart';
 import 'package:grad_project/patient/features/authentication/presentation/views/patient_sign_up_view.dart';
-import 'package:grad_project/patient/features/authentication/presentation/widgets/login_view_body.dart';
 import 'package:grad_project/patient/features/home/presentation/views/ai_view.dart';
 import 'package:grad_project/service_provider/features/auth/presentation/views/sign_up_view.dart';
-import 'package:grad_project/service_provider/features/auth/presentation/views/step2_view.dart';
-import 'package:grad_project/service_provider/features/auth/presentation/views/step3_view.dart';
-import 'package:grad_project/patient/features/bottom_nav/bottom_nav_view.dart';
+
 import 'package:grad_project/patient/features/bottom_nav/custom_bottom_nav_view.dart';
 import 'package:grad_project/patient/features/home/categories/view/more_categories_view.dart';
 import 'package:grad_project/patient/features/home/categories/view/service_provider_profile_view.dart';
@@ -34,7 +26,6 @@ import 'package:grad_project/service_provider/features/profile_settings/presenta
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/cubit/updata_s_p_cubit.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/views/edit_s_p_view.dart';
 import 'package:grad_project/service_provider/features/profile_settings/presentation/edit_profile/views/s_p_profile.dart';
-import 'package:grad_project/service_provider/features/requests/repos/Service_profile_Repo.dart';
 
 abstract class AppRouter {
   static const String kStartNow = "/start_now";
@@ -61,6 +52,8 @@ abstract class AppRouter {
   static const String kVerifyCodeView = "/verifyCode";
   static const String kSPProfile = '/s_p_profile_view';
   static const String kAI = '/ai_view';
+  static const String kAboutApp = '/about_app';
+
   static final router = GoRouter(
     navigatorKey: SessionManager.navigatorKey,
     initialLocation: "/",
@@ -150,12 +143,12 @@ abstract class AppRouter {
         },
       ),
 
-      GoRoute(path: kChatRoom, builder: (context, state) {
-        final chatData = state.extra as ChatData;
-        return ChatRoomView(
-       chatData: chatData,
-      );}
-      
+      GoRoute(
+        path: kChatRoom,
+        builder: (context, state) {
+          final chatData = state.extra as ChatData;
+          return ChatRoomView(chatData: chatData);
+        },
       ),
       GoRoute(
         path: kServiceProvider,
@@ -185,9 +178,8 @@ abstract class AppRouter {
         },
       ),
 
-
       GoRoute(path: kAI, builder: (context, state) => AiView()),
-
+      GoRoute(path: kAboutApp, builder: (context, state) => AboutAppView()),
     ],
   );
 }
