@@ -7,7 +7,7 @@ import 'package:image_picker/image_picker.dart';
 
 class UploadImageButton extends StatefulWidget {
   final Function(File) onImageSelected;
-  final String? image; // 👈 الصورة الجاية من API
+  final String? image;
 
   const UploadImageButton({
     super.key,
@@ -58,7 +58,6 @@ class _UploadImageButtonState extends State<UploadImageButton> {
     if (cropped == null) return;
 
     File file = File(cropped.path);
-
     file = await compressImage(file);
 
     setState(() {
@@ -114,7 +113,8 @@ class _UploadImageButtonState extends State<UploadImageButton> {
             ),
             child: ClipOval(
               child: selectedImage != null
-                  /// ✅ لو المستخدم اختار صورة
+
+                  /// ✅ صورة من المستخدم
                   ? Image.file(
                       selectedImage!,
                       fit: BoxFit.cover,
@@ -122,8 +122,8 @@ class _UploadImageButtonState extends State<UploadImageButton> {
                       height: double.infinity,
                     )
 
-                  /// ✅ لو في صورة جاية من API
-                  : widget.image != null && widget.image!.isNotEmpty
+                  /// ✅ صورة من API
+                  : (widget.image != null && widget.image!.isNotEmpty)
                       ? Image.network(
                           widget.image!,
                           fit: BoxFit.cover,

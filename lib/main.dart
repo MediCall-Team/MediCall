@@ -5,8 +5,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:grad_project/common/chat/presentation/view_model/chats_list/chats_lits_cubit.dart';
 import 'package:grad_project/common/chat/presentation/view_model/messages_list/messages_list_cubit.dart';
+import 'package:grad_project/core/app_lifecycle.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
+import 'package:grad_project/core/utils/current_screen.dart';
 import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/core/utils/services/noti/local_notification_services.dart';
 import 'package:grad_project/core/utils/services/noti/push_notification_services.dart';
@@ -50,8 +52,44 @@ void main() async {
   );
 }
 
-class MediApp extends StatelessWidget {
+class MediApp extends StatefulWidget {
   const MediApp({super.key});
+
+  @override
+  State<MediApp> createState() => _MediAppState();
+}
+
+class _MediAppState extends State<MediApp> with WidgetsBindingObserver{
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (state == AppLifecycleState.resumed) {
+
+  // 1️⃣ always light weight
+  context.read<NotificationNumberCubit>().refreshAllBadges();
+  context.read<ChatsLitsCubit>().refreshChatSummary();
+
+  // 2️⃣ conditional (messages)
+  if (CurrentScreen.chatId != null) {
+    context.read<MessagesListCubit>()
+      .refreshIfActive(CurrentScreen.chatId);
+  }
+}
+  }
+  
+
 
   @override
   Widget build(BuildContext context) {

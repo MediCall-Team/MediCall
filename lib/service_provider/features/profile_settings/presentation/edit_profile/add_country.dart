@@ -110,7 +110,7 @@ class _AddCountryContentState extends State<_AddCountryContent> {
           }
 
           return Scaffold(
-            backgroundColor: Colors.white,
+          //  backgroundColor: Colors.white,
             body: Directionality(
               textDirection: TextDirection.rtl,
               child: SafeArea(

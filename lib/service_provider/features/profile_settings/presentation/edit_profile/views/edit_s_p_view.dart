@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,11 +30,11 @@ class _EditSPViewState extends State<EditSPView> {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(
-          create: (context) =>
-              GitSPCubit(SPProfileRepoImpl(getIt<ApiConsumer>()))
-                ..getProviderProfile(),
-        ),
+        // BlocProvider(
+        //   create: (context) =>
+        //       GitSPCubit(SPProfileRepoImpl(getIt<ApiConsumer>()))
+        //         ..getProviderProfile(),
+        // ),
         BlocProvider(
           create: (context) =>
               UpdataSPCubit(SPProfileRepoImpl(getIt<ApiConsumer>())),
@@ -157,7 +158,7 @@ class _EditSPContentState extends State<_EditSPContent> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UpdataSPCubit, UpdataSPState>(
-      listener: (context, updateState) {
+      listener: (context, updateState) async{
         if (updateState is UpdataSPSuccess) {
           // ScaffoldMessenger.of(context).showSnackBar(
           //   const SnackBar(content: Text('تم تحديث البيانات بنجاح')),
@@ -166,7 +167,7 @@ class _EditSPContentState extends State<_EditSPContent> {
           snackBarMethod(context, 'تم تحديث البيانات بنجاح');
 
           // ✅ استدعاء الجيت عشان يعمل refresh للبيانات
-          context.read<GitSPCubit>().getProviderProfile();
+         await context.read<GitSPCubit>().getProviderProfile();
 
           // ✅ رجوع للصفحة السابقة (البروفايل)
           Navigator.pop(context);
@@ -195,6 +196,13 @@ class _EditSPContentState extends State<_EditSPContent> {
                 _phoneController.text = profile.phoneNumber ?? '';
                 _priceController.text = profile.price?.toString() ?? '';
                 _bioController.text = profile.bio ?? '';
+
+                 final selectedAreaIds =
+                                    profile.doctorServiceAreas
+                                        ?.map((area) => area.id)
+                                        .toList() ??
+                                    [];
+                context.read<UpdataSPCubit>().setAreas(selectedAreaIds);
               }
 
               return Scaffold(
@@ -209,6 +217,7 @@ class _EditSPContentState extends State<_EditSPContent> {
                     children: [
                       const SizedBox(height: 10),
                       UploadImageButton(
+                    image:profile.image,
                   onImageSelected: (image) {
                     _pickedImage = image;
                   },
@@ -342,11 +351,17 @@ class _EditSPContentState extends State<_EditSPContent> {
                                     profile.price ??
                                     0;
                                 final bio = _bioController.text.trim();
-                                final selectedAreaIds =
-                                    profile.doctorServiceAreas
-                                        ?.map((area) => area.id)
-                                        .toList() ??
-                                    [];
+                                // final selectedAreaIds =
+                                //     profile.doctorServiceAreas
+                                //         ?.map((area) => area.id)
+                                //         .toList() ??
+                                //     [];
+
+                                // log("selectedAreaIds.length ${selectedAreaIds.length}");
+                                log("profile.doctorServiceAreas ${profile.doctorServiceAreas.length}");
+
+                              //  context.read<UpdataSPCubit>().setAreas(selectedAreaIds);
+                                    
 
                                 context.read<UpdataSPCubit>().updateProfile(
                                   firstName: firstName,
@@ -359,6 +374,7 @@ class _EditSPContentState extends State<_EditSPContent> {
                                   bio: bio,
                                   image: _pickedImage,
                                 );
+                                
                               },
                         style: _buttonStyle(),
                         child: updateState is UpdataSPLoading

@@ -137,7 +137,12 @@ getIt<SignalRService>().disconnect();
                 if (state is ChatsLitsLoading) {
                   return ListView.builder(
                     itemCount: 8,
-                    itemBuilder: (context, index) => const ReusableShimmer(),
+                    itemBuilder: (context, index) => Column(
+                      children: [
+                        const ReusableShimmer(),
+                        SizedBox(height: 10,)
+                      ],
+                    ),
                   );
                 } else if (state is ChatsLitsSuccess) {
                   final chats = state.chatsList;

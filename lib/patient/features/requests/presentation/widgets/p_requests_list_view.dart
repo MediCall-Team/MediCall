@@ -135,11 +135,9 @@ class _PRequestsListViewState extends State<PRequestsListView>
 
                 return ListView.builder(
                   controller: _scrollController,
-
-                  physics: const AlwaysScrollableScrollPhysics(
-                    parent: BouncingScrollPhysics(),
-                  ),
-
+                    physics: const AlwaysScrollableScrollPhysics(
+    parent: BouncingScrollPhysics(),
+  ),
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   itemCount:
                       state.requests.length + (state.isLoadingMore ? 1 : 0),

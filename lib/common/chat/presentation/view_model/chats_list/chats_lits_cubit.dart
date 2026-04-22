@@ -236,6 +236,8 @@ class ChatsLitsCubit extends Cubit<ChatsLitsState> {
     required int chatId,
     required bool isClosed,
   }) {
+        log("change chat state cubit ");
+
     final index = _allChats.indexWhere((c) => c.chatId == chatId);
     if (index == -1) return;
 
@@ -243,8 +245,14 @@ class ChatsLitsCubit extends Cubit<ChatsLitsState> {
 
     _allChats[index] = updated;
 
+      log("change chat state success cubit ${updated.chatId}");
+
     emit(
       ChatsLitsSuccess(chatsList: List.from(_allChats), isLoadingMore: false),
     );
   }
+
+  Future<void> refreshChatSummary() async {
+  await loadFirstPage();
+}
 }

@@ -6,7 +6,9 @@ import 'package:grad_project/core/utils/styles.dart';
 import 'package:grad_project/patient/features/home/categories/repo/categories_repo.dart';
 import 'package:grad_project/patient/features/home/categories/view_model/add_review/add_review_cubit.dart';
 import 'package:grad_project/patient/features/home/categories/view_model/create_request/create_request_cubit.dart';
+import 'package:grad_project/patient/features/home/categories/view_model/repo/MoreReviewRepo.dart';
 import 'package:grad_project/patient/features/home/categories/view_model/service_provider_profile/service_provider_profile_cubit.dart';
+import 'package:grad_project/patient/features/home/categories/view_model/when_add_review/when_add_review_cubit.dart';
 import 'package:grad_project/patient/features/home/categories/widgets/servire_provider_profile_view_body.dart';
 
 class ServiceProviderProfileView extends StatelessWidget {
@@ -18,7 +20,8 @@ class ServiceProviderProfileView extends StatelessWidget {
       providers: [
         BlocProvider( create: (context) => ServiceProviderProfileCubit(getIt<CategoriesRepo>()),),
         BlocProvider(create: (context)=>AddReviewCubit(getIt<CategoriesRepo>())),
-         BlocProvider(create: (context)=>CreateRequestCubit(getIt<CategoriesRepo>()))
+         BlocProvider(create: (context)=>CreateRequestCubit(getIt<CategoriesRepo>())),
+         BlocProvider(create: (context)=>WhenAddReviewCubit(getIt<MoreReviewRepo>()))
       ],
       child: Scaffold(
         appBar: AppBar(
