@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:grad_project/core/helper/reusable_dialog.dart';
-import 'package:grad_project/core/helper/snakbar.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/map/location_services.dart';
 import 'package:grad_project/patient/features/home/categories/data/create_request_model.dart';
@@ -35,7 +34,8 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
 
   double? lat;
   double? long;
-  bool isLocationLoading = false; // حالة تحميل الموقع
+  bool isLocationLoading = false;
+  String? _validationMessage;
 
   @override
   void dispose() {
@@ -52,7 +52,12 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
-    if (picked != null) setState(() => selectedDate = picked);
+    if (picked != null) {
+      setState(() {
+        selectedDate = picked;
+        _validationMessage = null;
+      });
+    }
   }
 
   Future<void> _pickTime() async {
@@ -60,26 +65,35 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
       context: context,
       initialTime: TimeOfDay.now(),
     );
-    if (picked != null) setState(() => selectedTime = picked);
+    if (picked != null) {
+      setState(() {
+        selectedTime = picked;
+        _validationMessage = null;
+      });
+    }
   }
 
   Future<void> getLocation() async {
-    setState(() => isLocationLoading = true);
+    setState(() {
+      isLocationLoading = true;
+      _validationMessage = null;
+    });
     try {
       final locationData = await LocationService().getLocationData();
       setState(() {
         lat = locationData["lat"];
         long = locationData["long"];
       });
-      if (mounted) {
-        // ScaffoldMessenger.of(context).showSnackBar(
-        //   const SnackBar(content: Text("تم تحديد موقعك بنجاح")),
-        // );
-      }
     } on LocationServiceException {
-      _showErrorDialog("خدمة الموقع مغلقة", "يجب تفعيل GPS على جهازك لتحديد الموقع.");
+      _showErrorDialog(
+        "خدمة الموقع مغلقة",
+        "يجب تفعيل GPS على جهازك لتحديد الموقع.",
+      );
     } on LocationPermissionException {
-      _showErrorDialog("صلاحية الموقع مرفوضة", "يجب السماح بالوصول للموقع.");
+      _showErrorDialog(
+        "صلاحية الموقع مرفوضة",
+        "يجب السماح بالوصول للموقع.",
+      );
     } catch (e) {
       _showErrorDialog("حدث خطأ", e.toString());
     } finally {
@@ -90,10 +104,7 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
   void _showErrorDialog(String title, String content) {
     showDialog(
       context: context,
-      builder: (context) => ReusableDialog(
-        title: title,
-        content: content,
-      ),
+      builder: (context) => ReusableDialog(title: title, content: content),
     );
   }
 
@@ -126,7 +137,7 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
                 ),
               ),
               const SizedBox(height: 20),
-              
+
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -134,6 +145,10 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
                     child: BookingTextField(
                       hint: "الاسم الأول",
                       controller: firstNameController,
+                       onChanged: (_) {
+                    // 👈
+                    setState(() => _validationMessage = null); 
+                  },
                     ),
                   ),
                   const SizedBox(width: 10),
@@ -141,19 +156,27 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
                     child: BookingTextField(
                       hint: "الاسم الأخير",
                       controller: lastNameController,
+                       onChanged: (_) {
+                    // 👈
+                    setState(() => _validationMessage = null); 
+                  },
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: 15),
-              
+
               BookingTextField(
                 hint: "وصف الحالة",
                 maxLines: 3,
                 controller: descriptionController,
+                 onChanged: (_) {
+                    // 👈
+                    setState(() => _validationMessage = null); 
+                  },
               ),
               const SizedBox(height: 15),
-              
+
               Row(
                 children: [
                   Expanded(
@@ -178,79 +201,124 @@ class _BookingBottomSheetState extends State<BookingBottomSheet> {
                 ],
               ),
               const SizedBox(height: 20),
-              
-              // مؤشر تحميل الموقع أو الأيقونة
-              isLocationLoading 
-                ? const SizedBox(
-                    height: 30, 
-                    width: 30, 
-                    child: CircularProgressIndicator(strokeWidth: 2)
-                  )
-                : GestureDetector(
-                    onTap: getLocation,
-                    child: Icon(
-                      lat != null ? Icons.location_on : Icons.location_on_outlined,
-                      color: lat != null ? Colors.green : AppTheme.brandColor(context),
-                      size: widget.screenWidth * 0.08,
+
+              isLocationLoading
+                  ? const SizedBox(
+                      height: 30,
+                      width: 30,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : GestureDetector(
+                      onTap: getLocation,
+                      child: Icon(
+                        lat != null
+                            ? Icons.location_on
+                            : Icons.location_on_outlined,
+                        color: lat != null
+                            ? Colors.green
+                            : AppTheme.brandColor(context),
+                        size: widget.screenWidth * 0.08,
+                      ),
                     ),
-                  ),
-              const SizedBox(height: 25),
-              
+              const SizedBox(height: 20),
+
+              // رسالة الخطأ الداخلية
+              AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                child: _validationMessage != null
+                    ? Container(
+                        key: ValueKey(_validationMessage),
+                        width: double.infinity,
+                        margin: const EdgeInsets.only(bottom: 12),
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 14,
+                          vertical: 10,
+                        ),
+                        decoration: BoxDecoration(
+                          color: Colors.red.shade50,
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(color: Colors.red.shade200),
+                        ),
+                        child: Row(
+                          children: [
+                            const Icon(
+                              Icons.error_outline,
+                              color: Colors.red,
+                              size: 18,
+                            ),
+                            const SizedBox(width: 8),
+                            Expanded(
+                              child: Text(
+                                _validationMessage!,
+                                style: const TextStyle(
+                                  color: Colors.red,
+                                  fontFamily: "Tajawal",
+                                  fontSize: 13,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      )
+                    : const SizedBox.shrink(),
+              ),
+
               Row(
                 children: [
                   Expanded(
                     child: BookingActionButton(
-                      text: isLocationLoading ? "جاري جلب الموقع..." : "تأكيد الحجز",
-                      color: isLocationLoading ? Colors.grey : const Color(0xff40B1D8),
+                      text: isLocationLoading
+                          ? "جاري جلب الموقع..."
+                          : "تأكيد الحجز",
+                      color: isLocationLoading
+                          ? Colors.grey
+                          : const Color(0xff40B1D8),
                       textColor: Colors.white,
-                      onTap: isLocationLoading ? null : () {
-                        // 1. تشغيل الـ Validation للحقول النصية
-                        if (formKey.currentState!.validate()) {
-                          
-                          // 2. التحقق من التاريخ والوقت والموقع يدوياً
-                          if (selectedDate == null || selectedTime == null) {
-                            // ScaffoldMessenger.of(context).showSnackBar(
-                            //   const SnackBar(content: Text("يرجى اختيار التاريخ والوقت")),
-                            // );
-                            snackBarMethod(context, "يرجى اختيار التاريخ والوقت");
-                            return;
-                          }
+                      onTap: isLocationLoading
+                          ? null
+                          : () {
+                              setState(() => _validationMessage = null);
 
-                          if (lat == null || long == null) {
-                            // ScaffoldMessenger.of(context).showSnackBar(
-                            //   const SnackBar(content: Text("يرجى تحديد موقعك أولاً")),
-                            // );
-                            snackBarMethod(context, "يرجى تحديد موقعك أولاً");
-                            return;
-                          }
+                              if (formKey.currentState!.validate()) {
+                                if (selectedDate == null ||
+                                    selectedTime == null) {
+                                  setState(() => _validationMessage =
+                                      "يرجى اختيار التاريخ والوقت");
+                                  return;
+                                }
 
-                          // 3. دمج التاريخ والوقت وتحويلهم لـ UTC
-                          final finalDateTime = DateTime(
-                            selectedDate!.year,
-                            selectedDate!.month,
-                            selectedDate!.day,
-                            selectedTime!.hour,
-                            selectedTime!.minute,
-                          );
+                                if (lat == null || long == null) {
+                                  setState(() => _validationMessage =
+                                      "يرجى تحديد موقعك أولاً");
+                                  return;
+                                }
 
-                          // 4. إنشاء الموديل
-                          final requestModel = CreateRequestModel(
-                            serviceProviderId: widget.serviceProviderId,
-                            patientFirstName: firstNameController.text,
-                            patientLastName: lastNameController.text,
-                            description: descriptionController.text,
-                            scheduledDate: finalDateTime,
-                            latitude: lat!,
-                            longitude: long!,
-                          );
+                                final finalDateTime = DateTime(
+                                  selectedDate!.year,
+                                  selectedDate!.month,
+                                  selectedDate!.day,
+                                  selectedTime!.hour,
+                                  selectedTime!.minute,
+                                );
 
-                          // 5. إرسال للـ Cubit وغلق الـ Sheet
-                          context.read<CreateRequestCubit>().createRequest(
-                            createRequestModel: requestModel,
-                          );
-                          Navigator.pop(context);
-                        }
-                      },
+                                final requestModel = CreateRequestModel(
+                                  serviceProviderId: widget.serviceProviderId,
+                                  patientFirstName: firstNameController.text,
+                                  patientLastName: lastNameController.text,
+                                  description: descriptionController.text,
+                                  scheduledDate: finalDateTime,
+                                  latitude: lat!,
+                                  longitude: long!,
+                                );
+
+                                context
+                                    .read<CreateRequestCubit>()
+                                    .createRequest(
+                                      createRequestModel: requestModel,
+                                    );
+                                Navigator.pop(context);
+                              }
+                            },
                     ),
                   ),
                   const SizedBox(width: 15),
@@ -278,7 +346,12 @@ class BookingSelectableBox extends StatelessWidget {
   final IconData icon;
   final VoidCallback? onTap;
 
-  const BookingSelectableBox({super.key, required this.hint, required this.icon, this.onTap});
+  const BookingSelectableBox({
+    super.key,
+    required this.hint,
+    required this.icon,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -293,7 +366,14 @@ class BookingSelectableBox extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(hint, style: const TextStyle(color: Colors.grey, fontFamily: "Tajawal", fontSize: 12)),
+            Text(
+              hint,
+              style: const TextStyle(
+                color: Colors.grey,
+                fontFamily: "Tajawal",
+                fontSize: 12,
+              ),
+            ),
             Icon(icon, color: AppTheme.brandColor(context), size: 18),
           ],
         ),
@@ -301,215 +381,3 @@ class BookingSelectableBox extends StatelessWidget {
     );
   }
 }
-
-
-
-// import 'package:flutter/material.dart';
-// import 'package:grad_project/constants.dart';
-// import 'package:grad_project/core/helper/reusable_dialog.dart';
-// import 'package:grad_project/core/utils/app_theme.dart';
-// import 'package:grad_project/core/utils/map/location_services.dart';
-// import 'package:grad_project/patient/features/home/categories/widgets/booking_action_button.dart';
-// import 'package:grad_project/patient/features/home/categories/widgets/booking_text_field.dart';
-
-
-// class BookingBottomSheet extends StatefulWidget {
-//   final double screenWidth;
-//   const BookingBottomSheet({super.key, required this.screenWidth});
-
-//   @override
-//   State<BookingBottomSheet> createState() => _BookingBottomSheetState();
-// }
-
-// class _BookingBottomSheetState extends State<BookingBottomSheet> {
-//   DateTime? selectedDate;
-//   TimeOfDay? selectedTime;
-
-
-//   // دالة اختيار التاريخ
-//   Future<void> _pickDate() async {
-//     DateTime? picked = await showDatePicker(
-//       context: context,
-//       initialDate: DateTime.now(),
-//       firstDate: DateTime.now(), // يمنع اختيار أي تاريخ قديم
-//       lastDate: DateTime.now().add(const Duration(days: 365)),
-//     );
-//     if (picked != null) setState(() => selectedDate = picked);
-//   }
-
-//   // دالة اختيار الوقت
-//   Future<void> _pickTime() async {
-//     TimeOfDay? picked = await showTimePicker(
-//       context: context,
-//       initialTime: TimeOfDay.now(),
-//     );
-//     if (picked != null) setState(() => selectedTime = picked);
-//   }
-
-
-  
-//   double? lat;
-//   double? long;
-//   GlobalKey<FormState> formKey = GlobalKey();
-
-//   Future<void> getLocation() async {
-//     try {
-//       // جلب الموقع باستخدام LocationService
-//       final locationData = await LocationService().getLocationData();
-
-//       lat = locationData["lat"];
-//       long = locationData["long"];
-
-//       // تحديث الـ TextField بالعناوين
-     
-
-//     } on LocationServiceException {
-//       // GPS مغلق
-//     showDialog(
-//   context: context,
-//   builder: (context) => ReusableDialog(
-//     title: "خدمة الموقع مغلقة",
-//     content: "يجب تفعيل GPS على جهازك لتحديد الموقع.",
-//   ),
-// );
-//     } on LocationPermissionException {
-//       // صلاحية الموقع مرفوضة
-//     showDialog(
-//   context: context,
-//   builder: (context) => ReusableDialog(
-//     title: "صلاحية الموقع مرفوضة",
-//     content:  "يجب السماح للتطبيق بالوصول إلى الموقع لتحديد موقعك.",
-//   ),
-// );
-
-
-//     } catch (e) {
-//   showDialog(
-//   context: context,
-//   builder: (context) => ReusableDialog(
-//     title: "حدث خطأ",
-//     content: e.toString(),
-//   ),
-// );
-      
-//     }
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       padding: EdgeInsets.only(
-//         left: 20, right: 20, top: 20,
-//         bottom: MediaQuery.of(context).viewInsets.bottom + 20,
-//       ),
-//       decoration:  BoxDecoration(
-//         color:AppTheme.surfaceContainer(context) ,//Color(0xffE1F2F8),
-//         borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
-//       ),
-//       child: Column(
-//         mainAxisSize: MainAxisSize.min,
-//         children: [
-//           Text(
-//             "تفاصيل الحجز",
-//             style: TextStyle(
-//               fontSize: (widget.screenWidth * 0.05).clamp(18, 22),
-//               fontWeight: FontWeight.bold,
-//               color:AppTheme.mainContrast(context) ,//const Color(0xff1F3E6C),
-//               fontFamily: "Tajawal",
-//             ),
-//           ),
-//           const SizedBox(height: 20),
-//           const BookingTextField(hint: "وصف الحالة", maxLines: 3),
-//           const SizedBox(height: 15),
-//           Row(
-//             children: [
-//               Expanded(
-//                 child: BookingSelectableBox(
-//                   hint: selectedTime == null ? "اختيار الوقت" : selectedTime!.format(context),
-//                   icon: Icons.access_time,
-//                   onTap: _pickTime,
-//                 ),
-//               ),
-//               const SizedBox(width: 15),
-//               Expanded(
-//                 child: BookingSelectableBox(
-//                   hint: selectedDate == null ? "اختيار التاريخ" : "${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}",
-//                   icon: Icons.calendar_today_outlined,
-//                   onTap: _pickDate,
-//                 ),
-//               ),
-//             ],
-//           ),
-//           const SizedBox(height: 20),
-//           Icon(Icons.location_on, color:AppTheme.brandColor(context) ,// const Color(0xff1F3E6C),
-//            size: widget.screenWidth * 0.08),
-//           const SizedBox(height: 25),
-//           Row(
-//             children: [
-//               Expanded(
-//                 child: BookingActionButton(
-//                   text: "تأكيد الحجز",
-//                   color: const Color(0xff40B1D8),
-//                   textColor: Colors.white,
-//                   onTap: () {
-//                     if (selectedDate == null || selectedTime == null) {
-//                       // تنبيه المستخدم لاختيار البيانات
-//                       ScaffoldMessenger.of(context).showSnackBar(
-//                         const SnackBar(content: Text("يرجى اختيار التاريخ والوقت أولاً")),
-//                       );
-//                     } else {
-//                       // تنفيذ الحجز
-//                     }
-//                   },
-//                 ),
-//               ),
-//               const SizedBox(width: 15),
-//               Expanded(
-//                 child: BookingActionButton(
-//                   text: "إلغاء",
-//                   color: Colors.white,
-//                   textColor: const Color(0xff1F3E6C),
-//                   hasBorder: true,
-//                   onTap: () => Navigator.pop(context),
-//                 ),
-//               ),
-//             ],
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-// class BookingSelectableBox extends StatelessWidget {
-//   final String hint;
-//   final IconData icon;
-//   final VoidCallback? onTap;
-
-//   const BookingSelectableBox({super.key, required this.hint, required this.icon, this.onTap});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return GestureDetector(
-//       onTap: onTap,
-//       child: Container(
-//         padding: const EdgeInsets.all(12),
-//         decoration: BoxDecoration(
-//          // color: Colors.white.withOpacity(0.5),
-//           borderRadius: BorderRadius.circular(15),
-//           border: Border.all(color: AppTheme.brandColor(context), width: 0.8),
-          
-//         ),
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//           children: [
-          
-//             Text(hint, style: const TextStyle(color: Colors.grey, fontFamily: "Tajawal")),
-//               Icon(icon, color:AppTheme.brandColor(context) ,//const Color(0xff1F3E6C), 
-//               size: 20),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }

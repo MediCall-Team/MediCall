@@ -7,6 +7,7 @@ class CustomTextField4 extends StatefulWidget {
   final bool isExpanded;
   final TextEditingController controller;
   final VoidCallback? onSuffixTap;
+  final bool isLoading;
 
   const CustomTextField4({
     super.key,
@@ -14,6 +15,7 @@ class CustomTextField4 extends StatefulWidget {
     required this.suffixIcon,
     required this.controller,
     this.onSuffixTap,
+    required this.isLoading,
     this.isExpanded = false,
   });
 
@@ -43,6 +45,7 @@ class _CustomTextField4State extends State<CustomTextField4> {
           key: _formKey,
           controller: widget.controller,
           readOnly: true,
+           onTap: widget.onSuffixTap, 
           textAlign: TextAlign.right,
           style: const TextStyle(color: Colors.grey, fontSize: 15),
           autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -54,13 +57,22 @@ class _CustomTextField4State extends State<CustomTextField4> {
           decoration: InputDecoration(
             labelText: widget.hintText,
             labelStyle: const TextStyle(color: Colors.grey, fontSize: 14),
-            suffixIcon: Transform.rotate(
-              angle: widget.isExpanded ? -1.5708 : 0.0,
-              child: IconButton(
-                onPressed: widget.onSuffixTap,
-                icon: Icon(widget.suffixIcon, color: Colors.grey, size: 18),
-              ),
-            ),
+            suffixIcon:  widget.isLoading
+    ? const Padding(
+        padding: EdgeInsets.all(10),
+        child: SizedBox(
+          width: 15,
+          height: 15,
+          child: CircularProgressIndicator(strokeWidth: 2,color: Colors.grey,padding: EdgeInsets.all(5),),
+        ),
+      )
+    : Transform.rotate(
+        angle: widget.isExpanded ? -1.5708 : 0.0,
+        child: IconButton(
+          onPressed: widget.onSuffixTap,
+          icon: Icon(widget.suffixIcon, color: Colors.grey, size: 18),
+        ),
+      ),
             isDense: true,
             contentPadding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
             enabledBorder: OutlineInputBorder(

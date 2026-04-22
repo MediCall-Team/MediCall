@@ -9,7 +9,6 @@ import 'package:grad_project/patient/features/authentication/presentation/widget
 import 'package:grad_project/patient/features/authentication/presentation/widgets/custom_botton2.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/custom_text_field3.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/custom_textfield4.dart';
-import 'package:grad_project/service_provider/features/auth/presentation/widgets/step3_view_body.dart';
 import 'package:grad_project/patient/features/authentication/presentation/widgets/steps.dart';
 import 'package:grad_project/service_provider/features/auth/data/s_p_regester_model.dart';
 import 'package:grad_project/service_provider/features/auth/presentation/view_model/sp_register_cubit/sp_register_cubit.dart';
@@ -30,49 +29,50 @@ class _Step2ViewState extends State<Step2ViewBody> {
   double? lat;
   double? long;
   GlobalKey<FormState> formKey = GlobalKey();
+bool isLoadingLocation = false;
+ Future<void> getLocation() async {
+  setState(() {
+    isLoadingLocation = true;
+  });
 
-  Future<void> getLocation() async {
-    try {
-      // جلب الموقع باستخدام LocationService
-      final locationData = await LocationService().getLocationData();
+  try {
+    final locationData = await LocationService().getLocationData();
 
-      lat = locationData["lat"];
-      long = locationData["long"];
+    lat = locationData["lat"];
+    long = locationData["long"];
 
-      // تحديث الـ TextField بالعناوين
-      locationController.text = locationData["address"];
-    } on LocationServiceException {
-      // GPS مغلق
+    locationController.text = locationData["address"];
+  } on LocationServiceException {
     showDialog(
-  context: context,
-  builder: (context) => ReusableDialog(
-    title: "خدمة الموقع مغلقة",
-    content: "يجب تفعيل GPS على جهازك لتحديد الموقع.",
-  ),
-);
-    } on LocationPermissionException {
-      // صلاحية الموقع مرفوضة
+      context: context,
+      builder: (context) => ReusableDialog(
+        title: "خدمة الموقع مغلقة",
+        content: "يجب تفعيل GPS على جهازك لتحديد الموقع.",
+      ),
+    );
+  } on LocationPermissionException {
     showDialog(
-  context: context,
-  builder: (context) => ReusableDialog(
-    title: "صلاحية الموقع مرفوضة",
-    content:  "يجب السماح للتطبيق بالوصول إلى الموقع لتحديد موقعك.",
-  ),
-);
-
-
-    } catch (e) {
-  showDialog(
-  context: context,
-  builder: (context) => ReusableDialog(
-    title: "حدث خطأ",
-    content: e.toString(),
-  ),
-);
-      
-    }
+      context: context,
+      builder: (context) => ReusableDialog(
+        title: "صلاحية الموقع مرفوضة",
+        content:
+            "يجب السماح للتطبيق بالوصول إلى الموقع لتحديد موقعك.",
+      ),
+    );
+  } catch (e) {
+    showDialog(
+      context: context,
+      builder: (context) => ReusableDialog(
+        title: "حدث خطأ",
+        content: e.toString(),
+      ),
+    );
+  } finally {
+    setState(() {
+      isLoadingLocation = false;
+    });
   }
-
+}
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -107,9 +107,9 @@ class _Step2ViewState extends State<Step2ViewBody> {
                   hintText: 'الموقع',
                   suffixIcon: Icons.location_on,
                   controller: locationController,
-                  onSuffixTap: () async {
+                  onSuffixTap:   () async {
                     await getLocation();
-                  },
+                  }, isLoading: isLoadingLocation,
                 ),
 
                 const SizedBox(height: 12),
@@ -120,16 +120,16 @@ class _Step2ViewState extends State<Step2ViewBody> {
                   suffixIcon: Icons.arrow_forward_ios_rounded,
                   isExpanded: true,
                   controller: specialtyController,
-                  onSuffixTap: () {
-                    showSelectionBottomSheet(
-                      context: context,
-                      items:specialtiesConstList,
-                      onSelect: (value) {
-                        specialtyController.text = value;
-                        setState(() {});
-                      },
-                    );
-                  },
+                  onSuffixTap:  () {
+                  showSelectionBottomSheet(
+                    context: context,
+                    items:specialtiesConstList,
+                    onSelect: (value) {
+                      specialtyController.text = value;
+                      setState(() {});
+                    },
+                  );
+                }, isLoading: false,
                 ),
 
                 const SizedBox(height: 12),
@@ -140,7 +140,7 @@ class _Step2ViewState extends State<Step2ViewBody> {
                   suffixIcon: Icons.arrow_forward_ios_rounded,
                   isExpanded: true,
                   controller: genderController,
-                  onSuffixTap: () {
+                  onSuffixTap:  () {
                     showSelectionBottomSheet(
                       context: context,
                       items: ['ذكر', 'أنثى'],
@@ -148,7 +148,7 @@ class _Step2ViewState extends State<Step2ViewBody> {
                         genderController.text = value;
                       },
                     );
-                  },
+                  }, isLoading: false,
                 ),
 
                 const SizedBox(height: 12),

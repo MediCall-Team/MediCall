@@ -5,7 +5,7 @@ import 'package:grad_project/constants.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/core/helper/snakbar.dart';
 import 'package:grad_project/core/utils/app_router.dart';
-import 'package:grad_project/core/utils/styles.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:grad_project/patient/features/authentication/presentation/view_model/logout_cubit/logout_cubit.dart';
 import 'package:grad_project/patient/features/profile/presentation/widgets/profile_view_body.dart';
 import 'package:grad_project/patient/features/profile/presentation/widgets/user_info.dart';
@@ -77,13 +77,14 @@ class SPProfile extends StatelessWidget {
                           UserInfo(
                             icon: Icons.flag_outlined,
                             title: 'إبلاغ',
-                            onTap: () {},
+                           onTap: () => _showReportDialog(context),
                           ),
                           divider(),
                           UserInfo(
                             icon: Icons.info_outline,
                             title: 'عن التطبيق',
-                            onTap: () {},
+                            onTap: () {
+                               GoRouter.of(context).push(AppRouter.kAboutApp);                           },
                           ),
                           divider(),
                           UserInfo(
@@ -92,7 +93,7 @@ class SPProfile extends StatelessWidget {
                             onTap: () {
                               GoRouter.of(context).push(
                                 AppRouter.kServiceProviderProfile,
-                                extra: 7,
+                                extra:int.parse( CacheHelper.getUser()!.id),
                               );
                             },
                           ),
@@ -148,4 +149,158 @@ class SPProfile extends StatelessWidget {
       ),
     );
   }
+  void _showReportDialog(BuildContext context) {
+  final TextEditingController reportController = TextEditingController();
+
+  showDialog(
+    context: context,
+    builder: (dialogContext) => Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // أيقونة
+            Container(
+              width: 64,
+              height: 64,
+              decoration: BoxDecoration(
+                color: Colors.red.shade50,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.flag_outlined,
+                color: Colors.red,
+                size: 30,
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // العنوان
+            const Text(
+              "إبلاغ",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                fontFamily: "Tajawal",
+                color: Color(0xff1F3E6C),
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            const Text(
+              "اكتب تفاصيل البلاغ وسيتم إرساله مباشرةً",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 13,
+                fontFamily: "Tajawal",
+                color: Colors.grey,
+              ),
+            ),
+            const SizedBox(height: 16),
+
+            // حقل الكتابة
+            TextFormField(
+              controller: reportController,
+              maxLines: 4,
+              textAlign: TextAlign.right,
+              decoration: InputDecoration(
+                hintText: "اكتب بلاغك هنا...",
+                hintStyle: const TextStyle(
+                  fontFamily: "Tajawal",
+                  color: Colors.grey,
+                  fontSize: 13,
+                ),
+                contentPadding: const EdgeInsets.all(12),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Color(0xff1F3E6C), width: 0.8),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: const BorderSide(color: Color(0xff40B1D8), width: 1),
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+
+            // الأزرار
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () => Navigator.pop(dialogContext),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      side: const BorderSide(color: Color(0xff1F3E6C), width: 0.8),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Text(
+                      "إلغاء",
+                      style: TextStyle(
+                        fontFamily: "Tajawal",
+                        color: Color(0xff1F3E6C),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      final message = reportController.text.trim();
+                      if (message.isEmpty) return;
+
+                      final Uri emailUri = Uri(
+                        scheme: 'mailto',
+                        path: 'medicall392026@gmail.com',
+                        query: Uri.encodeFull(
+                          'subject=بلاغ من التطبيق&body=$message',
+                        ),
+                      );
+
+                      if (await canLaunchUrl(emailUri)) {
+                        await launchUrl(emailUri);
+                        if (dialogContext.mounted) {
+                          Navigator.pop(dialogContext);
+                        }
+                      } else {
+                        if (dialogContext.mounted) {
+                          snackBarMethod(
+                            dialogContext,
+                            "لا يوجد تطبيق بريد إلكتروني مثبت",
+                          );
+                        }
+                      }
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff40B1D8),
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Text(
+                      "إرسال",
+                      style: TextStyle(
+                        fontFamily: "Tajawal",
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
 }

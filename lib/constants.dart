@@ -22,7 +22,6 @@ const List<String> specialtiesConstList = [
   "علاج طبيعي",
   "تمريض منزلي",
   'قلب',
-  'أسنان',
 ];
 
 List<CategoryModel> categoriesList = [

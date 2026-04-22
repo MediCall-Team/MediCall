@@ -9,7 +9,11 @@ class UploadImageButton extends StatefulWidget {
   final Function(File) onImageSelected;
   final String? image;
 
-  const UploadImageButton({super.key, required this.onImageSelected,  this.image});
+  const UploadImageButton({
+    super.key,
+    required this.onImageSelected,
+    this.image,
+  });
 
   @override
   State<UploadImageButton> createState() => _UploadImageButtonState();
@@ -26,7 +30,7 @@ class _UploadImageButtonState extends State<UploadImageButton> {
     final compressed = await FlutterImageCompress.compressAndGetFile(
       file.absolute.path,
       targetPath,
-      quality: 70, // نسبة الضغط
+      quality: 70,
     );
 
     return File(compressed!.path);
@@ -35,10 +39,8 @@ class _UploadImageButtonState extends State<UploadImageButton> {
   /// اختيار الصورة
   Future<void> pickImage(ImageSource source) async {
     final XFile? image = await _picker.pickImage(source: source);
-
     if (image == null) return;
 
-    /// crop
     final cropped = await ImageCropper().cropImage(
       sourcePath: image.path,
       aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
@@ -56,8 +58,6 @@ class _UploadImageButtonState extends State<UploadImageButton> {
     if (cropped == null) return;
 
     File file = File(cropped.path);
-
-    /// ضغط الصورة
     file = await compressImage(file);
 
     setState(() {
@@ -113,22 +113,34 @@ class _UploadImageButtonState extends State<UploadImageButton> {
             ),
             child: ClipOval(
               child: selectedImage != null
+
+                  /// ✅ صورة من المستخدم
                   ? Image.file(
                       selectedImage!,
                       fit: BoxFit.cover,
-                      width: 100,
-                      height: 100,
+                      width: double.infinity,
+                      height: double.infinity,
                     )
-                  :
-                   CircleAvatar(
-                    radius: (100 * 0.18).clamp(40, 140),
-                    backgroundColor: Colors.grey[200],
-                    backgroundImage:
-                        (widget.image != null && widget.image!.isNotEmpty)
-                        ? NetworkImage(widget.image!)
-                        : const AssetImage('assets/images/image6.png')
-                              as ImageProvider,
-                  )
+
+                  /// ✅ صورة من API
+                  : (widget.image != null && widget.image!.isNotEmpty)
+                      ? Image.network(
+                          widget.image!,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: double.infinity,
+                          errorBuilder: (_, __, ___) =>
+                              const Icon(Icons.error),
+                        )
+
+                      /// ✅ default
+                      : Center(
+                          child: Image.asset(
+                            'assets/images/image6.png',
+                            width: 60,
+                            height: 60,
+                          ),
+                        ),
             ),
           ),
           const SizedBox(height: 5),

@@ -79,31 +79,120 @@ class ButtonRow extends StatelessWidget {
   }
 
   void _showCancelDialog(BuildContext context) {
-    showDialog(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: const Text("تأكيد الإلغاء"),
-        content: const Text("هل أنت متأكد من إلغاء هذا الطلب؟"),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: const Text("لا"),
-          ),
-          TextButton(
-            onPressed: () {
-              Navigator.pop(dialogContext); // إغلاق الـ Dialog
-              _cancelRequest(context);
-            },
-            child: const Text(
-              "نعم",
-              style: TextStyle(color: Colors.red),
-            ),
-          ),
-        ],
+  showDialog(
+    context: context,
+    builder: (dialogContext) => Dialog(
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(24),
       ),
-    );
-  }
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            // أيقونة تحذير
+            Container(
+              width: 64,
+              height: 64,
+              decoration: BoxDecoration(
+                color: Colors.red.shade50,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                Icons.warning_amber_rounded,
+                color: kPrimaryColorB,
+                size: 32,
+              ),
+            ),
+            const SizedBox(height: 16),
 
+            // العنوان
+            const Text(
+              "تأكيد الإلغاء",
+              style: TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                fontFamily: "Tajawal",
+                color: Color(0xff1F3E6C),
+              ),
+            ),
+            const SizedBox(height: 8),
+
+            // المحتوى
+            const Text(
+              "هل أنت متأكد من إلغاء هذا الطلب؟",
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 14,
+                fontFamily: "Tajawal",
+                color: Colors.grey,
+                height: 1.5,
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            // الأزرار
+            Row(
+              children: [
+                // زر لا
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () => Navigator.pop(dialogContext),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      side: const BorderSide(
+                        color: Color(0xff1F3E6C),
+                        width: 0.8,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Text(
+                      "لا",
+                      style: TextStyle(
+                        fontFamily: "Tajawal",
+                        fontSize: 14,
+                        color: Color(0xff1F3E6C),
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 12),
+
+                // زر نعم
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(dialogContext);
+                      _cancelRequest(context);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: kPrimaryColorB,
+                      padding: const EdgeInsets.symmetric(vertical: 12),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    child: const Text(
+                      "نعم، إلغاء",
+                      style: TextStyle(
+                        fontFamily: "Tajawal",
+                        fontSize: 14,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
  void _cancelRequest(BuildContext context) {
   context.read<CancelRequestCubit>().acceptRequest(request.id);
 }

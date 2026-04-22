@@ -85,7 +85,7 @@ class ChatItem extends StatelessWidget {
               children: [
                 Text(
                   _formatDateTime(chatData.lastMessageDate),
-                  style: const TextStyle(color: Colors.grey, fontSize: 10),
+                  style: const TextStyle(color: Colors.grey, fontSize: 12),
                 ),
                 const SizedBox(height: 5),
                 if (chatData.unreadCount > 0)

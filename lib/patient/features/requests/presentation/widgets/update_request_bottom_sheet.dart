@@ -35,6 +35,7 @@ class _UpdateRequestBottomSheetState extends State<UpdateRequestBottomSheet> {
   double? lat;
   double? long;
   bool isLocationLoading = false;
+  String? _validationMessage;
 
   @override
   void initState() {
@@ -42,60 +43,54 @@ class _UpdateRequestBottomSheetState extends State<UpdateRequestBottomSheet> {
 
     descriptionController.text = widget.request.description ?? '';
 
-    // ✅ طريقة أكثر أماناً للتعامل مع التاريخ
+    // مستمع لإخفاء رسالة الخطأ لما يبدأ الكتابة
+    // descriptionController.addListener(() {
+    //   if (_validationMessage != null && descriptionController.text.isNotEmpty) {
+    //     setState(() => _validationMessage = null);
+    //   }
+    // });
+
+    // parsing التاريخ
     if (widget.request.date != null && widget.request.date.isNotEmpty) {
       try {
-        // جرب عدة صيغ مختلفة
-        String dateString = widget.request.date;
-
-        // لو التاريخ بصيغة "2026-04-23"
+        final dateString = widget.request.date;
         if (dateString.contains('-')) {
           final parts = dateString.split('-');
           if (parts.length == 3) {
-            final year = int.parse(parts[0]);
-            final month = int.parse(parts[1]);
-            final day = int.parse(parts[2]);
-            selectedDate = DateTime(year, month, day);
+            selectedDate = DateTime(
+              int.parse(parts[0]),
+              int.parse(parts[1]),
+              int.parse(parts[2]),
+            );
           }
         } else {
-          // لو بصيغة تانية
-          final dateFormat = DateFormat('yyyy-MM-dd');
-          selectedDate = dateFormat.parse(dateString);
+          selectedDate = DateFormat('yyyy-MM-dd').parse(dateString);
         }
       } catch (e) {
-        print("Error parsing date: $e");
         selectedDate = null;
       }
     }
 
-    // ✅ طريقة أكثر أماناً للوقت
+    // parsing الوقت
     if (widget.request.time != null && widget.request.time.isNotEmpty) {
       try {
-        String timeString = widget.request.time;
-
-        // لو الوقت بصيغة "10:30 AM"
-        final RegExp timeRegex = RegExp(
+        final timeString = widget.request.time;
+        final match = RegExp(
           r'(\d{1,2}):(\d{2})\s*(AM|PM)',
           caseSensitive: false,
-        );
-        final match = timeRegex.firstMatch(timeString);
+        ).firstMatch(timeString);
 
         if (match != null) {
           int hour = int.parse(match.group(1)!);
           final minute = int.parse(match.group(2)!);
           final period = match.group(3)!.toUpperCase();
 
-          if (period == 'PM' && hour != 12) {
-            hour += 12;
-          }
-          if (period == 'AM' && hour == 12) {
-            hour = 0;
-          }
+          if (period == 'PM' && hour != 12) hour += 12;
+          if (period == 'AM' && hour == 12) hour = 0;
 
           selectedTime = TimeOfDay(hour: hour, minute: minute);
         }
       } catch (e) {
-        print("Error parsing time: $e");
         selectedTime = null;
       }
     }
@@ -117,9 +112,11 @@ class _UpdateRequestBottomSheetState extends State<UpdateRequestBottomSheet> {
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(const Duration(days: 365)),
     );
-
     if (picked != null) {
-      setState(() => selectedDate = picked);
+      setState(() {
+        selectedDate = picked;
+        _validationMessage = null;
+      });
     }
   }
 
@@ -128,18 +125,22 @@ class _UpdateRequestBottomSheetState extends State<UpdateRequestBottomSheet> {
       context: context,
       initialTime: selectedTime ?? TimeOfDay.now(),
     );
-
     if (picked != null) {
-      setState(() => selectedTime = picked);
+      setState(() {
+        selectedTime = picked;
+        _validationMessage = null;
+      });
     }
   }
 
   Future<void> getLocation() async {
-    setState(() => isLocationLoading = true);
+    setState(() {
+      isLocationLoading = true;
+      _validationMessage = null;
+    });
 
     try {
       final locationData = await LocationService().getLocationData();
-
       if (mounted) {
         setState(() {
           lat = locationData["lat"];
@@ -148,15 +149,60 @@ class _UpdateRequestBottomSheetState extends State<UpdateRequestBottomSheet> {
       }
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(
-          context,
-        ).showSnackBar(const SnackBar(content: Text("خطأ في تحديد الموقع")));
+        setState(() => _validationMessage = "خطأ في تحديد الموقع");
       }
     } finally {
-      if (mounted) {
-        setState(() => isLocationLoading = false);
-      }
+      if (mounted) setState(() => isLocationLoading = false);
     }
+  }
+
+  void _validateAndUpdate() {
+    setState(() => _validationMessage = null);
+
+    if (formKey.currentState!.validate()) {
+      if (selectedDate == null || selectedTime == null) {
+        setState(() => _validationMessage = "يرجى اختيار التاريخ والوقت");
+        return;
+      }
+
+      if (lat == null || long == null) {
+        setState(() => _validationMessage = "يرجى تحديد موقعك أولاً");
+        return;
+      }
+
+      final finalDateTime = DateTime(
+        selectedDate!.year,
+        selectedDate!.month,
+        selectedDate!.day,
+        selectedTime!.hour,
+        selectedTime!.minute,
+      );
+
+      if (finalDateTime.isBefore(DateTime.now())) {
+        setState(
+          () => _validationMessage = "لا يمكن اختيار تاريخ أو وقت في الماضي",
+        );
+        return;
+      }
+
+      context.read<UpdateRequestCubit>().updateRequest(
+        requestId: widget.request.id,
+        scheduledDate: finalDateTime,
+        latitude: lat!,
+        longitude: long!,
+        description: descriptionController.text,
+      );
+    }
+  }
+
+  String _formatTimeOfDay(TimeOfDay time) {
+    final now = DateTime.now();
+    final dt = DateTime(now.year, now.month, now.day, time.hour, time.minute);
+    return DateFormat('h:mm a').format(dt);
+  }
+
+  String _formatDate(DateTime date) {
+    return DateFormat('yyyy-MM-dd').format(date);
   }
 
   @override
@@ -164,14 +210,10 @@ class _UpdateRequestBottomSheetState extends State<UpdateRequestBottomSheet> {
     return BlocListener<UpdateRequestCubit, UpdateRequestState>(
       listener: (context, state) {
         if (state is UpdateRequestSuccess) {
-          // إغلاق الـ bottom sheet
           Navigator.pop(context);
         }
-
         if (state is UpdateRequestFailure) {
-          ScaffoldMessenger.of(
-            context,
-          ).showSnackBar(SnackBar(content: Text(state.errorMsg)));
+          setState(() => _validationMessage = state.errorMsg);
         }
       },
       child: Container(
@@ -191,6 +233,7 @@ class _UpdateRequestBottomSheetState extends State<UpdateRequestBottomSheet> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
+                // العنوان
                 Text(
                   "تعديل الطلب",
                   style: TextStyle(
@@ -200,19 +243,22 @@ class _UpdateRequestBottomSheetState extends State<UpdateRequestBottomSheet> {
                     fontFamily: "Tajawal",
                   ),
                 ),
-
                 const SizedBox(height: 20),
-
-                /// Description
+                // وفي الـ build غيري الـ BookingTextField لـ:
                 BookingTextField(
                   hint: "وصف الحالة",
                   maxLines: 3,
                   controller: descriptionController,
+                  onChanged: (_) {
+                    // 👈
+                    if (_validationMessage != null) {
+                      setState(() => _validationMessage = null);
+                    }
+                  },
                 ),
-
                 const SizedBox(height: 15),
 
-                /// Time + Date
+                // الوقت والتاريخ
                 Row(
                   children: [
                     Expanded(
@@ -224,9 +270,7 @@ class _UpdateRequestBottomSheetState extends State<UpdateRequestBottomSheet> {
                         onTap: _pickTime,
                       ),
                     ),
-
                     const SizedBox(width: 15),
-
                     Expanded(
                       child: BookingSelectableBox(
                         hint: selectedDate == null
@@ -238,10 +282,9 @@ class _UpdateRequestBottomSheetState extends State<UpdateRequestBottomSheet> {
                     ),
                   ],
                 ),
-
                 const SizedBox(height: 20),
 
-                /// Location
+                // الموقع
                 isLocationLoading
                     ? const SizedBox(
                         height: 30,
@@ -260,10 +303,50 @@ class _UpdateRequestBottomSheetState extends State<UpdateRequestBottomSheet> {
                           size: widget.screenWidth * 0.08,
                         ),
                       ),
+                const SizedBox(height: 20),
 
-                const SizedBox(height: 25),
+                // رسالة الخطأ الداخلية
+                AnimatedSwitcher(
+                  duration: const Duration(milliseconds: 300),
+                  child: _validationMessage != null
+                      ? Container(
+                          key: ValueKey(_validationMessage),
+                          width: double.infinity,
+                          margin: const EdgeInsets.only(bottom: 12),
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 14,
+                            vertical: 10,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.red.shade50,
+                            borderRadius: BorderRadius.circular(12),
+                            border: Border.all(color: Colors.red.shade200),
+                          ),
+                          child: Row(
+                            children: [
+                              const Icon(
+                                Icons.error_outline,
+                                color: Colors.red,
+                                size: 18,
+                              ),
+                              const SizedBox(width: 8),
+                              Expanded(
+                                child: Text(
+                                  _validationMessage!,
+                                  style: const TextStyle(
+                                    color: Colors.red,
+                                    fontFamily: "Tajawal",
+                                    fontSize: 13,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                ),
 
-                /// Buttons
+                // الأزرار
                 Row(
                   children: [
                     Expanded(
@@ -274,9 +357,7 @@ class _UpdateRequestBottomSheetState extends State<UpdateRequestBottomSheet> {
                         onTap: _validateAndUpdate,
                       ),
                     ),
-
                     const SizedBox(width: 15),
-
                     Expanded(
                       child: BookingActionButton(
                         text: "إلغاء",
@@ -295,82 +376,5 @@ class _UpdateRequestBottomSheetState extends State<UpdateRequestBottomSheet> {
         ),
       ),
     );
-  }
-
-  String _formatTimeOfDay(TimeOfDay time) {
-    final now = DateTime.now();
-    final dt = DateTime(now.year, now.month, now.day, time.hour, time.minute);
-    return DateFormat('h:mm a').format(dt);
-  }
-
-  String _formatDate(DateTime date) {
-    return DateFormat('yyyy-MM-dd').format(date);
-  }
-
-  void _validateAndUpdate() {
-    // التحقق من صحة النموذج
-    if (formKey.currentState!.validate()) {
-      // التحقق من التاريخ
-      if (selectedDate == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("يرجى اختيار التاريخ"),
-            backgroundColor: Colors.red,
-          ),
-        );
-        return;
-      }
-
-      // التحقق من الوقت
-      if (selectedTime == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("يرجى اختيار الوقت"),
-            backgroundColor: Colors.red,
-          ),
-        );
-        return;
-      }
-
-      // التحقق من الموقع
-      if (lat == null || long == null) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("يرجى تحديد الموقع"),
-            backgroundColor: Colors.red,
-          ),
-        );
-        return;
-      }
-
-      // دمج التاريخ والوقت
-      final finalDateTime = DateTime(
-        selectedDate!.year,
-        selectedDate!.month,
-        selectedDate!.day,
-        selectedTime!.hour,
-        selectedTime!.minute,
-      );
-
-      // التحقق من أن التاريخ ليس في الماضي
-      if (finalDateTime.isBefore(DateTime.now())) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text("لا يمكن اختيار تاريخ أو وقت في الماضي"),
-            backgroundColor: Colors.red,
-          ),
-        );
-        return;
-      }
-
-      // استدعاء التحديث
-      context.read<UpdateRequestCubit>().updateRequest(
-        requestId: widget.request.id,
-        scheduledDate: finalDateTime,
-        latitude: lat!,
-        longitude: long!,
-        description: descriptionController.text,
-      );
-    }
   }
 }
