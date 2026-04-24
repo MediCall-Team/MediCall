@@ -22,6 +22,7 @@ const List<String> specialtiesConstList = [
   "علاج طبيعي",
   "تمريض منزلي",
   'قلب',
+  'أسنان',
 ];
 
 List<CategoryModel> categoriesList = [
@@ -34,6 +35,9 @@ List<CategoryModel> categoriesList = [
   CategoryModel(name: 'جلدية', icon: "assets/images/skin.png"),
   CategoryModel(name: "تمريض منزلي", icon: "assets/images/nursing.png"),
   CategoryModel(name: "المزيد", icon: "assets/images/Plus.png"),
+  CategoryModel(name: "أطفال", icon: "assets/images/chelderen.png"),
+  CategoryModel(name: "قلب", icon: "assets/images/heart.png"),
+  CategoryModel(name: "أسنان", icon: "assets/images/teeth.png"),
   CategoryModel(name: "طب عام", icon: "assets/images/physical.png"),
   //
 ];

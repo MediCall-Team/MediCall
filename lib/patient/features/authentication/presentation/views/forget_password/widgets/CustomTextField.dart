@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:grad_project/constants.dart';
 
+enum FieldType { email, password, phone, normal }
+
 class CustomTextField2 extends StatefulWidget {
   final String hintText;
   final IconData prefixIcon;
   final bool isPassword;
   final TextEditingController controller;
-  final TextInputType? keyboardType; // إضافة نوع لوحة المفاتيح
+  final TextInputType? keyboardType;
+  final FieldType fieldType;
 
   const CustomTextField2({
     super.key,
@@ -15,6 +18,7 @@ class CustomTextField2 extends StatefulWidget {
     this.isPassword = false,
     required this.controller,
     this.keyboardType,
+    this.fieldType = FieldType.normal,
   });
 
   @override
@@ -29,27 +33,34 @@ class _CustomTextFieldState extends State<CustomTextField2> {
       return "${widget.hintText} مطلوب";
     }
 
-    if (widget.hintText.contains("البريد") &&
-        !RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$').hasMatch(value)) {
-      return "أدخل بريد إلكتروني example@gmail.com";
-    }
+    switch (widget.fieldType) {
+      case FieldType.email:
+        if (!RegExp(r'^[\w\-.]+@([\w\-]+\.)+[\w\-]{2,4}$')
+            .hasMatch(value)) {
+          return "أدخل بريد إلكتروني صحيح";
+        }
+        break;
 
-    RegExp passwordRegex = RegExp(
-      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-]).+$',
-    );
+      case FieldType.password:
+        if (value.length < 6) {
+          return "كلمة المرور يجب أن تكون 6 أحرف على الأقل";
+        }
 
-    if (widget.hintText.contains("كلمة المرور") &&
-        !passwordRegex.hasMatch(value)) {
-      return "كلمة المرور يجب أن تحتوي على حرف كبير وصغير ورقم ورمز";
-    }
+        if (!RegExp(
+          r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#-]).+$',
+        ).hasMatch(value)) {
+          return "يجب أن تحتوي على حرف كبير وصغير ورقم ورمز";
+        }
+        break;
 
-    if (widget.hintText.contains("كلمة المرور") && value.length < 6) {
-      return "كلمة المرور يجب أن تكون 6 أحرف على الأقل";
-    }
+      case FieldType.phone:
+        if (!RegExp(r'^01\d{9}$').hasMatch(value)) {
+          return "أدخل رقم هاتف صحيح";
+        }
+        break;
 
-    if (widget.hintText.contains("رقم الهاتف") &&
-        !RegExp(r'^01\d{9}$').hasMatch(value)) {
-      return "أدخل رقم هاتف صحيح";
+      case FieldType.normal:
+        break;
     }
 
     return null;
@@ -73,21 +84,17 @@ class _CustomTextFieldState extends State<CustomTextField2> {
               child: TextFormField(
                 keyboardType: widget.keyboardType,
                 controller: widget.controller,
-                validator: (value) => validate(value),
-
+                validator: validate,
                 cursorColor: kPrimaryColorB,
                 textAlign: TextAlign.right,
                 obscureText: widget.isPassword ? obscure : false,
-
                 maxLines: 1,
-
                 style: const TextStyle(color: Colors.grey),
-
                 decoration: InputDecoration(
                   labelText: widget.hintText,
-                  labelStyle: const TextStyle(fontSize: 15, color: Colors.grey),
-
-                  errorMaxLines: 3, // 👈 مهم جدًا
+                  labelStyle:
+                      const TextStyle(fontSize: 15, color: Colors.grey),
+                  errorMaxLines: 3,
 
                   prefixIcon: Transform(
                     alignment: Alignment.center,
@@ -102,10 +109,13 @@ class _CustomTextFieldState extends State<CustomTextField2> {
                   suffixIcon: widget.isPassword
                       ? IconButton(
                           icon: Icon(
-                            obscure ? Icons.visibility_off : Icons.visibility,
+                            obscure
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                             color: Colors.grey,
                           ),
-                          onPressed: () => setState(() => obscure = !obscure),
+                          onPressed: () =>
+                              setState(() => obscure = !obscure),
                         )
                       : null,
 

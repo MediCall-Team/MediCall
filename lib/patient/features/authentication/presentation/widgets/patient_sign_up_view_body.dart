@@ -115,6 +115,7 @@ class _PatientSignUpViewBodyState extends State<PatientSignUpViewBody> {
                     controller: phoneController,
                     hintText: 'رقم الهاتف',
                     prefixIcon: Icons.phone_outlined,
+                    keyboardType: TextInputType.numberWithOptions(),
                   ),
 
                   const SizedBox(height: 80),

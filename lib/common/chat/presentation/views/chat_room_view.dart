@@ -64,6 +64,8 @@ class ChatRoomView extends StatelessWidget {
                         return MedicalQuickActions(
                           chatId: chatData.chatId,
                           isClosed: isClosed, // ✅ الصح
+                            patientId: chatData.otherPersonId, // ✅ من الـ ChatData
+
                         );
                       },
                     );
