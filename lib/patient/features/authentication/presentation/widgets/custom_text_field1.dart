@@ -28,22 +28,25 @@ class _CustomTextFieldState extends State<CustomTextField1> {
     }
 
     if (!widget.isPassword) {
-      RegExp emailRegex = RegExp(r'^[\w\-\.]+@([\w\-]+\.)+[\w\-]{2,4}$');
+      /// ✅ Email validation (مظبوط)
+      RegExp emailRegex =
+          RegExp(r'^[\w\-.]+@([\w\-]+\.)+[\w\-]{2,4}$');
 
       if (!emailRegex.hasMatch(value)) {
         return "البريد الإلكتروني غير صحيح";
       }
     } else {
+      /// ✅ Password validation (مظبوط)
       if (value.length < 6) {
-        return "كلمة المرور يجب أن تكون أكثر من 6 أحرف";
+        return "كلمة المرور يجب أن تكون 6 أحرف على الأقل";
       }
 
       RegExp passwordRegex = RegExp(
-        r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-.]).+$',
+        r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#-]).{6,}$',
       );
 
       if (!passwordRegex.hasMatch(value)) {
-        return "كلمة المرور يجب أن تحتوي على حرف كبير وصغير ورقم ورمز";
+        return "يجب أن تحتوي كلمة المرور على حرف كبير وصغير ورقم ورمز";
       }
     }
 

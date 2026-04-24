@@ -1,5 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
+import 'package:grad_project/common/chat/patient_records/presentation/view_model/cubit/patient_record_cubit.dart';
+import 'package:grad_project/common/chat/patient_records/repo/patient_record_repo.dart';
+import 'package:grad_project/common/chat/patient_records/repo/patient_record_repo_imp.dart';
 import 'package:grad_project/common/chat/presentation/view_model/chats_list/chats_lits_cubit.dart';
 import 'package:grad_project/common/chat/presentation/view_model/messages_list/messages_list_cubit.dart';
 import 'package:grad_project/common/chat/repo/chat_repo.dart';
@@ -84,5 +87,12 @@ getIt.registerSingleton<MessagesListCubit>(
 
 getIt.registerSingleton<ChatsLitsCubit>(
   ChatsLitsCubit(getIt<ChatRepo>()),
+  
+);
+getIt.registerLazySingleton<PatientRecordRepo>(
+  () => PatientRecordRepoImp(api: getIt<ApiConsumer>()),
+);
+getIt.registerSingleton<PatientRecordCubit>(
+  PatientRecordCubit(getIt<PatientRecordRepo>()),
 );
 }

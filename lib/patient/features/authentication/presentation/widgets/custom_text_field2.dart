@@ -40,7 +40,7 @@ class _CustomTextFieldState extends State<CustomTextField2>
     }
 
     RegExp passwordRegex = RegExp(
-      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&-.]).+$',
+      r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#-]).+$',
     );
 
     if (widget.hintText.contains("كلمة المرور") && !passwordRegex.hasMatch(value)) {

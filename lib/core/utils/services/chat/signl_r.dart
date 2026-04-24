@@ -26,7 +26,7 @@ class SignalRService {
 
     _connection = HubConnectionBuilder()
         .withUrl(
-          "http://medicall2026.runasp.net/chatHub",
+          "https://medicall2026.runasp.net/chatHub",
           options: HttpConnectionOptions(
             // الحل: أضفنا ?? "" لضمان عدم إرجاع null أبداً
             accessTokenFactory: () async {

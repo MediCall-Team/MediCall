@@ -89,20 +89,19 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                 const SizedBox(height: 10),
 
                 CustomTextField2(
-                  hintText: 'البريد إلكتروني',
-                  prefixIcon: Icons.email_outlined,
+                  hintText: "البريد الإلكتروني",
+                  prefixIcon: Icons.email,
                   controller: emailController,
+                  fieldType: FieldType.email,
                 ),
-
-                const SizedBox(height: 10),
 
                 CustomTextField2(
-                  hintText: 'كلمة المرور',
-                  prefixIcon: Icons.lock_outline,
-                  isPassword: true,
+                  hintText: "كلمة المرور",
+                  prefixIcon: Icons.lock,
                   controller: passwordController,
+                  isPassword: true,
+                  fieldType: FieldType.password,
                 ),
-
                 const SizedBox(height: 10),
 
                 CustomTextField2(

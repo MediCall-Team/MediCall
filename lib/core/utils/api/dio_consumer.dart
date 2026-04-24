@@ -10,7 +10,7 @@ class DioConsumer extends ApiConsumer {
   final Dio dio;
 
   DioConsumer({required this.dio}) {
-    dio.options.baseUrl = "http://medicall2026.runasp.net/";
+    dio.options.baseUrl = "https://medicall2026.runasp.net/";
     dio.interceptors.add(ApiInterceptor());
     dio.interceptors.add(
       LogInterceptor(

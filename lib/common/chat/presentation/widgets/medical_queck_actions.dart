@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:grad_project/common/chat/patient_records/presentation/views/patient_record_view.dart';
 import 'package:grad_project/common/chat/presentation/view_model/chats_list/chats_lits_cubit.dart';
 import 'package:grad_project/core/utils/get_it.dart';
 
@@ -8,10 +9,12 @@ class MedicalQuickActions extends StatelessWidget {
     super.key,
     required this.chatId,
     required this.isClosed,
+    required this.patientId,
   });
 
   final int chatId;
   final bool isClosed;
+  final int patientId; // ✅
 
   @override
   Widget build(BuildContext context) {
@@ -29,26 +32,32 @@ class MedicalQuickActions extends StatelessWidget {
             label: isClosed ? 'فتح الشات' : 'إغلاق الشات',
             color: Colors.blue,
             onTap: () {
-              getIt<ChatsLitsCubit>().toggleChat(
-                    chatId: chatId,
-                    isClosed: isClosed,
-                  );
+              context.read<ChatsLitsCubit>().toggleChat(
+                chatId: chatId,
+                isClosed: isClosed,
+              );
 
-              Navigator.pop(context); // يقفل الـ bottom sheet
+              Navigator.pop(context);
             },
           ),
 
-          Container(
-            width: 1,
-            height: 40,
-            color: Colors.grey.shade200,
-          ),
+          Container(width: 1, height: 40, color: Colors.grey.shade200),
 
           _buildActionButton(
             icon: Icons.assignment_rounded,
             label: 'السجل المرضي',
             color: Colors.teal,
-            onTap: () {},
+            onTap: () {
+              Navigator.pop(context); // اقفل الـ bottom sheet الأول
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (_) => PatientRecordView(
+                    patientId: patientId, // مرريه من الـ constructor
+                  ),
+                ),
+              );
+            },
           ),
         ],
       ),
