@@ -110,6 +110,9 @@ class _UserImageProfileState extends State<UserImageProfile> {
               /// يظهر لو في صورة
               if (selectedImage != null ||
                   (widget.imageUrl != null && widget.imageUrl!.isNotEmpty))
+                
+                if(widget.imageUrl != "https://medicall2026.runasp.net/ImageProfiles/default.jpg")
+                  
                 ListTile(
                   leading: const Icon(Icons.delete, color: Colors.red),
                   title: const Text(
