@@ -47,14 +47,14 @@ class _CustomTextFieldState extends State<CustomTextField2> {
         }
 
         if (!RegExp(
-          r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#-]).+$',
+          r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*_?&#-]).+$',
         ).hasMatch(value)) {
           return "يجب أن تحتوي على حرف كبير وصغير ورقم ورمز";
         }
         break;
 
       case FieldType.phone:
-        if (!RegExp(r'^01\d{9}$').hasMatch(value)) {
+        if (!RegExp(r'^01[0125]\d{8}$').hasMatch(value)) {
           return "أدخل رقم هاتف صحيح";
         }
         break;

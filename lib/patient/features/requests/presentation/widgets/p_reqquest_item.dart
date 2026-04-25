@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:grad_project/constants.dart';
+
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/patient/features/requests/data/model/requests_model.dart';
 import 'package:grad_project/patient/features/requests/presentation/widgets/button_row.dart';
@@ -62,6 +64,7 @@ class _PRequestItemState extends State<PRequestItem> {
           title: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+
               CircleAvatar(
                 radius: (screenWidth * 0.05).clamp(30, 60),
                 backgroundColor: kPrimaryColorB.withValues(alpha: 0.20),

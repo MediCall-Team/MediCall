@@ -42,7 +42,7 @@ class _CustomTextFieldState extends State<CustomTextField1> {
       }
 
       RegExp passwordRegex = RegExp(
-        r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&#-]).{6,}$',
+         r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*_?&#-]).+$',
       );
 
       if (!passwordRegex.hasMatch(value)) {

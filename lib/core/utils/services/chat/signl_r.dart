@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:grad_project/common/chat/data/message_model.dart';
 import 'package:grad_project/common/chat/presentation/view_model/chats_list/chats_lits_cubit.dart';
 import 'package:grad_project/common/chat/presentation/view_model/messages_list/messages_list_cubit.dart';
+import 'package:grad_project/core/app_lifecycle.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
 import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/patient/features/notification/presentation/view_model/notification_number/notification_number_cubit.dart';
@@ -23,6 +24,12 @@ class SignalRService {
     if (_connection?.state == HubConnectionState.Connected) return;
 
     shouldReconnect = true;
+
+    AppLifecycle().onResume.listen((_) {
+  if (isInChat && currentChatId != null) {
+    scheduleMarkAsRead(currentChatId!);
+  }
+});
 
     _connection = HubConnectionBuilder()
         .withUrl(
@@ -103,7 +110,7 @@ class SignalRService {
       } else {
         getIt<MessagesListCubit>().addIncomingMessage(message);
 
-        if (isInChat && currentChatId == message.chatId) {
+        if (isInChat && currentChatId == message.chatId && AppLifecycle().isForeground) {
           log("📖 Automatically marking received message as read in chat: ${message.chatId}");
           scheduleMarkAsRead(message.chatId);
           getIt<MessagesListCubit>().markAllAsReadInChat(); 
@@ -229,14 +236,6 @@ _connection?.on("ChatOpenedEvent", (data) {
     }
   }
 
-  // Future<void> leaveChat() async {
-  //   if (_connection?.state == HubConnectionState.Connected) {
-  //     await _connection?.invoke("LeaveChat");
-  //   }
-  //   isInChat = false;
-  //   currentChatId = null;
-  //   log("Left Chat");
-  // }
 
 Future<void> leaveChat() async {
   try {

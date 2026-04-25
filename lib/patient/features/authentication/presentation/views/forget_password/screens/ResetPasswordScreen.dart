@@ -119,8 +119,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                       isPassword: true,
                     ),
                     const SizedBox(height: 60),
-                    if (state is ResetPassCuLoading)
-                      const CircularProgressIndicator(),
+                    state is ResetPassCuLoading?
+                      const CircularProgressIndicator():
+                    
                     CustomButton(
                       text: "تغيير",
                       onPressed: () {

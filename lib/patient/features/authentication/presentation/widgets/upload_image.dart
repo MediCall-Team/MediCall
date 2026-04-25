@@ -37,8 +37,40 @@ class _UploadImageButtonState extends State<UploadImageButton> {
   }
 
   /// اختيار الصورة
+  // Future<void> pickImage(ImageSource source) async {
+  //   final XFile? image = await _picker.pickImage(source: source);
+  //   if (image == null) return;
+
+  //   final cropped = await ImageCropper().cropImage(
+  //     sourcePath: image.path,
+  //     aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+  //     uiSettings: [
+  //       AndroidUiSettings(
+  //         toolbarTitle: "تعديل الصورة",
+  //         toolbarColor: Colors.black,
+  //         toolbarWidgetColor: Colors.white,
+  //         lockAspectRatio: true,
+  //       ),
+  //       IOSUiSettings(title: "تعديل الصورة"),
+  //     ],
+  //   );
+
+  //   if (cropped == null) return;
+
+  //   File file = File(cropped.path);
+  //   file = await compressImage(file);
+
+  //   setState(() {
+  //     selectedImage = file;
+  //   });
+
+  //   widget.onImageSelected(file);
+  // }
+
   Future<void> pickImage(ImageSource source) async {
+  try {
     final XFile? image = await _picker.pickImage(source: source);
+
     if (image == null) return;
 
     final cropped = await ImageCropper().cropImage(
@@ -65,7 +97,10 @@ class _UploadImageButtonState extends State<UploadImageButton> {
     });
 
     widget.onImageSelected(file);
+  } catch (e) {
+    debugPrint("Image pick error: $e");
   }
+}
 
   /// اختيار المصدر
   void openPicker() {
