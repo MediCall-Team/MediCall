@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -21,6 +22,7 @@ class ServiceProviderViewBody extends StatefulWidget {
 class _ServiceProviderViewBodyState extends State<ServiceProviderViewBody> {
   late ScrollController controller;
   TextEditingController searchController = TextEditingController();
+  Timer? _debounce;
 
   @override
   void initState() {
@@ -57,8 +59,6 @@ class _ServiceProviderViewBodyState extends State<ServiceProviderViewBody> {
       log("min $min , max $max");
     }
 
-
-
     context.read<ServiceProvidersListCubit>().updateFilters(
       gender: genderValue, 
       area: filterState.selectedLocation,
@@ -68,10 +68,25 @@ class _ServiceProviderViewBodyState extends State<ServiceProviderViewBody> {
 
     );
   }
+
+  void _onSearchChanged(String query, FilterState state) {
+    // إذا كان هناك مؤقت يعمل حالياً، نقوم بإلغائه
+    if (_debounce?.isActive ?? false) _debounce!.cancel();
+
+    // نبدأ مؤقت جديد ينتظر 500 ملي ثانية (نصف ثانية) بعد توقف الكتابة
+    _debounce = Timer(const Duration(milliseconds: 500), () {
+      // نتحقق أن النص طوله حرفين أو أكثر (أو فارغ تماماً لمسح البحث)
+      if (query.length >= 2 || query.isEmpty) {
+        applyFilters(state);
+      }
+    });
+  }
+
   
   @override
   void dispose() {
    controller.dispose();
+   _debounce?.cancel();
    searchController.dispose();
     super.dispose();
   }
@@ -103,7 +118,8 @@ class _ServiceProviderViewBodyState extends State<ServiceProviderViewBody> {
                       Expanded(
                         child: TextField(
                           controller: searchController,
-                          onSubmitted: (_) => applyFilters(state), // 🔥 search
+                        //  onSubmitted: (_) => applyFilters(state), // 🔥 search
+                         onChanged: (value) => _onSearchChanged(value, state),
                           decoration: InputDecoration(
                             hintText: "ابحث",
                             prefixIcon: const Icon(Icons.search),
@@ -269,15 +285,15 @@ class LocationFilterDialog extends StatelessWidget {
   final Function(String) onSelect;
   const LocationFilterDialog({super.key, required this.onSelect});
 
-  static const List<String> centers = [
-    "أخميم",
-    "طهطا",
-    "طما",
-    "المراغة",
-    "ساقلتة",
-    "المنشاة",
-    "جرجا",
-  ];
+  // static const List<String> centers = [
+  //   "أخميم",
+  //   "طهطا",
+  //   "طما",
+  //   "المراغة",
+  //   "ساقلتة",
+  //   "المنشاة",
+  //   "جرجا",
+  // ];
 
   @override
   Widget build(BuildContext context) {
@@ -292,11 +308,11 @@ class LocationFilterDialog extends StatelessWidget {
         width: double.maxFinite,
         child: ListView.builder(
           shrinkWrap: true,
-          itemCount: centers.length,
+          itemCount: sohagCenters.length,
           itemBuilder: (context, index) => ListTile(
-            title: Text(centers[index], textAlign: TextAlign.right),
+            title: Text(sohagCenters[index], textAlign: TextAlign.right),
             onTap: () {
-              onSelect(centers[index]);
+              onSelect(sohagCenters[index]);
               Navigator.pop(context);
             },
           ),
