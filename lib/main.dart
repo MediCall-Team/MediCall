@@ -73,22 +73,29 @@ class _MediAppState extends State<MediApp> with WidgetsBindingObserver{
     super.dispose();
   }
 
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    if (state == AppLifecycleState.resumed) {
+@override
+void didChangeAppLifecycleState(AppLifecycleState state) {
+  if (state == AppLifecycleState.resumed) {
 
-  // 1️⃣ always light weight
-  context.read<NotificationNumberCubit>().refreshAllBadges();
-  context.read<ChatsLitsCubit>().refreshChatSummary();
+    // 👇 مهم جدًا
+    AppLifecycle().notifyResume();
 
-  // 2️⃣ conditional (messages)
-  if (CurrentScreen.chatId != null) {
-    context.read<MessagesListCubit>()
-      .refreshIfActive(CurrentScreen.chatId);
+    // 1️⃣ always light weight
+    context.read<NotificationNumberCubit>().refreshAllBadges();
+    context.read<ChatsLitsCubit>().refreshChatSummary();
+
+    // 2️⃣ conditional (messages)
+    if (CurrentScreen.chatId != null) {
+      context.read<MessagesListCubit>()
+        .refreshIfActive(CurrentScreen.chatId);
+    }
+
+  } else if (state == AppLifecycleState.paused) {
+
+    // 👇 ده اللي كان ناقص
+    AppLifecycle().notifyPause();
   }
 }
-  }
-  
 
 
   @override

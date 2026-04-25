@@ -1,7 +1,9 @@
 import 'dart:developer';
 
+import 'package:dartz/dartz.dart' as doctorModel;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 import 'package:grad_project/common/chat/data/chats_list_model.dart';
 import 'package:grad_project/common/chat/presentation/view_model/chats_list/chats_lits_cubit.dart';
 import 'package:grad_project/common/chat/presentation/view_model/messages_list/messages_list_cubit.dart';
@@ -9,6 +11,7 @@ import 'package:grad_project/common/chat/presentation/widgets/chat_room_view_bod
 import 'package:grad_project/common/chat/presentation/widgets/medical_queck_actions.dart';
 import 'package:grad_project/common/chat/repo/chat_repo.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
+import 'package:grad_project/core/utils/app_router.dart';
 import 'package:grad_project/core/utils/app_theme.dart';
 import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/core/utils/styles.dart';
@@ -26,9 +29,15 @@ class ChatRoomView extends StatelessWidget {
         titleSpacing: 5,
         title: Row(
           children: [
-            CircleAvatar(
-              radius: 25,
-              backgroundImage: NetworkImage(chatData.otherPersonImage),
+            GestureDetector(
+              onTap: (){
+                if(CacheHelper.getUser()!.role== "Patient")
+                GoRouter.of(context).push(AppRouter.kServiceProviderProfile,extra:chatData.otherPersonId );
+              },
+              child: CircleAvatar(
+                radius: 25,
+                backgroundImage: NetworkImage(chatData.otherPersonImage),
+              ),
             ),
             const SizedBox(width: 10),
             Text(

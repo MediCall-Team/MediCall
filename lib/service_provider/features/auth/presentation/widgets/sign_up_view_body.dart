@@ -94,7 +94,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                   controller: emailController,
                   fieldType: FieldType.email,
                 ),
-
+const SizedBox(height: 10),
                 CustomTextField2(
                   hintText: "كلمة المرور",
                   prefixIcon: Icons.lock,
@@ -109,6 +109,7 @@ class _SignUpViewBodyState extends State<SignUpViewBody> {
                   prefixIcon: Icons.phone_outlined,
                   controller: phoneController,
                   keyboardType: TextInputType.numberWithOptions(),
+                  fieldType: FieldType.phone,
                 ),
 
                 const SizedBox(height: 80),
