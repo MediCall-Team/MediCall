@@ -92,11 +92,11 @@ class _AboutAppViewState extends State<AboutAppView>
 
                 /// 🔥 Footer
                 const Text(
-                  "❤️ Made with ",
+                  "❤️ مصنوع من ",
                   style: TextStyle(color: kPrimaryColorC, fontSize: 20),
                 ),
                 const Text(
-                  "for better healthcare",
+                  "أجل رعاية صحية أفضل",
                   style: TextStyle(color: kPrimaryColorC, fontSize: 20),
                 ),
                 const Spacer(),

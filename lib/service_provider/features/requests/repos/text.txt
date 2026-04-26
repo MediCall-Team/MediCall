@@ -50,8 +50,6 @@ class SPProfileRepoImpl implements SPProfileRepo {
       final profile = ProviderProfileModel.fromJson(jsonMap);
       log("sp profile in repo ${profile.doctorServiceAreas.length}");
       return Right(profile);
-    } on Failure catch (e) {
-      return Left(e);
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -118,8 +116,43 @@ class SPProfileRepoImpl implements SPProfileRepo {
       final profile = ProviderProfileModel.fromJson(jsonMap);
 
       return Right(profile);
-    } on Failure catch (e) {
-      return Left(e);
+    } on DioError catch (dioErr) {
+      try {
+        final respData = dioErr.response?.data;
+
+        if (respData is Map<String, dynamic>) {
+          if (respData.containsKey('errors')) {
+            final errors = respData['errors'] as Map<String, dynamic>;
+            final messages = errors.values
+                .map((v) {
+                  if (v is List) return v.join(', ');
+                  return v.toString();
+                })
+                .join(' | ');
+            return Left(ServerFailure(messages));
+          }
+
+          if (respData.containsKey('title')) {
+            return Left(ServerFailure(respData['title'].toString()));
+          }
+
+          if (respData.containsKey('message')) {
+            return Left(ServerFailure(respData['message'].toString()));
+          }
+
+          return Left(ServerFailure(respData.toString()));
+        }
+
+        final dioMessage =
+            dioErr.message ?? dioErr.error?.toString() ?? dioErr.toString();
+
+        return Left(ServerFailure(dioMessage));
+      } catch (e) {
+        final fallback =
+            dioErr.message ?? dioErr.error?.toString() ?? dioErr.toString();
+
+        return Left(ServerFailure(fallback));
+      }
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
@@ -141,8 +174,8 @@ class SPProfileRepoImpl implements SPProfileRepo {
       );
 
       return Right("تم حفظ المناطق بنجاح");
-    } on Failure catch (e) {
-      return Left(e);
+    } on DioException catch (dioErr) {
+      return Left(ServerFailure.dioException(dioErr));
     } catch (e) {
       return Left(ServerFailure(e.toString()));
     }
