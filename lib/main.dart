@@ -73,10 +73,67 @@ class _MediAppState extends State<MediApp> with WidgetsBindingObserver{
     super.dispose();
   }
 
+//DateTime? lastPausedTime;
+
+//AppLifecycleState? lastState;
+DateTime? lastPausedTime;
+//bool _isHandlingResume = false;
+
+
+// @override
+// void didChangeAppLifecycleState(AppLifecycleState state) {
+//   // ❗ لو نفس الحالة متتكررش
+//   if (state == lastState) return;
+
+//   lastState = state;
+
+//   if (state == AppLifecycleState.paused) {
+//     lastPausedTime = DateTime.now();
+//     AppLifecycle().notifyPause();
+//     return;
+//   }
+
+//   if (state == AppLifecycleState.resumed) {
+//     // ❗ منع التكرار السريع
+//     if (_isHandlingResume) return;
+//     _isHandlingResume = true;
+
+//     Future.delayed(const Duration(milliseconds: 300), () {
+//       _isHandlingResume = false;
+//     });
+
+//     final now = DateTime.now();
+
+//     final isQuickResume = lastPausedTime != null &&
+//         now.difference(lastPausedTime!).inMilliseconds < 800;
+
+//     AppLifecycle().notifyResume();
+
+//     if (isQuickResume) {
+//       if (!CurrentScreen.isSignalRConnected) {
+//         _safeRefresh();
+//       }
+//       return;
+//     }
+
+//     _safeRefresh();
+//   }
+// }
+
+// void _safeRefresh() {
+//   context.read<ChatsLitsCubit>().refreshChatSummary();
+//   context.read<NotificationNumberCubit>().refreshAllBadges();
+
+//   if (CurrentScreen.chatId != null) {
+//     context.read<MessagesListCubit>()
+//         .refreshIfActive(CurrentScreen.chatId);
+//   }
+// }
+
 @override
 void didChangeAppLifecycleState(AppLifecycleState state) {
   if (state == AppLifecycleState.resumed) {
-
+ 
     // 👇 مهم جدًا
     AppLifecycle().notifyResume();
 

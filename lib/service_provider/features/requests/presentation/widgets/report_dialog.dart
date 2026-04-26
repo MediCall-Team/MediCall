@@ -132,7 +132,7 @@ class _ReportDialogState extends State<ReportDialog> {
                         style: TextStyle(color: kPrimaryColorC),
                       ),
               ),
-              const SizedBox(width: 90),
+              const SizedBox(width: 60),
               TextButton(
                 style: TextButton.styleFrom(
                   backgroundColor: kPrimaryColorB,

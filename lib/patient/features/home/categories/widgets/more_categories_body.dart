@@ -87,33 +87,36 @@ void _filterCategories(String query) {
             separatorBuilder: (context, index) => const Divider(),
             itemBuilder: (context, index) {
               
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 10.0),
-                child: GestureDetector(
-                  onTap: () {
-                    GoRouter.of(context).push(
+              return GestureDetector(
+                onTap: (){
+                     GoRouter.of(context).push(
                       AppRouter.kServiceProvider,
                       extra: filteredCategories[index].name,
                     );
-                  },
-                  child: Row(
-                    children: [
-                      const SizedBox(width: 24),
-                      Image.asset(
-                        filteredCategories[index].icon,
-                        color: AppTheme.brandColor(context),
-                        width: 36,
-                        height: 36,
-                      ),
-                      const SizedBox(width: 20),
-                      Text(
-                        filteredCategories[index].name,
-                        style: Styles.textStyle15F.copyWith(
-                          color: AppTheme.mainContrast(context)
-                        )
-                        ,
-                      ),
-                    ],
+                },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: Row(
+                      children: [
+                        const SizedBox(width: 24),
+                        Image.asset(
+                          filteredCategories[index].icon,
+                          color: AppTheme.brandColor(context),
+                          width: 36,
+                          height: 36,
+                        ),
+                        const SizedBox(width: 20),
+                        Text(
+                          filteredCategories[index].name,
+                          style: Styles.textStyle15F.copyWith(
+                            color: AppTheme.mainContrast(context)
+                          )
+                          ,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               );
