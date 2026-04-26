@@ -5,6 +5,7 @@ import 'package:grad_project/common/chat/presentation/view_model/chats_list/chat
 import 'package:grad_project/common/chat/presentation/view_model/messages_list/messages_list_cubit.dart';
 import 'package:grad_project/core/app_lifecycle.dart';
 import 'package:grad_project/core/helper/chach_helper.dart';
+import 'package:grad_project/core/utils/current_screen.dart';
 import 'package:grad_project/core/utils/get_it.dart';
 import 'package:grad_project/patient/features/notification/presentation/view_model/notification_number/notification_number_cubit.dart';
 import 'package:signalr_netcore/signalr_client.dart';
@@ -57,6 +58,9 @@ class SignalRService {
     try {
       if (_connection?.state == HubConnectionState.Disconnected) {
         await _connection?.start();
+
+      //  CurrentScreen.isSignalRConnected = true;//<--
+
         log("✅ SignalR Connected Successfully");
         _isInitialized = true;
         //  processQueue();
@@ -71,6 +75,10 @@ class SignalRService {
     _connection?.onclose(({error}) {
       log("⚠️ SignalR Disconnected: $error");
       _isInitialized = false;
+
+      //  CurrentScreen.isSignalRConnected = false;//<--
+
+
       if (shouldReconnect) {
         // محاولة إعادة اتصال يدوية بسيطة إذا فشل الـ Automatic
         Future.delayed(const Duration(seconds: 5), () => _startConnection());
@@ -80,6 +88,9 @@ class SignalRService {
     _connection?.onreconnected(({connectionId}) {
       log("✅ SignalR Reconnected: $connectionId");
       _isInitialized = true;
+
+    //   CurrentScreen.isSignalRConnected = true;//<--
+
         processQueue();
     });
   }

@@ -47,7 +47,8 @@ class _CustomTextFieldState extends State<CustomTextField2> {
         }
 
         if (!RegExp(
-          r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*_?&#-]).+$',
+        //  r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*_?&#-]).+$',
+          r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*_?&#\-.]).+$'
         ).hasMatch(value)) {
           return "يجب أن تحتوي على حرف كبير وصغير ورقم ورمز";
         }
@@ -84,7 +85,7 @@ class _CustomTextFieldState extends State<CustomTextField2> {
               child: TextFormField(
                 keyboardType: widget.keyboardType,
                 controller: widget.controller,
-                validator: validate,
+                validator: (value) => validate(value),
                 cursorColor: kPrimaryColorB,
                 textAlign: TextAlign.right,
                 obscureText: widget.isPassword ? obscure : false,

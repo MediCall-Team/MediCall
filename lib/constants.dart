@@ -38,7 +38,7 @@ List<CategoryModel> categoriesList = [
   CategoryModel(name: "أطفال", icon: "assets/images/chelderen.png"),
   CategoryModel(name: "قلب", icon: "assets/images/heart.png"),
   CategoryModel(name: "أسنان", icon: "assets/images/teeth.png"),
-  CategoryModel(name: "طب عام", icon: "assets/images/physical.png"),
+  // CategoryModel(name: "طب عام", icon: "assets/images/physical.png"),
   //
 ];
 List<String> sohagCenters = [
