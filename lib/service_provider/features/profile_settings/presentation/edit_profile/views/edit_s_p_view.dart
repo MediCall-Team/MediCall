@@ -55,6 +55,7 @@ class _EditSPContent extends StatefulWidget {
 class _EditSPContentState extends State<_EditSPContent> {
   bool isAvailable = true;
   bool isInitialized = false;
+  GlobalKey<FormState> formKey = GlobalKey();
 
   File? _pickedImage;
   final ImagePicker _picker = ImagePicker();
@@ -211,191 +212,198 @@ class _EditSPContentState extends State<_EditSPContent> {
                   elevation: 0,
                   automaticallyImplyLeading: false,
                 ),
-                body: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 10),
-                      UploadImageButton(
-                    image:profile.image,
-                  onImageSelected: (image) {
-                    _pickedImage = image;
-                  },
-                ),
-                      const SizedBox(height: 12),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            '${_localFirstName ?? profile.firstName ?? ''} ${_localLastName ?? profile.lastName ?? ''}',
-                            style: const TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Color(0xFF1F3E6C),
-                            ),
-                          ),
-                          const SizedBox(width: 6),
-                          GestureDetector(
-                            onTap: () => _showEditNameDialog(
-                              _localFirstName ?? profile.firstName ?? '',
-                              _localLastName ?? profile.lastName ?? '',
-                            ),
-                            child: const Icon(
-                              Icons.edit_outlined,
-                              size: 15,
-                              color: Color(0xFF1F3E6C),
-                            ),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 30),
-                      const SectionTitle(title: 'البيانات الأساسية'),
-                      const SizedBox(height: 12),
-                      CustomPhoneField(
-                        controller: _phoneController,
-                        hint: 'رقم التليفون',
-                        icon: Icons.phone_outlined,
-                      ),
-                      const SizedBox(height: 20),
-                      const SectionTitle(title: 'المعلومات المهنية'),
-                      const SizedBox(height: 12),
-                      NumberInputField(
-                        controller: _priceController,
-                        icon: Icons.credit_card,
-                        hint: 'سعر الكشف',
-                      ),
-                      const SizedBox(height: 20),
-                      ElevatedButton(
-                        onPressed: () {
-                          context.push(
-                            '/add_country',
-                            extra: {
-                              'gitCubit': context.read<GitSPCubit>(),
-                              'updateCubit': context.read<UpdataSPCubit>(),
-                            },
-                          );
-                        },
-                        style: _buttonStyle(),
-                        child: const Text('إضافة المراكز'),
-                      ),
-                      const SizedBox(height: 24),
-                      const SectionTitle(title: 'حالة التوفر'),
-                      const SizedBox(height: 8),
-                      ToggleButtons(
-                        borderRadius: BorderRadius.circular(20),
-                        selectedColor: Colors.white,
-                        fillColor: const Color(0xFF35AAD5),
-                        color: const Color(0xFF1F3E6C),
-                        constraints: const BoxConstraints(
-                          minHeight: 40,
-                          minWidth: 100,
-                        ),
-                        isSelected: [!isAvailable, isAvailable],
-                        onPressed: (index) {
-                          setState(() {
-                            isAvailable = index == 1;
-                          });
-                        },
-                        children: const [
-                          Text(
-                            'غير متاح',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                          Text(
-                            'متاح',
-                            style: TextStyle(fontWeight: FontWeight.bold),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 20),
-                      const SectionTitle(title: 'نبذة عن الطبيب'),
-                      const SizedBox(height: 8),
-                      TextField(
-                        maxLines: 4,
-                        controller: _bioController,
-                        decoration: InputDecoration(
-                          hintText: 'اكتب نبذة مختصرة عن خبرتك الطبية...',
-                          hintStyle: const TextStyle(
-                            color: Color(0xFF9C9C9C),
-                            fontSize: 14,
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(
-                              color: Color(0xFF9C9C9C),
-                            ),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            borderSide: const BorderSide(
-                              color: Color(0xFF35AAD5),
-                              width: 1.5,
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 30),
-                      ElevatedButton(
-                        onPressed: updateState is UpdataSPLoading
-                            ? null
-                            : () {
-                                final firstName =
-                                    _localFirstName ?? profile.firstName ?? '';
-                                final lastName =
-                                    _localLastName ?? profile.lastName ?? '';
-                                final phone = _phoneController.text.trim();
-                                final price =
-                                    double.tryParse(
-                                      _priceController.text.trim(),
-                                    ) ??
-                                    profile.price ??
-                                    0;
-                                final bio = _bioController.text.trim();
-                                // final selectedAreaIds =
-                                //     profile.doctorServiceAreas
-                                //         ?.map((area) => area.id)
-                                //         .toList() ??
-                                //     [];
-
-                                // log("selectedAreaIds.length ${selectedAreaIds.length}");
-                                log("profile.doctorServiceAreas ${profile.doctorServiceAreas.length}");
-
-                              //  context.read<UpdataSPCubit>().setAreas(selectedAreaIds);
-                                    
-
-                                context.read<UpdataSPCubit>().updateProfile(
-                                  firstName: firstName,
-                                  lastName: lastName,
-                                  phoneNumber: phone,
-                                  latitude: profile.latitude ?? 0,
-                                  longitude: profile.longitude ?? 0,
-                                  price: price,
-                                  isActive: isAvailable,
-                                  bio: bio,
-                                  image: _pickedImage,
-                                );
-                                
-                              },
-                        style: _buttonStyle(),
-                        child: updateState is UpdataSPLoading
-                            ? const SizedBox(
-                                height: 24,
-                                width: 24,
-                                child: CircularProgressIndicator(
-                                  color: Colors.white,
-                                  strokeWidth: 2.5,
-                                ),
-                              )
-                            : const Text(
-                                'حفظ التعديلات',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  color: Colors.white,
-                                ),
+                body: Form(
+                  key: formKey,
+                  child: SingleChildScrollView(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Column(
+                      children: [
+                        const SizedBox(height: 10),
+                        UploadImageButton(
+                      image:profile.image,
+                    onImageSelected: (image) {
+                      _pickedImage = image;
+                    },
+                  ),
+                        const SizedBox(height: 12),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              '${_localFirstName ?? profile.firstName ?? ''} ${_localLastName ?? profile.lastName ?? ''}',
+                              style: const TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF1F3E6C),
                               ),
-                      ),
-                      const SizedBox(height: 30),
-                    ],
+                            ),
+                            const SizedBox(width: 6),
+                            GestureDetector(
+                              onTap: () => _showEditNameDialog(
+                                _localFirstName ?? profile.firstName ?? '',
+                                _localLastName ?? profile.lastName ?? '',
+                              ),
+                              child: const Icon(
+                                Icons.edit_outlined,
+                                size: 15,
+                                color: Color(0xFF1F3E6C),
+                              ),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 30),
+                        const SectionTitle(title: 'البيانات الأساسية'),
+                        const SizedBox(height: 12),
+                        CustomPhoneField(
+                          controller: _phoneController,
+                          hint: 'رقم التليفون',
+                          icon: Icons.phone_outlined,
+                        ),
+                        const SizedBox(height: 20),
+                        const SectionTitle(title: 'المعلومات المهنية'),
+                        const SizedBox(height: 12),
+                        NumberInputField(
+                          controller: _priceController,
+                          icon: Icons.credit_card,
+                          hint: 'سعر الكشف',
+                        ),
+                        const SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () {
+                            context.push(
+                              '/add_country',
+                              extra: {
+                                'gitCubit': context.read<GitSPCubit>(),
+                                'updateCubit': context.read<UpdataSPCubit>(),
+                              },
+                            );
+                          },
+                          style: _buttonStyle(),
+                          child: const Text('إضافة المراكز'),
+                        ),
+                        const SizedBox(height: 24),
+                        const SectionTitle(title: 'حالة التوفر'),
+                        const SizedBox(height: 8),
+                        ToggleButtons(
+                          borderRadius: BorderRadius.circular(20),
+                          selectedColor: Colors.white,
+                          fillColor: const Color(0xFF35AAD5),
+                          color: const Color(0xFF1F3E6C),
+                          constraints: const BoxConstraints(
+                            minHeight: 40,
+                            minWidth: 100,
+                          ),
+                          isSelected: [!isAvailable, isAvailable],
+                          onPressed: (index) {
+                            setState(() {
+                              isAvailable = index == 1;
+                            });
+                          },
+                          children: const [
+                            Text(
+                              'غير متاح',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                            Text(
+                              'متاح',
+                              style: TextStyle(fontWeight: FontWeight.bold),
+                            ),
+                          ],
+                        ),
+                        const SizedBox(height: 20),
+                        const SectionTitle(title: 'نبذة عن الطبيب'),
+                        const SizedBox(height: 8),
+                        TextField(
+                          maxLines: 4,
+                          controller: _bioController,
+                          decoration: InputDecoration(
+                            hintText: 'اكتب نبذة مختصرة عن خبرتك الطبية...',
+                            hintStyle: const TextStyle(
+                              color: Color(0xFF9C9C9C),
+                              fontSize: 14,
+                            ),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                color: Color(0xFF9C9C9C),
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: const BorderSide(
+                                color: Color(0xFF35AAD5),
+                                width: 1.5,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(height: 30),
+                        ElevatedButton(
+                          onPressed: updateState is UpdataSPLoading
+                              ? null
+                              : () {
+                                  if (!formKey.currentState!.validate()) {
+    return; // 👈 لو في error يقف هنا
+  }
+
+                                  final firstName =
+                                      _localFirstName ?? profile.firstName ?? '';
+                                  final lastName =
+                                      _localLastName ?? profile.lastName ?? '';
+                                  final phone = _phoneController.text.trim();
+                                  final price =
+                                      double.tryParse(
+                                        _priceController.text.trim(),
+                                      ) ??
+                                      profile.price ??
+                                      0;
+                                  final bio = _bioController.text.trim();
+                                  // final selectedAreaIds =
+                                  //     profile.doctorServiceAreas
+                                  //         ?.map((area) => area.id)
+                                  //         .toList() ??
+                                  //     [];
+                  
+                                  // log("selectedAreaIds.length ${selectedAreaIds.length}");
+                                  log("profile.doctorServiceAreas ${profile.doctorServiceAreas.length}");
+                  
+                                //  context.read<UpdataSPCubit>().setAreas(selectedAreaIds);
+                                      
+                  
+                                  context.read<UpdataSPCubit>().updateProfile(
+                                    firstName: firstName,
+                                    lastName: lastName,
+                                    phoneNumber: phone,
+                                    latitude: profile.latitude ?? 0,
+                                    longitude: profile.longitude ?? 0,
+                                    price: price,
+                                    isActive: isAvailable,
+                                    bio: bio,
+                                    image: _pickedImage,
+                                  );
+                                  
+                                },
+                          style: _buttonStyle(),
+                          child: updateState is UpdataSPLoading
+                              ? const SizedBox(
+                                  height: 24,
+                                  width: 24,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                    strokeWidth: 2.5,
+                                  ),
+                                )
+                              : const Text(
+                                  'حفظ التعديلات',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                        ),
+                        const SizedBox(height: 30),
+                      ],
+                    ),
                   ),
                 ),
               );

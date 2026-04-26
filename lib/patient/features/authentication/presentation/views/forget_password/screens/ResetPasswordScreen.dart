@@ -26,6 +26,7 @@ class ResetPasswordPage extends StatelessWidget {
 }
 
 class ResetPasswordScreen extends StatefulWidget {
+  
   final String email;
   final String code;
 
@@ -40,12 +41,14 @@ class ResetPasswordScreen extends StatefulWidget {
 }
 
 class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
+  GlobalKey<FormState> formKey = GlobalKey();
   final TextEditingController passController = TextEditingController();
   final TextEditingController confirmController = TextEditingController();
 
   @override
   void dispose() {
     passController.dispose();
+  
     confirmController.dispose();
     super.dispose();
   }
@@ -76,88 +79,95 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           child: Scaffold(
             backgroundColor: Colors.white,
             body: SafeArea(
-              child: SingleChildScrollView(
-                padding: EdgeInsets.only(
-                  bottom: MediaQuery.of(context).viewInsets.bottom,
-                  left: 16,
-                  right: 16,
-                ),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 30),
-                    Align(
-                      alignment: Alignment.topCenter,
-                      child: SizedBox(
-                        height: 40,
-                        child: Image.asset(
-                          "assets/images/medicall2(1)(1).png",
-                          fit: BoxFit.contain,
+              child: Form(
+                key: formKey,
+                child: SingleChildScrollView(
+                  padding: EdgeInsets.only(
+                    bottom: MediaQuery.of(context).viewInsets.bottom,
+                    left: 16,
+                    right: 16,
+                  ),
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 30),
+                      Align(
+                        alignment: Alignment.topCenter,
+                        child: SizedBox(
+                          height: 40,
+                          child: Image.asset(
+                            "assets/images/medicall2(1)(1).png",
+                            fit: BoxFit.contain,
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(height: 70),
-                    const Text(
-                      'إنشاء كلمة مرور جديدة',
-                      style: TextStyle(
-                        fontSize: 30,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF1F3E6C),
+                      const SizedBox(height: 70),
+                      const Text(
+                        'إنشاء كلمة مرور جديدة',
+                        style: TextStyle(
+                          fontSize: 30,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xFF1F3E6C),
+                        ),
                       ),
-                    ),
-                    const SizedBox(height: 40),
-                    CustomTextField2(
-                      controller: passController,
-                      hintText: 'أدخل كلمة المرور',
-                      prefixIcon: Icons.lock_outline,
-                      isPassword: true,
-                    ),
-                    const SizedBox(height: 20),
-                    CustomTextField2(
-                      controller: confirmController,
-                      hintText: 'تأكيد كلمة المرور',
-                      prefixIcon: Icons.lock_outline,
-                      isPassword: true,
-                    ),
-                    const SizedBox(height: 60),
-                    state is ResetPassCuLoading?
-                      const CircularProgressIndicator():
-                    
-                    CustomButton(
-                      text: "تغيير",
-                      onPressed: () {
-                        String pass = passController.text.trim();
-                        String confirm = confirmController.text.trim();
+                      const SizedBox(height: 40),
+                      CustomTextField2(
+                        controller: passController,
+                        hintText: 'أدخل كلمة المرور',
+                        prefixIcon: Icons.lock_outline,
+                        isPassword: true,
+                      ),
+                      const SizedBox(height: 20),
+                      CustomTextField2(
+                        controller: confirmController,
+                        hintText: 'تأكيد كلمة المرور',
+                        prefixIcon: Icons.lock_outline,
+                        isPassword: true,
+                      ),
+                      const SizedBox(height: 60),
+                      state is ResetPassCuLoading?
+                        const CircularProgressIndicator():
+                      
+                      CustomButton(
+                        text: "تغيير",
+                        onPressed: () {
+                            if (!formKey.currentState!.validate()) {
+    return; // 👈 لو في error يقف هنا
+  }
 
-                        if (pass.isEmpty || confirm.isEmpty) {
-                          // ScaffoldMessenger.of(context).showSnackBar(
-                          //   const SnackBar(
-                          //     content: Text("من فضلك أدخل كلمة المرور"),
-                          //   ),
-                          // );
-                          snackBarMethod(context, "من فضلك أدخل كلمة المرور");
-                          return;
-                        }
-
-                        if (pass != confirm) {
-                          // ScaffoldMessenger.of(context).showSnackBar(
-                          //   const SnackBar(
-                          //     content: Text("كلمة المرور غير متطابقة"),
-                          //   ),
-                          // );
-                         snackBarMethod(context, "كلمة المرور غير متطابقة");
-
-                          return;
-                        }
-
-                        context.read<ResetPassCuCubit>().resetPassword(
-                          email: widget.email,
-                          code: widget.code,
-                          newPassword: pass,
-                        );
-                      },
-                    ),
-                    const SizedBox(height: 30),
-                  ],
+                          String pass = passController.text.trim();
+                          String confirm = confirmController.text.trim();
+                
+                          if (pass.isEmpty || confirm.isEmpty) {
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //   const SnackBar(
+                            //     content: Text("من فضلك أدخل كلمة المرور"),
+                            //   ),
+                            // );
+                            snackBarMethod(context, "من فضلك أدخل كلمة المرور");
+                            return;
+                          }
+                
+                          if (pass != confirm) {
+                            // ScaffoldMessenger.of(context).showSnackBar(
+                            //   const SnackBar(
+                            //     content: Text("كلمة المرور غير متطابقة"),
+                            //   ),
+                            // );
+                           snackBarMethod(context, "كلمة المرور غير متطابقة");
+                
+                            return;
+                          }
+                
+                          context.read<ResetPassCuCubit>().resetPassword(
+                            email: widget.email,
+                            code: widget.code,
+                            newPassword: pass,
+                          );
+                        },
+                      ),
+                      const SizedBox(height: 30),
+                    ],
+                  ),
                 ),
               ),
             ),
